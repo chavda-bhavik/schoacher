@@ -1,32 +1,32 @@
 {
-  "name": "edu-link",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start",
-    "type-check": "tsc",
-    "lint": "next lint",
-    "prepare": "husky install"
-  },
-  "dependencies": {
-    "next": "^11.0.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "typescript": "^4.3.5"
-  },
-  "devDependencies": {
-    "@types/node": "^16.4.12",
-    "@types/react": "^17.0.15",
-    "@types/react-dom": "^17.0.9",
-    "autoprefixer": "^10.3.1",
-    "classnames": "^2.3.1",
-    "eslint": "^7.32.0",
-    "eslint-config-next": "^11.0.1",
-    "husky": "^7.0.1",
-    "postcss": "^8.3.6",
-    "tailwindcss": "^2.2.7"
-  }
+    "name": "schoacher",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "dev": "next",
+        "build": "next build",
+        "start": "next start",
+        "type-check": "tsc",
+        "lint": "next lint",
+        "prepare": "husky install"
+    },
+    "dependencies": {
+        "next": "^11.0.1",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "typescript": "^4.3.5"
+    },
+    "devDependencies": {
+        "@types/node": "^16.4.12",
+        "@types/react": "^17.0.15",
+        "@types/react-dom": "^17.0.9",
+        "autoprefixer": "^10.3.1",
+        "classnames": "^2.3.1",
+        "eslint": "^7.32.0",
+        "eslint-config-next": "^11.0.1",
+        "husky": "^7.0.1",
+        "postcss": "^8.3.6",
+        "tailwindcss": "^2.2.7"
+    }
 }
