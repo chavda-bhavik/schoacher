@@ -24,7 +24,10 @@ const Index: React.FC<IndexProps> = ({}) => {
 
     return (
         <>
-            <SEO title="Home" description="Connecting Teachers with Schools" />
+            <SEO
+                title="Schoacher"
+                description="Schoacher makes it easy for schools to post their requirements for teachers and teachers can apply easily for the jobs"
+            />
             <nav id="header" className="w-full z-30 text-white bg-primary-green">
                 <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
                     <div className="pl-4 flex items-center">
@@ -44,14 +47,14 @@ const Index: React.FC<IndexProps> = ({}) => {
                 <hr className="border-b border-gray-100 opacity-25 my-0 py-0" />
             </nav>
             <section className="bg-primary-green">
-                <div className="container px-5 py-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+                <div className="container px-5 py-10 md:py-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
                     <div className="flex flex-col w-full md:w-1/2 justify-center items-start text-center md:text-left">
                         <h1 className="my-4 text-white text-4xl md:text-5xl font-bold leading-tight">
                             Connecting Teachers With Schools
                         </h1>
                         <p className="leading-normal text-white text-2xl mb-8">
-                            We makes it easy for schools to post and manage requirements and for
-                            teachers to apply easily
+                            Schoacher makes it easy for schools to post and manage their
+                            requirements for teachers and for teachers to apply easily
                         </p>
                     </div>
                     <div className="w-full md:w-1/2 py-2 md:py-6 text-center">
@@ -78,7 +81,7 @@ const Index: React.FC<IndexProps> = ({}) => {
                                 <li>Create an Account</li>
                                 <li>Complete Profile Information</li>
                                 <li>Post a Requirement</li>
-                                <li>Hire a teacher</li>
+                                <li>Accept application</li>
                             </ul>
                         </div>
                     </div>
