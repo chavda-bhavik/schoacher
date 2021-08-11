@@ -21,7 +21,14 @@ export const Button: React.FC<ButtonProps> = ({
         <button
             disabled={disabled}
             type={type}
-            className={classNames('btn', `btn-${variant}`, className)}
+            className={classNames(
+                'btn',
+                {
+                    'btn-primary': variant === 'primary',
+                    'btn-secondary': variant === 'secondary',
+                },
+                className
+            )}
             onClick={onClick}
         >
             {children}
