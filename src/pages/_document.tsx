@@ -15,7 +15,6 @@ class MyDocument extends Document {
                     <NextScript />
                     <script
                         data-goatcounter="https://schoacher.goatcounter.com/count"
-                        data-goatcounter-settings='{"allow_local": true}'
                         async
                         src="//gc.zgo.at/count.js"
                     />
