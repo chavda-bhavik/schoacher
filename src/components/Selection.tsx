@@ -8,7 +8,7 @@ export const Selection: React.FC<SelectionProps> = ({}) => {
             <label htmlFor="selection" className="leading-8 text-base">
                 What best describes you?
             </label>
-            <div className="inline-flex w-full mb-4">
+            <div className="switcher w-full mb-4">
                 <input
                     type="radio"
                     id="teacher"
@@ -17,10 +17,7 @@ export const Selection: React.FC<SelectionProps> = ({}) => {
                     name="selection"
                     value="teacher"
                 />
-                <label
-                    htmlFor="teacher"
-                    className="bg-gray-300 w-1/2 border border-r-0 border-black cursor-pointer py-2 px-4 text-center label-checked font-medium rounded-l"
-                >
+                <label htmlFor="teacher" className="option">
                     Teacher
                 </label>
                 <input
@@ -30,10 +27,7 @@ export const Selection: React.FC<SelectionProps> = ({}) => {
                     name="selection"
                     value="school"
                 />
-                <label
-                    htmlFor="school"
-                    className="bg-gray-300 w-1/2 border border-l-0 border-black cursor-pointer py-2 px-4 text-center label-checked font-medium rounded-r"
-                >
+                <label htmlFor="school" className="option">
                     School
                 </label>
             </div>

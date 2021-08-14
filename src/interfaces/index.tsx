@@ -1,6 +1,6 @@
 export type IconsType =
     | 'check'
-    | 'signOut'
+    | 'logOut'
     | 'pencil'
     | 'user'
     | 'userCircle'
@@ -16,5 +16,14 @@ export type IconsType =
     | 'grid'
     | 'page'
     | 'download'
-    | 'envelop';
+    | 'envelop'
+    | 'logIn';
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';
+
+export type SchoolRegisterFieldTypes = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+};

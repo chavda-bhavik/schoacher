@@ -17,7 +17,7 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
         <div className="bg-primary-lightBlue min-h-screen p-2 space-y-2">
             <section className="flex justify-between p-2 flex-row bg-dustWhite border-primary-dark border-2 rounded-md">
                 <LogoGreen className="w-20 border-gray-600 text-gray-400" />
-                <Icon icon="signOut" size="md" className="self-center" />
+                <Icon icon="logIn" size="md" className="self-center" />
             </section>
 
             <section className="bg-dustWhite border-primary-dark border-2 rounded-md">

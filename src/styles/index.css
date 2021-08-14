@@ -6,7 +6,19 @@
     .link {
         @apply hover:underline;
     }
-    .btn {
+    .switcher {
+        @apply border-2 inline-flex rounded-full p-1 cursor-pointer;
+    }
+    .option {
+        @apply px-4 w-1/2 sm:px-8 py-3 rounded-full focus:outline-none text-base text-center font-bold text-gray-700 transition duration-300 cursor-pointer;
+    }
+    .option-selected {
+        @apply bg-primary-dark text-dustWhite;
+    }
+    input[type='radio']:checked + .option {
+        @apply bg-primary-dark text-dustWhite;
+    }
+    /* .btn {
         @apply py-2 px-5 rounded border-primary-dark focus:outline-none transition-all duration-200 ease-in-out border-2 cursor-pointer text-lg;
     }
     .btn-primary {
@@ -14,11 +26,40 @@
     }
     .btn-secondary {
         @apply bg-dustWhite text-primary-green hover:bg-primary-green hover:text-dustWhite;
+    } */
+    .btn {
+        @apply tracking-wide font-semibold w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:outline-none;
     }
-    input[type='radio']:checked + .label-checked {
-        @apply bg-primary-green text-white;
+    .btn-primary {
+        @apply bg-primary-green text-gray-100 hover:bg-shades-1 disabled:bg-shades-1;
+    }
+    .btn-secondary {
+        @apply bg-dustWhite text-primary-green hover:bg-primary-green hover:text-dustWhite;
+    }
+    .input {
+        @apply w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border-2 border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-primary-green focus:bg-white mt-5;
+    }
+    .input-invalid {
+        @apply border-red-500;
+    }
+    /* Auth */
+    .heading {
+        @apply text-2xl xl:text-3xl font-extrabold text-center;
+    }
+    .auth-container {
+        @apply min-h-screen bg-primary-green text-white font-medium flex justify-center p-1;
+    }
+    .auth-wrapper {
+        @apply max-w-screen-xl rounded-md m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1;
+    }
+    .auth-main {
+        @apply lg:w-1/2 xl:w-5/12 p-7 sm:p-4 flex flex-col justify-center;
+    }
+    .auth-illustration {
+        @apply sm:rounded-r-lg flex-1 bg-dustWhite text-center hidden lg:flex justify-center;
     }
     .action-icon {
         @apply bg-primary-green text-dustWhite p-1 rounded-full;
     }
+    /* End Of Auth */
 }
