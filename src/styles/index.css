@@ -39,6 +39,9 @@
     .input {
         @apply w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border-2 border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-primary-green focus:bg-white mt-5;
     }
+    .input-invalid {
+        @apply border-red-500;
+    }
     /* Auth */
     .heading {
         @apply text-2xl xl:text-3xl font-extrabold text-center;

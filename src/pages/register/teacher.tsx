@@ -1,13 +1,30 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+
 import Logo from '@/static/images/Icon.svg';
 import { Icon } from '@/static/Icons';
-import { SignUp, Teacher } from '@/static/SVGs';
+import { Teacher } from '@/static/SVGs';
+import { Input } from '@/components/Input';
+import { Button } from '@/components/Button';
+import { SchoolRegisterFieldTypes } from '@/interfaces';
+import { regularExpressions } from '@/static/constants';
 
 interface indexProps {}
 
-const index: React.FC<indexProps> = ({}) => {
+const Index: React.FC<indexProps> = ({}) => {
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+        watch,
+    } = useForm<SchoolRegisterFieldTypes>();
+
+    const submission = (data) => {
+        console.log(data);
+    };
+
     return (
         <div className="auth-container">
             <div className="auth-wrapper">
@@ -30,23 +47,74 @@ const index: React.FC<indexProps> = ({}) => {
                         {/* FormContainer */}
                         <div className="w-full flex-1 mt-5">
                             {/* Form */}
-                            <form className="mx-auto max-w-md">
+                            <form className="mx-auto max-w-md" onSubmit={handleSubmit(submission)}>
                                 <div className="grid grid-cols-2 gap-2">
-                                    <input type="text" placeholder="First Name" className="input" />
-                                    <input type="text" placeholder="Last Name" className="input" />
+                                    <Input
+                                        id="firstName"
+                                        name="firstName"
+                                        placeholder="First Name"
+                                        type="text"
+                                        isInvalid={!!errors.firstName}
+                                        error={errors.firstName?.message}
+                                        register={register('firstName', {
+                                            required: 'First Name is required',
+                                        })}
+                                    />
+                                    <Input
+                                        id="lastName"
+                                        name="lastName"
+                                        placeholder="Last Name"
+                                        type="text"
+                                        isInvalid={!!errors.lastName}
+                                        error={errors.lastName?.message}
+                                        register={register('lastName', {
+                                            required: 'Last Name is required',
+                                        })}
+                                    />
                                 </div>
-                                <input type="email" placeholder="Email" className="input" />
-                                <input type="password" placeholder="Password" className="input" />
-                                <input
+                                <Input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Email"
+                                    id="email"
+                                    isInvalid={!!errors.email}
+                                    error={errors.email?.message || 'Email is not valid'}
+                                    register={register('email', {
+                                        validate: (v) => regularExpressions.email.test(v),
+                                        required: 'Email is required',
+                                    })}
+                                />
+                                <Input
                                     type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    isInvalid={!!errors.password}
+                                    error={errors.password?.message}
+                                    register={register('password', {
+                                        required: 'Password is required',
+                                    })}
+                                />
+                                <Input
+                                    type="password"
+                                    id="confirmPassword"
                                     placeholder="Confirm Password"
-                                    className="input"
+                                    name="confirmPassword"
+                                    isInvalid={!!errors.confirmPassword}
+                                    error={
+                                        errors.confirmPassword?.message ||
+                                        'Confirm password should match Password'
+                                    }
+                                    register={register('confirmPassword', {
+                                        validate: (value) => value === watch('password'),
+                                        required: 'Confirm Password is required',
+                                    })}
                                 />
                                 {/* SubmitButton */}
-                                <button className="mt-5 btn btn-primary">
+                                <Button className="mt-5">
                                     <Icon icon="check" className="w-6 h-6 -ml-2" />
                                     <span className="ml-3">Sign Up</span>
-                                </button>
+                                </Button>
                                 <p className="mt-6 text-xs text-gray-600 text-center">
                                     I agree to abide by schoacher&apos;s{' '}
                                     <a href="#" className="border-b border-gray-500 border-dotted">
@@ -82,4 +150,4 @@ const index: React.FC<indexProps> = ({}) => {
         </div>
     );
 };
-export default index;
+export default Index;
