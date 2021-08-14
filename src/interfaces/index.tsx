@@ -15,5 +15,6 @@ export type IconsType =
     | 'book'
     | 'grid'
     | 'page'
-    | 'download';
+    | 'download'
+    | 'envelop';
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';

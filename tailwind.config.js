@@ -1,7 +1,4 @@
-const plugin = require('tailwindcss/plugin');
-
 module.exports = {
-    purge: [],
     darkMode: false, // or 'media' or 'class'
     purge: ['./src/**/*.{js,ts,jsx,tsx}'],
     theme: {
@@ -30,7 +27,7 @@ module.exports = {
             backgroundColor: ['disabled'],
         },
     },
-    plugins: [],
+    plugins: [require('@tailwindcss/forms')],
 };
 
 // https://mycolor.space/?hex=%2334846F&sub=1
