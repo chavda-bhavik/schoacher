@@ -27,7 +27,11 @@ module.exports = {
             backgroundColor: ['disabled'],
         },
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/forms')({
+            strategy: 'class',
+        }),
+    ],
 };
 
 // https://mycolor.space/?hex=%2334846F&sub=1

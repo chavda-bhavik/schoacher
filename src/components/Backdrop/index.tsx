@@ -33,11 +33,7 @@ export const Backdrop: React.FC<BackdropProps> = ({
             role="dialog"
             aria-modal="true"
         >
-            <div
-                className={`flex ${
-                    bottomCenter ? 'items-end xs:items-center' : 'items-center'
-                } justify-center min-h-screen h-full`}
-            >
+            <div className={`flex items-center justify-center min-h-screen h-full`}>
                 {/* <IconButton
                         icon={['fas', 'times']}
                         className="z-30 absolute top-4 right-4"
@@ -55,7 +51,7 @@ export const Backdrop: React.FC<BackdropProps> = ({
                 >
                     &#8203;
                 </span>
-                <div className="transform transition-all z-20 w-auto">{children}</div>
+                <div className="transform transition-all z-20 w-auto p-1">{children}</div>
             </div>
         </div>
     );

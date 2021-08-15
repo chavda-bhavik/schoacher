@@ -17,7 +17,11 @@ export type IconsType =
     | 'page'
     | 'download'
     | 'envelop'
-    | 'logIn';
+    | 'logIn'
+    | 'envelopFilled'
+    | 'close'
+    | 'plus';
+
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';
 
 export type SchoolRegisterFieldTypes = {
@@ -27,3 +31,9 @@ export type SchoolRegisterFieldTypes = {
     password: string;
     confirmPassword: string;
 };
+
+export interface Subject {
+    board: string;
+    standard: string;
+    subject: string;
+}
