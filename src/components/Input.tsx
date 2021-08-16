@@ -1,17 +1,21 @@
 import React from 'react';
+import classNames from 'classnames';
 
 interface InputProps {
     name: string;
     id: string;
-    type: 'string' | 'number' | 'tel' | 'password';
-    label: string;
+    type: 'text' | 'number' | 'tel' | 'password' | 'email';
+    label?: string;
     placeholder?: string;
     required?: boolean;
+    register?: any;
     title?: string;
     pattern?: string;
-    register?: any;
-    isInvalid?: boolean;
+    className?: string;
+    note?: string;
     error?: string;
+    isInvalid?: boolean;
+    customError?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -20,30 +24,36 @@ export const Input: React.FC<InputProps> = ({
     type,
     label,
     placeholder,
-    required,
-    title,
-    pattern,
-    register,
+    className,
     isInvalid,
+    register,
+    note,
     error,
+    customError=false,
 }) => {
     return (
-        <div className="relative mb-4">
-            <label htmlFor={id} className="leading-8 text-base">
-                {label}
-            </label>
+        <div className={`${className}`}>
+            {label && (
+                <label
+                    className="leading-8 text-base tracking-wide text-gray-700 font-bold mb-2"
+                    htmlFor={id}
+                >
+                    {label}
+                </label>
+            )}
             <input
-                required={required}
-                title={title}
-                type={type}
+                className={classNames('input', {
+                    'input-invalid': isInvalid,
+                })}
                 id={id}
+                type={type}
                 name={name}
                 placeholder={placeholder}
-                pattern={pattern}
                 {...register}
-                className="w-full bg-gray-400 bg-opacity-20 focus:bg-transparent focus:ring-2 focus:ring-primary-green rounded border border-gray-600 focus:border-green-dark text-base outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
-            {isInvalid && <p className="text-red-500 text-xs italic">{error}</p>}
+            {note && <p className="text-gray-600 text-xs italic">{note}</p>}
+            {isInvalid && !customError && <p className="text-red-500 text-xs italic">{error}</p>}
+            {isInvalid && customError && <p className="text-red-500 text-xs italic">{`Please Enter Unique ${name}`}</p>}
         </div>
     );
 };

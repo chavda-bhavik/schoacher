@@ -7,7 +7,6 @@ interface ButtonProps {
     onClick?: () => void;
     disabled?: boolean;
     className?: string;
-    loading?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -16,7 +15,6 @@ export const Button: React.FC<ButtonProps> = ({
     disabled = false,
     onClick = () => {},
     className = '',
-    loading = false,
     children,
 }) => {
     return (
@@ -33,7 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
             )}
             onClick={onClick}
         >
-            {loading ? 'Loading...': children}
+            {children}
         </button>
     );
 };
