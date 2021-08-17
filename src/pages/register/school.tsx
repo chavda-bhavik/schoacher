@@ -6,9 +6,9 @@ import Logo from '@/static/images/Icon.svg';
 import { Icon } from '@/static/Icons';
 import { School } from '@/static/SVGs';
 
-interface indexProps {}
+interface indexProps { }
 
-const SchoolSignUp: React.FC<indexProps> = ({}) => {
+const SchoolSignUp: React.FC<indexProps> = ({ }) => {
     return (
         <div className="auth-container">
             <div className="auth-wrapper">

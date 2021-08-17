@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { Icon } from '@/static/Icons';
 import { SignUp, Teacher } from '@/static/SVGs';
 
-interface indexProps {}
+interface indexProps { }
 
-const index: React.FC<indexProps> = ({}) => {
+const index: React.FC<indexProps> = ({ }) => {
     return (
         <div className="auth-container">
             <div className="auth-wrapper">

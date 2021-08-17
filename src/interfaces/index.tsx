@@ -1,9 +1,13 @@
 export type IconsType = 'check' | 'logIn';
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';
 
+export type LoginFieldTypes = {
+    email: string;
+    password: string;
+};
+
 export type SchoolRegisterFieldTypes = {
-    firstName: string;
-    lastName: string;
+    schoolName: string;
     email: string;
     password: string;
     confirmPassword: string;
