@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import {} from './Subjects';
 
 interface InputProps {
     name: string;
@@ -28,6 +27,7 @@ interface InputProps {
     rows?: number;
     value?: string | number;
     disabled?: boolean;
+    row?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -44,6 +44,7 @@ export const Input: React.FC<InputProps> = ({
     rows,
     children,
     disabled,
+    row = false,
 }) => {
     const inputContents = () => {
         let content = null;
@@ -51,7 +52,7 @@ export const Input: React.FC<InputProps> = ({
             case 'textarea':
                 content = (
                     <textarea
-                        className={classNames('input', 'form-textarea', className, {
+                        className={classNames('input', 'form-textarea', {
                             'input-invalid': isInvalid,
                             'cursor-not-allowed': disabled,
                         })}
@@ -68,7 +69,7 @@ export const Input: React.FC<InputProps> = ({
                 content = (
                     <input
                         type="radio"
-                        className={classNames('radio', 'form-radio', className, {
+                        className={classNames('radio', 'form-radio', {
                             'input-invalid': isInvalid,
                             'cursor-not-allowed': disabled,
                         })}
@@ -83,7 +84,7 @@ export const Input: React.FC<InputProps> = ({
                 content = (
                     <input
                         type="checkbox"
-                        className={classNames('checkbox', 'form-checkbox', className, {
+                        className={classNames('checkbox', 'form-checkbox', {
                             'input-invalid': isInvalid,
                             'cursor-not-allowed': disabled,
                         })}
@@ -97,7 +98,7 @@ export const Input: React.FC<InputProps> = ({
             case 'select':
                 content = (
                     <select
-                        className={classNames('input', 'form-select', className, {
+                        className={classNames('input', 'form-select', {
                             'input-invalid': isInvalid,
                         })}
                         id={id}
@@ -112,7 +113,7 @@ export const Input: React.FC<InputProps> = ({
             default:
                 content = (
                     <input
-                        className={classNames('input', 'form-input', className, {
+                        className={classNames('input', 'form-input', {
                             'input-invalid': isInvalid,
                             'cursor-not-allowed': disabled,
                         })}
@@ -129,7 +130,7 @@ export const Input: React.FC<InputProps> = ({
         return content;
     };
     return (
-        <div className={`${className} mt-3`}>
+        <div className={classNames(classNames, { 'mt-3': !row })}>
             {label && (
                 <label className="label" htmlFor={id}>
                     {label}

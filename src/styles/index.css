@@ -80,7 +80,17 @@
         @apply bg-primary-green text-dustWhite p-1 rounded-full;
     }
     /* End Of Auth */
+    .modal {
+        @apply bg-white rounded-md;
+    }
+    .modal-header {
+        @apply bg-dustWhite p-3 border-b-2 border-gray-900 rounded-t-md;
+    }
+    .modal-title {
+        @apply text-xl font-medium;
+    }
     .modal-body {
+        @apply p-3 overflow-y-scroll;
         max-height: calc(100vh - 100px);
     }
 }

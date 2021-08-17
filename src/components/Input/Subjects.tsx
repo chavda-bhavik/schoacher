@@ -79,6 +79,7 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
                         <option value="English">English</option>
                         <option value="Hindi">Hindi</option>
                         <option value="Sanskrit">Sanskrit</option>
+                        <option value="all">All</option>
                     </Input>
                     <div className="flex flex-row gap-1">
                         <IconButton variant="primary" icon="check" onClick={addSubject} />

@@ -1,3 +1,4 @@
+import { toggleBodyOverflowHidden } from '@/static/helper';
 import React from 'react';
 import { useEffect } from 'react';
 
@@ -17,18 +18,9 @@ export const Backdrop: React.FC<BackdropProps> = ({
         toggleBodyOverflowHidden(show);
     }, [show]);
 
-    const toggleBodyOverflowHidden = (add: boolean) => {
-        let body = document.getElementsByTagName('body')[0];
-        if (add) {
-            body.classList.add('overflow-hidden');
-        } else {
-            body.classList.remove('overflow-hidden');
-        }
-    };
-
     return (
         <div
-            className={`fixed pin h-full z-10 inset-0 ${show ? '' : 'hidden'} overflow-hidden`}
+            className={`fixed pin h-full z-50 inset-0 ${show ? '' : 'hidden'} overflow-hidden`}
             aria-labelledby="modal-title"
             role="dialog"
             aria-modal="true"
