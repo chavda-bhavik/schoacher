@@ -33,6 +33,7 @@ export type SchoolRegisterFieldTypes = {
 };
 
 export interface Subject {
+    id: number | string;
     board: string;
     standard: string;
     subject: string;
@@ -57,6 +58,18 @@ export interface Qualification {
     start: Date;
     end: Date;
     grade?: string;
+}
+
+export interface Experience {
+    id: string | number;
+    title: string;
+    type: string;
+    schoolName: string;
+    start: Date;
+    end?: Date;
+    currentlyWorking: Boolean;
+    description: string;
+    subjects: Subject[];
 }
 
 export interface Address {

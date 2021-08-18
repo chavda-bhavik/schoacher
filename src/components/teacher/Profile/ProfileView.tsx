@@ -29,21 +29,6 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ profileData }) => {
                         </figure>
                     </div>
                 </div>
-                {/* <div className="flex flex-row">
-                    <div className="w-full md:w-8/12 lg:w-9/12 h-full space-y-2 py-2">
-                        <p>{`${profileData?.firstName} ${profileData?.lastName}`}</p>
-                        <p>{`${profileData?.address}`}</p>
-                        <p>{`${profileData?.mobile1}, ${profileData?.mobile2 || ''}`}</p>
-                    </div>
-                        <p>{profileData?.email}</p>
-                    <div className="w-full md:w-4/12 lg:w-3/12">
-                        <img
-                            src={profileData?.photoUrl}
-                            alt="image"
-                            className="rounded-full border-4 border-gray-800 mx-auto z-20 absolute top-6"
-                        />
-                    </div>
-                </div> */}
             </div>
         </>
     );

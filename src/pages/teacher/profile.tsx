@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { Icon } from '@/static/Icons';
 import { LogoGreen } from '@/static/SVGs';
 import { QualificationItem } from '@/components/teacher/Qualification/QualificationItem';
-import { Experience } from '@/components/teacher/Experience/Experience';
+import { ExperienceItem } from '@/components/teacher/Experience/ExperienceItem';
 import { Material } from '@/components/teacher/Material/Material';
 import { IconButton } from '@/components/IconButton';
-import { Qualification, Subject, TeacherProfileData } from '@/interfaces';
+import { Experience, Qualification, Subject, TeacherProfileData } from '@/interfaces';
 
 // Forms
 import { ProfileForm } from '@/components/teacher/Profile/ProfileForm';
@@ -29,6 +29,8 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
     const [profileData, setProfileData] = useState<TeacherProfileData>(null);
     const [qualificationData, setQualificationData] = useState<Qualification[]>([]);
     const [selectedQualification, setSelectedQualification] = useState<Qualification>(null);
+    const [selectedExperience, setSelectedExperience] = useState<Experience>(null);
+    const [experienceData, setExperienceData] = useState<Experience[]>(null);
 
     useEffect(() => {
         toggleBodyOverflowHidden(
@@ -40,8 +42,11 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
         setProfileData(JsonData.profile);
         // @ts-ignore
         setQualificationData(JsonData.qualification);
+        // @ts-ignore
+        setExperienceData(JsonData.experience);
     }, []);
 
+    // Qualification
     const onQualificationItemClick = (data: Qualification) => {
         setSelectedQualification(data);
         setShowQualification(true);
@@ -60,6 +65,27 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
         setQualificationData(newQualifications);
         setShowQualification(false);
         setSelectedQualification(null);
+    };
+
+    // Experience
+    const onExperienceItemClick = (data: Experience) => {
+        setSelectedExperience(data);
+        setShowExperience(true);
+    };
+    const onExperienceSubmit = (data: Experience) => {
+        let newExperiences = [...experienceData];
+        if (selectedExperience) {
+            // edit
+            newExperiences = newExperiences.map((experience) => {
+                if (experience.id === selectedExperience.id) return { ...data };
+                else return { ...experience };
+            });
+        } else {
+            newExperiences.push({ ...data, id: newExperiences.length + 5 });
+        }
+        setExperienceData(newExperiences);
+        setShowExperience(false);
+        setSelectedExperience(null);
     };
 
     return (
@@ -113,9 +139,14 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
                     />
                 </div>
                 <div className="divide-y-2 py-2">
-                    <Experience />
-                    <Experience />
-                    <Experience />
+                    {experienceData &&
+                        experienceData.map((experience) => (
+                            <ExperienceItem
+                                experience={experience}
+                                key={experience.id}
+                                onClick={onExperienceItemClick}
+                            />
+                        ))}
                 </div>
             </section>
 
@@ -133,12 +164,14 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
             </section>
 
             {/* Edit Profile */}
-            <ProfileForm
-                onClose={() => setShowEditProfile(false)}
-                profileData={profileData}
-                onDataSubmit={(data) => setProfileData(data)}
-                show={showEditProfile}
-            />
+            {showEditProfile && (
+                <ProfileForm
+                    onClose={() => setShowEditProfile(false)}
+                    profileData={profileData}
+                    onDataSubmit={(data) => setProfileData(data)}
+                    show={showEditProfile}
+                />
+            )}
 
             {/* Qualification */}
             {showQualification && (
@@ -154,7 +187,13 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
             )}
 
             {/* Experience */}
-            {showExperience && <ExperienceForm onClose={() => setShowExperience(false)} />}
+            {showExperience && (
+                <ExperienceForm
+                    selectedExperience={selectedExperience}
+                    onSubmit={onExperienceSubmit}
+                    onClose={() => setShowExperience(false)}
+                />
+            )}
 
             {/* Material */}
             {showMaterial && <MaterialForm onClose={() => setShowMaterial(false)} />}
