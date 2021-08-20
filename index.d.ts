@@ -76,9 +76,7 @@ export interface Material {
     id: string | number;
     title: string;
     subjects: Subject[];
-    mediaUrl?: string;
-    mediaObj?: File;
-    description: string;
+    mediaUrl: string;
 }
 
 export interface Address {

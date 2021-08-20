@@ -62,12 +62,12 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
 
     return (
         <Backdrop show={true} onClose={onClose}>
-            <div className="bg-white rounded-md max-h-screen">
-                <div className="bg-dustWhite rounded-t-md p-3 border-b-2 sticky top-0 border-gray-900">
-                    <p className="text-xl font-medium">Add/Edit Expeience</p>
+            <div className="modal">
+                <div className="modal-header">
+                    <p className="modal-title">Add/Edit Expeience</p>
                     {/* <Icon icon="close" /> */}
                 </div>
-                <div className="p-3 overflow-y-scroll modal-body">
+                <div className="modal-body">
                     <form onSubmit={handleSubmit(handleSubmitData)}>
                         <Input
                             id="title"

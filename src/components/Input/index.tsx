@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import classNames from 'classnames';
 
 interface InputProps {
@@ -13,7 +13,8 @@ interface InputProps {
         | 'textarea'
         | 'select'
         | 'radio'
-        | 'checkbox';
+        | 'checkbox'
+        | 'file';
     label?: string;
     placeholder?: string;
     required?: boolean;
@@ -28,6 +29,8 @@ interface InputProps {
     value?: string | number;
     disabled?: boolean;
     row?: boolean;
+    onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+    accept?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -45,6 +48,8 @@ export const Input: React.FC<InputProps> = ({
     children,
     disabled,
     row = false,
+    onChange,
+    accept,
 }) => {
     const inputContents = () => {
         let content = null;
@@ -110,6 +115,22 @@ export const Input: React.FC<InputProps> = ({
                     </select>
                 );
                 break;
+            case 'file':
+                content = (
+                    <input
+                        className={classNames('input', 'form-input', {
+                            'input-invalid': isInvalid,
+                            'cursor-not-allowed': disabled,
+                        })}
+                        id={id}
+                        type="file"
+                        name={name}
+                        disabled={disabled}
+                        onChange={onChange}
+                        accept={accept}
+                    />
+                );
+                break;
             default:
                 content = (
                     <input
@@ -130,7 +151,7 @@ export const Input: React.FC<InputProps> = ({
         return content;
     };
     return (
-        <div className={classNames(classNames, { 'mt-3': !row })}>
+        <div className={classNames(className, { 'mt-3': !row })}>
             {label && (
                 <label className="label" htmlFor={id}>
                     {label}

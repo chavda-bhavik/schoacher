@@ -101,14 +101,17 @@
     ],
     "material": [
         {
-            "description": "ABCD for standard 1,2 & 3",
+            "id": 1,
+            "title": "ABCD for standard 1,2 & 3",
             "subjects": [
                 {
+                    "id": 1,
                     "board": "GSEB",
                     "standard": "1",
                     "subject": "all"
                 },
                 {
+                    "id": 2,
                     "board": "GSEB",
                     "standard": "2",
                     "subject": "all"

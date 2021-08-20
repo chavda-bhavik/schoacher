@@ -4,9 +4,9 @@ import { Icon } from '@/static/Icons';
 import { LogoGreen } from '@/static/SVGs';
 import { QualificationItem } from '@/components/teacher/Qualification/QualificationItem';
 import { ExperienceItem } from '@/components/teacher/Experience/ExperienceItem';
-import { Material } from '@/components/teacher/Material/Material';
+import { MaterialItem } from '@/components/teacher/Material/MaterialItem';
 import { IconButton } from '@/components/IconButton';
-import { Experience, Qualification, Subject, TeacherProfileData } from '@/interfaces';
+import { Experience, Material, Qualification, Subject, TeacherProfileData } from '@/interfaces';
 
 // Forms
 import { ProfileForm } from '@/components/teacher/Profile/ProfileForm';
@@ -31,6 +31,8 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
     const [selectedQualification, setSelectedQualification] = useState<Qualification>(null);
     const [selectedExperience, setSelectedExperience] = useState<Experience>(null);
     const [experienceData, setExperienceData] = useState<Experience[]>(null);
+    const [selectedMaterial, setSelectedMaterial] = useState<Material>(null);
+    const [materialData, setMaterialData] = useState<Material[]>(null);
 
     useEffect(() => {
         toggleBodyOverflowHidden(
@@ -44,6 +46,8 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
         setQualificationData(JsonData.qualification);
         // @ts-ignore
         setExperienceData(JsonData.experience);
+        // @ts-ignore
+        setMaterialData(JsonData.material);
     }, []);
 
     // Qualification
@@ -86,6 +90,31 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
         setExperienceData(newExperiences);
         setShowExperience(false);
         setSelectedExperience(null);
+    };
+
+    // Material
+    const onNewMaterialClick = () => {
+        setSelectedMaterial(null);
+        setShowMaterial(true);
+    };
+    const onMaterialItemClick = (data: Material) => {
+        setSelectedMaterial(data);
+        setShowMaterial(true);
+    };
+    const onMaterialSubmit = (data: Material) => {
+        let newMaterials = [...materialData];
+        if (selectedMaterial) {
+            // edit
+            newMaterials = newMaterials.map((material) => {
+                if (material.id === selectedMaterial.id) return { ...data };
+                else return { ...material };
+            });
+        } else {
+            newMaterials.push({ ...data, id: newMaterials.length + 5 });
+        }
+        setMaterialData([...newMaterials]);
+        setShowMaterial(false);
+        setSelectedMaterial(null);
     };
 
     return (
@@ -154,12 +183,17 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
             <section className="bg-dustWhite border-primary-dark border-2 rounded-md">
                 <div className="flex justify-between flex-row border-b border-primary-dark p-2 w-full">
                     <p className="font-medium text-lg">Material</p>
-                    <IconButton onClick={() => setShowMaterial(true)} icon="plusCircle" size="md" />
+                    <IconButton onClick={onNewMaterialClick} icon="plusCircle" size="md" />
                 </div>
                 <div className="divide-y-2 py-2">
-                    <Material />
-                    <Material />
-                    <Material />
+                    {materialData &&
+                        materialData.map((material) => (
+                            <MaterialItem
+                                material={material}
+                                key={material.id}
+                                onClick={onMaterialItemClick}
+                            />
+                        ))}
                 </div>
             </section>
 
@@ -196,7 +230,13 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
             )}
 
             {/* Material */}
-            {showMaterial && <MaterialForm onClose={() => setShowMaterial(false)} />}
+            {showMaterial && (
+                <MaterialForm
+                    onSubmit={onMaterialSubmit}
+                    selectedMaterial={selectedMaterial}
+                    onClose={() => setShowMaterial(false)}
+                />
+            )}
         </div>
     );
 };
