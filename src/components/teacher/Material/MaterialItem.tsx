@@ -1,10 +1,10 @@
 import React from 'react';
 import { Icon } from '@/static/Icons';
-import { Material } from '@/interfaces';
+import { MaterialType } from '@/interfaces';
 
 interface MaterialItemProps {
-    material: Material;
-    onClick?: (data: Material) => void;
+    material: MaterialType;
+    onClick?: (data: MaterialType) => void;
 }
 
 export const MaterialItem: React.FC<MaterialItemProps> = ({ material, onClick = () => {} }) => {
