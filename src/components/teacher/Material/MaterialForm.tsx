@@ -4,13 +4,13 @@ import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
-import { Subject, Material } from '@/interfaces';
+import { Subject, MaterialType } from '@/interfaces';
 import { useForm } from 'react-hook-form';
 import { IconButton } from '@/components/IconButton';
 
 interface MaterialFormProps {
-    selectedMaterial?: Material;
-    onSubmit: (data: Material) => void;
+    selectedMaterial?: MaterialType;
+    onSubmit: (data: MaterialType) => void;
     onClose?: () => void;
 }
 
@@ -27,7 +27,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
         reset,
         getValues,
         formState: { errors, isSubmitted },
-    } = useForm<Material>();
+    } = useForm<MaterialType>();
     const [error, setError] = useState<string>();
 
     useEffect(() => {
@@ -48,7 +48,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
             setError('Subjects are required');
             return;
         } else setError(undefined);
-        let material: Material = {
+        let material: MaterialType = {
             ...data,
             subjects: materialSubjects,
         };
@@ -59,7 +59,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
         <Card>
             <Card.Header>
                 <div className="flex flex-row justify-between items-center">
-                    <p className="title">Add/Edit Material</p>
+                    <p className="title">Add/Edit MaterialType</p>
                     <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>
