@@ -15,3 +15,8 @@ export type SchoolRegisterFieldTypes = {
     password: string;
     confirmPassword: string;
 };
+
+export type LoginFieldTypes = {
+    email: string;
+    password: string;
+};

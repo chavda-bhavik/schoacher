@@ -18,7 +18,6 @@ import { regularExpressions } from '@/static/constants';
 interface indexProps { }
 
 const SchoolSignUp: React.FC<indexProps> = ({ }) => {
-    const [emailExists, setEmailExists] = useState(true);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
@@ -114,9 +113,10 @@ const SchoolSignUp: React.FC<indexProps> = ({ }) => {
                                     name="password"
                                     placeholder="Password"
                                     isInvalid={!!errors.password}
-                                    error={errors.password?.message}
+                                    error={errors.password?.message || 'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters'}
                                     register={register('password', {
                                         required: 'Password is required',
+                                        validate: (v) => regularExpressions.password.test(v),
                                     })}
                                 />
                                 <Input
@@ -135,9 +135,9 @@ const SchoolSignUp: React.FC<indexProps> = ({ }) => {
                                     })}
                                 />
                                 {/* SubmitButton */}
-                                <Button className="mt-5" type="submit" disabled={loading}>
+                                <Button className="mt-5" type="submit" disabled={loading} >
                                     <Icon icon="check" className="w-6 h-6 -ml-2" />
-                                    <span className="ml-3">Sign Up</span>
+                                    <span className="ml-3">{loading ? 'Loading ...' : 'Sign Up'}</span>
                                 </Button>
                                 <p className="mt-6 text-xs text-gray-600 text-center">
                                     I agree to abide by schoacher&apos;s{' '}
