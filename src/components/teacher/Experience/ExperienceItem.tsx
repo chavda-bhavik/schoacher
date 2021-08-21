@@ -1,10 +1,13 @@
 import React from 'react';
-import { Experience, Subject } from '@/interfaces';
+import dayjs from 'dayjs';
+
+import { ExperienceType } from '@/interfaces';
 import { Icon } from '@/static/Icons';
+import constants from '@/static/constants';
 
 interface ExperienceItemProps {
-    experience: Experience;
-    onClick?: (data: Experience) => void;
+    experience: ExperienceType;
+    onClick?: (data: ExperienceType) => void;
 }
 
 export const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience, onClick }) => {
@@ -19,8 +22,11 @@ export const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience, onCl
                 <div className="divide-x-2 divide-primary-dark">
                     <span className="pr-1">{experience.type}</span>
                     <span className="pl-1">
-                        {experience.start} -{' '}
-                        {experience.currentlyWorking ? 'Present' : experience.end}
+                        {dayjs(experience.start).format(constants.teacherProfile.dateFormat)}
+                        {' - '}
+                        {experience.currentlyWorking
+                            ? 'Present'
+                            : dayjs(experience.end).format(constants.teacherProfile.dateFormat)}
                     </span>
                 </div>
                 <ul className="list-disc list-inside">

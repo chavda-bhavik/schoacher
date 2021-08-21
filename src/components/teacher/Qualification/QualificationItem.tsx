@@ -1,10 +1,13 @@
-import { Qualification } from '@/interfaces';
-import { Icon } from '@/static/Icons';
 import React from 'react';
+import dayjs from 'dayjs';
+
+import { QualificationType } from '@/interfaces';
+import { Icon } from '@/static/Icons';
+import constants from '@/static/constants';
 
 interface QualificationProps {
-    qualification: Qualification;
-    onClick?: (data: Qualification) => void;
+    qualification: QualificationType;
+    onClick?: (data: QualificationType) => void;
 }
 
 export const QualificationItem: React.FC<QualificationProps> = ({ qualification, onClick }) => {
@@ -18,9 +21,9 @@ export const QualificationItem: React.FC<QualificationProps> = ({ qualification,
                 <p className="mb-0 text-xl font-medium">{qualification.degree}</p>
                 <p className="mb-0">{qualification.college}</p>
                 <span className="text-sm font-normal text-primary-dark">
-                    {new Date(qualification.start).toDateString()}
-                    {'-'}
-                    {new Date(qualification.end).toDateString()}
+                    {dayjs(qualification.start).format(constants.teacherProfile.dateFormat)}
+                    {' - '}
+                    {dayjs(qualification.end).format(constants.teacherProfile.dateFormat)}
                 </span>
             </div>
         </div>

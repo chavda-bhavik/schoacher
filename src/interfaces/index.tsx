@@ -39,7 +39,7 @@ export interface Subject {
     subject: string;
 }
 
-export interface TeacherProfileData {
+export interface TeacherProfileType {
     firstName: string;
     lastName: string;
     address?: string;

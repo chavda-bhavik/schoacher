@@ -1,9 +1,9 @@
 import React from 'react';
 import { Icon } from '@/static/Icons';
-import { TeacherProfileData } from '@/interfaces';
+import { TeacherProfileType } from '@/interfaces';
 
 interface ProfileViewProps {
-    profileData: TeacherProfileData;
+    profileData: TeacherProfileType;
 }
 
 export const ProfileView: React.FC<ProfileViewProps> = ({ profileData }) => {

@@ -3,14 +3,14 @@ import React, { useEffect } from 'react';
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { TeacherProfileData } from '@/interfaces';
+import { TeacherProfileType } from '@/interfaces';
 import { useForm } from 'react-hook-form';
 import { regularExpressions } from '@/static/constants';
 import { IconButton } from '@/components/IconButton';
 
 interface ProfileFormProps {
-    profileData: TeacherProfileData;
-    onDataSubmit?: (data: TeacherProfileData) => void;
+    profileData: TeacherProfileType;
+    onDataSubmit?: (data: TeacherProfileType) => void;
     onClose?: () => void;
 }
 
@@ -20,7 +20,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onDataSub
         reset,
         handleSubmit,
         formState: { errors },
-    } = useForm<TeacherProfileData>();
+    } = useForm<TeacherProfileType>();
 
     useEffect(() => {
         reset(profileData);
