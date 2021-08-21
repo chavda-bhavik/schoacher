@@ -7,6 +7,7 @@ import { Profile } from '@/components/teacher/Profile';
 import { Qualification } from '@/components/teacher/Qualification';
 import { Material } from '@/components/teacher/Material';
 import { Experience } from '@/components/teacher/Experience';
+import { siteMetadata } from '@/config';
 
 interface profileProps {}
 

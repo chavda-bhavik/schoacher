@@ -1,0 +1,123 @@
+@layer components {
+    .link {
+        @apply hover:underline;
+    }
+    .title {
+        @apply text-xl font-medium;
+    }
+
+    /* Animations */
+    /* # pop-up animation */
+    .pop-up-enter {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    .pop-up-enter-active {
+        opacity: 1;
+        transform: translateX(0);
+        transition: opacity 300ms, transform 300ms;
+    }
+    .pop-up-exit {
+        opacity: 1;
+    }
+    .pop-up-exit-active {
+        opacity: 0;
+        transform: scale(0.95);
+        transition: opacity 300ms, transform 200ms;
+    }
+
+    /* # blur animation */
+    .blur-enter {
+        opacity: 0;
+    }
+    .blur-enter-active {
+        opacity: 1;
+        transition: opacity 300ms ease-in;
+    }
+    .blur-exit {
+        opacity: 1;
+    }
+    .blur-exit-active {
+        opacity: 0;
+        transition: opacity 200ms ease-out;
+    }
+    /* End of Animations */
+
+    /* Card */
+    .card {
+        @apply bg-white rounded-md;
+    }
+    .card-header {
+        @apply bg-dustWhite p-3 border-b-2 border-gray-900 rounded-t-md;
+    }
+    .card-footer {
+        @apply bg-dustWhite p-3 border-t border-gray-900 rounded-b-md;
+    }
+    .card-body {
+        @apply p-3;
+    }
+    /* End of Card */
+
+    /* Teacher Profile */
+    .section {
+        @apply bg-dustWhite border-primary-dark border-2 rounded-md;
+    }
+    .section-header {
+        @apply flex justify-between flex-row border-b border-primary-dark p-2 w-full items-center;
+    }
+    .section-body {
+        @apply py-2;
+    }
+    /* End of Teacher Profile */
+
+    /* Input */
+    .switcher {
+        @apply border-2 inline-flex rounded-full p-1 cursor-pointer;
+    }
+    .option {
+        @apply px-4 w-1/2 sm:px-8 py-3 rounded-full focus:outline-none text-base text-center font-bold text-gray-700 transition duration-300 cursor-pointer;
+    }
+    .option-selected {
+        @apply bg-primary-dark text-dustWhite;
+    }
+    input[type='radio']:checked + .option {
+        @apply bg-primary-dark text-dustWhite;
+    }
+    .label {
+        @apply leading-8 text-base tracking-wide text-gray-700 font-bold mb-2 cursor-pointer;
+    }
+    .input {
+        @apply w-full px-3 py-2 rounded-md font-normal bg-gray-100 border-2 border-gray-200 placeholder-gray-500 text-base focus:outline-none focus:border-primary-green focus:ring-1 focus:ring-primary-green shadow-none focus:bg-white;
+    }
+    .checkbox {
+        @apply rounded-md bg-gray-100 border-2 border-gray-200 focus:outline-none focus:border-primary-green focus:ring-1 focus:ring-primary-green shadow-none focus:bg-white text-primary-green mx-2;
+    }
+    .radio {
+        @apply bg-gray-100 border-2 border-gray-200 focus:outline-none focus:border-primary-green focus:ring-1 focus:ring-primary-green shadow-none focus:bg-white text-primary-green mx-2;
+    }
+    .input-invalid {
+        @apply border-red-500;
+    }
+    .input-note {
+        @apply text-gray-600 text-xs italic;
+    }
+    .input-error {
+        @apply text-red-500 text-xs italic;
+    }
+    /* End of Input */
+
+    /* Button */
+    .btn {
+        @apply tracking-wide font-semibold text-base rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:outline-none;
+    }
+    .btn-primary {
+        @apply bg-primary-green text-gray-100 hover:bg-shades-1 disabled:bg-shades-1;
+    }
+    .btn-secondary {
+        @apply bg-dustWhite text-black hover:bg-gray-500 hover:text-dustWhite;
+    }
+    .btn-danger {
+        @apply bg-red-500 text-white hover:bg-red-400;
+    }
+    /* End of Button */
+}

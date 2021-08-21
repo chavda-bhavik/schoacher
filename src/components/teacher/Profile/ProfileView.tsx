@@ -1,5 +1,4 @@
 import React from 'react';
-import { Icon } from '@/static/Icons';
 import { TeacherProfileType } from '@/interfaces';
 
 interface ProfileViewProps {

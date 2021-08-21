@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { IconButton } from '@/components/IconButton';
 import { ProfileView } from './ProfileView';
-import { TeacherProfileData } from '@/interfaces';
+import { TeacherProfileType } from '@/interfaces';
 import JsonData from '@/static/teacher-profile-data.json';
 import { Backdrop } from '@/components/Backdrop';
 import { ProfileForm } from './ProfileForm';
@@ -11,13 +11,13 @@ interface ProfileProps {}
 
 export const Profile: React.FC<ProfileProps> = ({}) => {
     const [showEditProfile, setShowEditProfile] = useState(false);
-    const [profileData, setProfileData] = useState<TeacherProfileData>(null);
+    const [profileData, setProfileData] = useState<TeacherProfileType>(null);
 
     useEffect(() => {
         setProfileData(JsonData.profile);
     }, []);
 
-    const onProfileDataSubmit = (data: TeacherProfileData) => {
+    const onProfileDataSubmit = (data: TeacherProfileType) => {
         setProfileData(data);
         setShowEditProfile(false);
     };

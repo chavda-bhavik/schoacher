@@ -20,7 +20,11 @@ export type IconsType =
     | 'logIn'
     | 'envelopFilled'
     | 'close'
-    | 'plus';
+    | 'plus'
+    | 'pinAlt'
+    | 'orderedList'
+    | 'unOrderedList'
+    | 'text';
 
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';
 
