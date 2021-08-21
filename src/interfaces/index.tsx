@@ -24,7 +24,9 @@ export type IconsType =
     | 'pinAlt'
     | 'orderedList'
     | 'unOrderedList'
-    | 'text';
+    | 'text'
+    | 'document'
+    | 'inbox';
 
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';
 
