@@ -1,22 +1,23 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
-import { Backdrop } from '@/components/Backdrop';
+import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
 import { Subject, Material } from '@/interfaces';
 import { useForm } from 'react-hook-form';
+import { IconButton } from '@/components/IconButton';
 
 interface MaterialFormProps {
-    onClose: () => void;
     selectedMaterial?: Material;
     onSubmit: (data: Material) => void;
+    onClose?: () => void;
 }
 
 export const MaterialForm: React.FC<MaterialFormProps> = ({
-    onClose,
     onSubmit,
     selectedMaterial,
+    onClose,
 }) => {
     const [materialSubjects, setMaterialSubjects] = useState<Subject[]>(null);
     const {
@@ -55,52 +56,54 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
     };
 
     return (
-        <Backdrop show={true} onClose={onClose}>
-            <div className="modal">
-                <div className="modal-header">
-                    <p className="modal-title">Add/Edit Material</p>
-                    {/* <Icon icon="close" /> */}
+        <Card>
+            <Card.Header>
+                <div className="flex flex-row justify-between items-center">
+                    <p className="title">Add/Edit Material</p>
+                    <IconButton icon="close" onClick={onClose} />
                 </div>
-                <div className="modal-body">
-                    <form onSubmit={handleSubmit(onMaterialFormSubmit)}>
-                        <Input
-                            id="title"
-                            name="title"
-                            type="text"
-                            label="Title"
-                            register={register('title', { required: 'Title is required' })}
-                            isInvalid={!!errors.title}
-                            error={errors.title?.message}
-                        />
-                        <Input
-                            type="textarea"
-                            label="Description"
-                            id="edescription"
-                            name="edescription"
-                            rows={3}
-                            register={register('description')}
-                        />
-                        <Input
-                            type="file"
-                            id="file"
-                            name="file"
-                            accept="application/pdf"
-                            onChange={onFileChange}
-                            isInvalid={isSubmitted && !getValues('mediaObj')}
-                            error="File is required"
-                        />
-                        <Subjects
-                            title="Subjects"
-                            subjects={materialSubjects}
-                            setSubjects={(subjects) => setMaterialSubjects(subjects)}
-                        />
-                        {error && <p className="input-error">{error}</p>}
-                        <Button block className="mt-5" type="submit">
-                            Add / Update
-                        </Button>
-                    </form>
-                </div>
-            </div>
-        </Backdrop>
+            </Card.Header>
+            <form onSubmit={handleSubmit(onMaterialFormSubmit)}>
+                <Card.Body>
+                    <Input
+                        id="title"
+                        name="title"
+                        type="text"
+                        label="Title"
+                        register={register('title', { required: 'Title is required' })}
+                        isInvalid={!!errors.title}
+                        error={errors.title?.message}
+                    />
+                    <Input
+                        type="textarea"
+                        label="Description"
+                        id="edescription"
+                        name="edescription"
+                        rows={3}
+                        register={register('description')}
+                    />
+                    <Input
+                        type="file"
+                        id="file"
+                        name="file"
+                        accept="application/pdf"
+                        onChange={onFileChange}
+                        isInvalid={isSubmitted && !getValues('mediaObj')}
+                        error="File is required"
+                    />
+                    <Subjects
+                        title="Subjects"
+                        subjects={materialSubjects}
+                        setSubjects={(subjects) => setMaterialSubjects(subjects)}
+                    />
+                    {error && <p className="input-error">{error}</p>}
+                </Card.Body>
+                <Card.Footer>
+                    <Button block type="submit">
+                        Add / Update
+                    </Button>
+                </Card.Footer>
+            </form>
+        </Card>
     );
 };

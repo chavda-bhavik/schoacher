@@ -10,7 +10,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ profileData }) => {
     return (
         <>
             <div className="relative">
-                <div className="h-20 bg-gradient-to-br from-primary-blue to-primary-green absolute inset-0 rounded-b-sm" />
+                <div className="h-32 md:h-20 bg-gradient-to-br from-primary-blue to-primary-green absolute inset-0 rounded-b-sm" />
                 <div className="p-6">
                     <div className="flex flex-col-reverse md:flex-row justify-center md:justify-between">
                         <figure className="pt-0 md:pt-16">

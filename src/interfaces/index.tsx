@@ -50,7 +50,7 @@ export interface TeacherProfileData {
     emailVerified?: boolean;
 }
 
-export interface Qualification {
+export interface QualificationType {
     id: string | number;
     degree: string;
     college: string;
@@ -60,7 +60,7 @@ export interface Qualification {
     grade?: string;
 }
 
-export interface Experience {
+export interface ExperienceType {
     id: string | number;
     title: string;
     type: string;
@@ -72,7 +72,7 @@ export interface Experience {
     subjects: Subject[];
 }
 
-export interface Material {
+export interface MaterialType {
     id: string | number;
     title: string;
     subjects: Subject[];

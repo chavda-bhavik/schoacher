@@ -1,122 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { Icon } from '@/static/Icons';
 import { LogoGreen } from '@/static/SVGs';
-import { QualificationItem } from '@/components/teacher/Qualification/QualificationItem';
-import { ExperienceItem } from '@/components/teacher/Experience/ExperienceItem';
-import { MaterialItem } from '@/components/teacher/Material/MaterialItem';
-import { IconButton } from '@/components/IconButton';
-import { Experience, Material, Qualification, Subject, TeacherProfileData } from '@/interfaces';
 
-// Forms
-import { ProfileForm } from '@/components/teacher/Profile/ProfileForm';
-import { QualificationForm } from '@/components/teacher/Qualification/QualificationForm';
-import { ExperienceForm } from '@/components/teacher/Experience/ExperienceForm';
-import { MaterialForm } from '@/components/teacher/Material/MaterialForm';
-
-import JsonData from '@/static/teacher-profile-data.json';
-import { ProfileView } from '@/components/teacher/Profile/ProfileView';
-import { toggleBodyOverflowHidden } from '@/static/helper';
+import { Profile } from '@/components/teacher/Profile';
+import { Qualification } from '@/components/teacher/Qualification';
+import { Material } from '@/components/teacher/Material';
+import { Experience } from '@/components/teacher/Experience';
 
 interface profileProps {}
 
 const TeacherProfile: React.FC<profileProps> = ({}) => {
-    const [showQualification, setShowQualification] = useState(false);
-    const [showExperience, setShowExperience] = useState(false);
-    const [showEditProfile, setShowEditProfile] = useState(false);
-    const [showMaterial, setShowMaterial] = useState(false);
-
-    const [profileData, setProfileData] = useState<TeacherProfileData>(null);
-    const [qualificationData, setQualificationData] = useState<Qualification[]>([]);
-    const [selectedQualification, setSelectedQualification] = useState<Qualification>(null);
-    const [selectedExperience, setSelectedExperience] = useState<Experience>(null);
-    const [experienceData, setExperienceData] = useState<Experience[]>(null);
-    const [selectedMaterial, setSelectedMaterial] = useState<Material>(null);
-    const [materialData, setMaterialData] = useState<Material[]>(null);
-
-    useEffect(() => {
-        toggleBodyOverflowHidden(
-            showQualification || showExperience || showEditProfile || showMaterial
-        );
-    }, [showQualification, showExperience, showEditProfile, showMaterial]);
-
-    useEffect(() => {
-        setProfileData(JsonData.profile);
-        // @ts-ignore
-        setQualificationData(JsonData.qualification);
-        // @ts-ignore
-        setExperienceData(JsonData.experience);
-        // @ts-ignore
-        setMaterialData(JsonData.material);
-    }, []);
-
-    // Qualification
-    const onQualificationItemClick = (data: Qualification) => {
-        setSelectedQualification(data);
-        setShowQualification(true);
-    };
-    const onQualificationUpdate = (data: Qualification) => {
-        let newQualifications = [...qualificationData];
-        if (selectedQualification) {
-            // edit
-            newQualifications = newQualifications.map((qualification) => {
-                if (qualification.id === selectedQualification.id) return { ...data };
-                else return { ...qualification };
-            });
-        } else {
-            newQualifications.push({ ...data });
-        }
-        setQualificationData(newQualifications);
-        setShowQualification(false);
-        setSelectedQualification(null);
-    };
-
-    // Experience
-    const onExperienceItemClick = (data: Experience) => {
-        setSelectedExperience(data);
-        setShowExperience(true);
-    };
-    const onExperienceSubmit = (data: Experience) => {
-        let newExperiences = [...experienceData];
-        if (selectedExperience) {
-            // edit
-            newExperiences = newExperiences.map((experience) => {
-                if (experience.id === selectedExperience.id) return { ...data };
-                else return { ...experience };
-            });
-        } else {
-            newExperiences.push({ ...data, id: newExperiences.length + 5 });
-        }
-        setExperienceData(newExperiences);
-        setShowExperience(false);
-        setSelectedExperience(null);
-    };
-
-    // Material
-    const onNewMaterialClick = () => {
-        setSelectedMaterial(null);
-        setShowMaterial(true);
-    };
-    const onMaterialItemClick = (data: Material) => {
-        setSelectedMaterial(data);
-        setShowMaterial(true);
-    };
-    const onMaterialSubmit = (data: Material) => {
-        let newMaterials = [...materialData];
-        if (selectedMaterial) {
-            // edit
-            newMaterials = newMaterials.map((material) => {
-                if (material.id === selectedMaterial.id) return { ...data };
-                else return { ...material };
-            });
-        } else {
-            newMaterials.push({ ...data, id: newMaterials.length + 5 });
-        }
-        setMaterialData([...newMaterials]);
-        setShowMaterial(false);
-        setSelectedMaterial(null);
-    };
-
     return (
         <div className="bg-primary-lightBlue min-h-screen p-2 space-y-2">
             {/* Header */}
@@ -125,118 +19,10 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
                 <Icon icon="logIn" size="md" className="self-center" />
             </section>
 
-            {/* Profile */}
-            <section className="bg-dustWhite border-primary-dark border-2 rounded-md">
-                <div className="flex justify-between flex-row border-b border-primary-dark p-2 w-full">
-                    <p className="font-medium text-lg">Personal Details</p>
-                    <IconButton icon="pencil" onClick={() => setShowEditProfile(true)} />
-                </div>
-                <div className="">
-                    <ProfileView profileData={profileData} />
-                </div>
-            </section>
-
-            {/* Qualification */}
-            <section className="bg-dustWhite border-primary-dark border-2 rounded-md">
-                <div className="flex justify-between flex-row border-b border-primary-dark p-2 w-full">
-                    <p className="font-medium text-lg">Qualification</p>
-                    <IconButton
-                        icon="plusCircle"
-                        size="md"
-                        onClick={() => setShowQualification(true)}
-                    />
-                </div>
-                <div className="divide-y-2 py-2">
-                    {qualificationData.map((qualification) => (
-                        <QualificationItem
-                            key={qualification.id}
-                            qualification={qualification}
-                            onClick={onQualificationItemClick}
-                        />
-                    ))}
-                </div>
-            </section>
-
-            {/* Experience */}
-            <section className="bg-dustWhite border-primary-dark border-2 rounded-md">
-                <div className="flex justify-between flex-row border-b border-primary-dark p-2 w-full">
-                    <p className="font-medium text-lg">Experience</p>
-                    <IconButton
-                        icon="plusCircle"
-                        size="md"
-                        onClick={() => setShowExperience(true)}
-                    />
-                </div>
-                <div className="divide-y-2 py-2">
-                    {experienceData &&
-                        experienceData.map((experience) => (
-                            <ExperienceItem
-                                experience={experience}
-                                key={experience.id}
-                                onClick={onExperienceItemClick}
-                            />
-                        ))}
-                </div>
-            </section>
-
-            {/* Material */}
-            <section className="bg-dustWhite border-primary-dark border-2 rounded-md">
-                <div className="flex justify-between flex-row border-b border-primary-dark p-2 w-full">
-                    <p className="font-medium text-lg">Material</p>
-                    <IconButton onClick={onNewMaterialClick} icon="plusCircle" size="md" />
-                </div>
-                <div className="divide-y-2 py-2">
-                    {materialData &&
-                        materialData.map((material) => (
-                            <MaterialItem
-                                material={material}
-                                key={material.id}
-                                onClick={onMaterialItemClick}
-                            />
-                        ))}
-                </div>
-            </section>
-
-            {/* Edit Profile */}
-            {showEditProfile && (
-                <ProfileForm
-                    onClose={() => setShowEditProfile(false)}
-                    profileData={profileData}
-                    onDataSubmit={(data) => setProfileData(data)}
-                    show={showEditProfile}
-                />
-            )}
-
-            {/* Qualification */}
-            {showQualification && (
-                <QualificationForm
-                    show={showQualification}
-                    selectedQualification={selectedQualification}
-                    onClose={() => {
-                        setSelectedQualification(null);
-                        setShowQualification(false);
-                    }}
-                    onQualificationSubmit={onQualificationUpdate}
-                />
-            )}
-
-            {/* Experience */}
-            {showExperience && (
-                <ExperienceForm
-                    selectedExperience={selectedExperience}
-                    onSubmit={onExperienceSubmit}
-                    onClose={() => setShowExperience(false)}
-                />
-            )}
-
-            {/* Material */}
-            {showMaterial && (
-                <MaterialForm
-                    onSubmit={onMaterialSubmit}
-                    selectedMaterial={selectedMaterial}
-                    onClose={() => setShowMaterial(false)}
-                />
-            )}
+            <Profile />
+            <Qualification />
+            <Experience />
+            <Material />
         </div>
     );
 };

@@ -6,6 +6,9 @@
     .link {
         @apply hover:underline;
     }
+    .title {
+        @apply text-xl font-medium;
+    }
     .switcher {
         @apply border-2 inline-flex rounded-full p-1 cursor-pointer;
     }
@@ -18,15 +21,38 @@
     input[type='radio']:checked + .option {
         @apply bg-primary-dark text-dustWhite;
     }
-    /* .btn {
-        @apply py-2 px-5 rounded border-primary-dark focus:outline-none transition-all duration-200 ease-in-out border-2 cursor-pointer text-lg;
+    .pop-up-enter {
+        opacity: 0;
+        transform: scale(0.9);
     }
-    .btn-primary {
-        @apply bg-primary-green text-white hover:bg-shades-1 disabled:bg-shades-1;
+    .pop-up-enter-active {
+        opacity: 1;
+        transform: translateX(0);
+        transition: opacity 300ms, transform 300ms;
     }
-    .btn-secondary {
-        @apply bg-dustWhite text-primary-green hover:bg-primary-green hover:text-dustWhite;
-    } */
+    .pop-up-exit {
+        opacity: 1;
+    }
+    .pop-up-exit-active {
+        opacity: 0;
+        transform: scale(0.95);
+        transition: opacity 300ms, transform 200ms;
+    }
+
+    .blur-enter {
+        opacity: 0;
+    }
+    .blur-enter-active {
+        opacity: 1;
+        transition: opacity 300ms ease-in;
+    }
+    .blur-exit {
+        opacity: 1;
+    }
+    .blur-exit-active {
+        opacity: 0;
+        transition: opacity 200ms ease-out;
+    }
     .btn {
         @apply tracking-wide font-semibold text-base rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:outline-none;
     }
@@ -39,6 +65,7 @@
     .btn-danger {
         @apply bg-red-500 text-white hover:bg-red-400;
     }
+
     .label {
         @apply leading-8 text-base tracking-wide text-gray-700 font-bold mb-2 cursor-pointer;
     }
@@ -60,6 +87,7 @@
     .input-error {
         @apply text-red-500 text-xs italic;
     }
+
     /* Auth */
     .heading {
         @apply text-2xl xl:text-3xl font-extrabold text-center;
@@ -80,17 +108,31 @@
         @apply bg-primary-green text-dustWhite p-1 rounded-full;
     }
     /* End Of Auth */
-    .modal {
+
+    /* Card */
+    .card {
         @apply bg-white rounded-md;
     }
-    .modal-header {
+    .card-header {
         @apply bg-dustWhite p-3 border-b-2 border-gray-900 rounded-t-md;
     }
-    .modal-title {
-        @apply text-xl font-medium;
+    .card-footer {
+        @apply bg-dustWhite p-3 border-t border-gray-900 rounded-b-md;
     }
-    .modal-body {
-        @apply p-3 overflow-y-scroll;
-        max-height: calc(100vh - 100px);
+    .card-body {
+        @apply p-3;
     }
+    /* End of Card */
+
+    /* Teacher Profile */
+    .section {
+        @apply bg-dustWhite border-primary-dark border-2 rounded-md;
+    }
+    .section-header {
+        @apply flex justify-between flex-row border-b border-primary-dark p-2 w-full items-center;
+    }
+    .section-body {
+        @apply py-2;
+    }
+    /* End of Teacher Profile */
 }
