@@ -1,9 +1,15 @@
-@layer components {
+/* @layer components { */
     .link {
         @apply hover:underline;
     }
     .title {
         @apply text-xl font-medium;
+    }
+    .icon-item {
+        @apply flex flex-row py-2;
+    }
+    .icon-item-title {
+        @apply text-base;
     }
 
     /* Animations */
@@ -58,7 +64,7 @@
     }
     /* End of Card */
 
-    /* Teacher Profile */
+    /* Section */
     .section {
         @apply bg-dustWhite border-primary-dark border-2 rounded-md;
     }
@@ -68,7 +74,7 @@
     .section-body {
         @apply py-2;
     }
-    /* End of Teacher Profile */
+    /* End of Section */
 
     /* Input */
     .switcher {
@@ -120,4 +126,4 @@
         @apply bg-red-500 text-white hover:bg-red-400;
     }
     /* End of Button */
-}
+/* } */
