@@ -15,7 +15,6 @@ interface InputProps {
     note?: string;
     error?: string;
     isInvalid?: boolean;
-    customError?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -29,7 +28,6 @@ export const Input: React.FC<InputProps> = ({
     register,
     note,
     error,
-    customError=false,
 }) => {
     return (
         <div className={`${className}`}>
@@ -52,8 +50,7 @@ export const Input: React.FC<InputProps> = ({
                 {...register}
             />
             {note && <p className="text-gray-600 text-xs italic">{note}</p>}
-            {isInvalid && !customError && <p className="text-red-500 text-xs italic">{error}</p>}
-            {isInvalid && customError && <p className="text-red-500 text-xs italic">{`Please Enter Unique ${name}`}</p>}
+            {isInvalid && <p className="text-red-500 text-xs italic">{error}</p>}
         </div>
     );
 };

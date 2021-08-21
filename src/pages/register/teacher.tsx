@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { v4 as uuid } from 'uuid'
 import { useRouter } from 'next/router'
 
-import { supabase } from '../../api'
+import { supabase } from '@/api'
 
 import Logo from '@/static/images/Icon.svg';
 import { Icon } from '@/static/Icons';
@@ -19,6 +19,8 @@ interface teacherProps { }
 
 const Teachers: React.FC<teacherProps> = ({ }) => {
     const [emailExists, setEmailExists] = useState(true);
+    const [loading, setLoading] = useState(false);
+
     const router = useRouter();
     const {
         register,
@@ -28,6 +30,7 @@ const Teachers: React.FC<teacherProps> = ({ }) => {
     } = useForm<TeacherRegisterFieldTypes>();
 
     const onSubmit: SubmitHandler<TeacherRegisterFieldTypes> = async (teacher) => {
+        setLoading(true);
         try {
             const id = uuid();
             const { data } = await supabase
@@ -39,17 +42,15 @@ const Teachers: React.FC<teacherProps> = ({ }) => {
             router.push('/login');
         } catch (error) {
         }
+        setLoading(false);
     };
 
     const emailMatch = async email => {
         try {
-            const { data } = await supabase
-                .from('Teacher')
-                .select()
-                .filter('Email', 'eq', email)
+            const { data: school } = await supabase.from('School').select().filter('Email', 'eq', email);
+            const { data: teacher } = await supabase.from('Teacher').select().filter('Email', 'eq', email);
+            const isEmailExists = school.length || teacher.length >= 1 ? false : true;
 
-            const isEmailExists = data && data.length >= 1 ? false : true;
-            setEmailExists(isEmailExists);
             return isEmailExists;
         } catch (error) {
 
@@ -109,15 +110,14 @@ const Teachers: React.FC<teacherProps> = ({ }) => {
                                     placeholder="Email"
                                     id="email"
                                     isInvalid={!!errors.email}
-                                    error={errors.email?.message || 'Email is not valid'}
+                                    error={errors.email?.message || 'Please Enter Unique Email'}
                                     register={register('email', {
                                         validate: {
-                                            validateEmail: (v) => regularExpressions.email.test(v),
-                                            uniqueEmail: emailMatch
+                                            validateEmail: (v) => regularExpressions.email.test(v) || 'Email is not valid',
+                                            uniqueEmail: (v) => emailMatch(v)
                                         },
                                         required: 'Email is required',
                                     })}
-                                    customError={!emailExists}
                                 />
                                 <Input
                                     type="password"
@@ -146,7 +146,7 @@ const Teachers: React.FC<teacherProps> = ({ }) => {
                                     })}
                                 />
                                 {/* SubmitButton */}
-                                <Button className="mt-5" type="submit">
+                                <Button className="mt-5" type="submit" disabled={loading} >
                                     <Icon icon="check" className="w-6 h-6 -ml-2" />
                                     <span className="ml-3">Sign Up</span>
                                 </Button>

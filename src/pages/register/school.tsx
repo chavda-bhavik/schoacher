@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router'
-
-import { supabase } from '../../api'
-
 import { useForm, SubmitHandler } from "react-hook-form";
+
+import { supabase } from '@/api'
+
 import { v4 as uuid } from 'uuid'
 import Logo from '@/static/images/Icon.svg';
 import { Icon } from '@/static/Icons';
@@ -19,6 +19,7 @@ interface indexProps { }
 
 const SchoolSignUp: React.FC<indexProps> = ({ }) => {
     const [emailExists, setEmailExists] = useState(true);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const {
@@ -29,6 +30,7 @@ const SchoolSignUp: React.FC<indexProps> = ({ }) => {
     } = useForm<SchoolRegisterFieldTypes>();
 
     const onSubmit: SubmitHandler<SchoolRegisterFieldTypes> = async (school) => {
+        setLoading(true);
         try {
             const id = uuid();
             const { data } = await supabase
@@ -40,22 +42,20 @@ const SchoolSignUp: React.FC<indexProps> = ({ }) => {
             router.push('/login');
         } catch (error) {
         }
+        setLoading(false);
     };
 
-    const emailMatch: any = async email => {
+    const emailMatch = async email => {
         try {
-            const { data } = await supabase
-                .from('School')
-                .select()
-                .filter('Email', 'eq', email)
-            const isEmailExists = data && data.length >= 1 ? false : true;
-            setEmailExists(isEmailExists);
+            const { data: school } = await supabase.from('School').select().filter('Email', 'eq', email);
+            const { data: teacher } = await supabase.from('Teacher').select().filter('Email', 'eq', email);
+            const isEmailExists = school.length || teacher.length >= 1 ? false : true;
+
             return isEmailExists;
         } catch (error) {
 
         }
     };
-
 
     return (
         <div className="auth-container">
@@ -99,15 +99,14 @@ const SchoolSignUp: React.FC<indexProps> = ({ }) => {
                                     placeholder="Email"
                                     id="email"
                                     isInvalid={!!errors.email}
-                                    error={errors.email?.message || 'Email is not valid'}
+                                    error={errors.email?.message || 'Please Enter Unique Email'}
                                     register={register('email', {
                                         validate: {
-                                            validateEmail: (v) => regularExpressions.email.test(v),
-                                            uniqueEmail: emailMatch
+                                            validateEmail: (v) => regularExpressions.email.test(v) || 'Email is not valid',
+                                            uniqueEmail: (v) => emailMatch(v)
                                         },
                                         required: 'Email is required',
                                     })}
-                                    customError={!emailExists}
                                 />
                                 <Input
                                     type="password"
@@ -136,7 +135,7 @@ const SchoolSignUp: React.FC<indexProps> = ({ }) => {
                                     })}
                                 />
                                 {/* SubmitButton */}
-                                <Button className="mt-5" type="submit">
+                                <Button className="mt-5" type="submit" disabled={loading}>
                                     <Icon icon="check" className="w-6 h-6 -ml-2" />
                                     <span className="ml-3">Sign Up</span>
                                 </Button>
