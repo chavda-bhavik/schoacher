@@ -9,4 +9,5 @@ export interface SchoolProfileType {
     mobile2?: string | number;
     email?: string;
     subjects?: Subject[];
+    about?: string;
 }

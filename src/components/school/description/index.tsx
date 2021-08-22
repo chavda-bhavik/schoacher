@@ -1,30 +1,66 @@
+import React, { useState, useEffect } from 'react';
+
+import JsonData from '@/static/school-profile-data.json';
 import { Icon } from '@/static/Icons';
+import { SchoolProfileType } from '@/interfaces';
+import { Backdrop } from '@/components/Backdrop';
+import { DescriptionForm } from './DescriptionForm';
+import { IconButton } from '@/components/IconButton';
 
 interface SchoolDescriptionProps {}
 
 export const SchoolDescription: React.FC<SchoolDescriptionProps> = ({}) => {
+    const [showEditProfile, setShowEditProfile] = useState(false);
+    const [profileData, setProfileData] = useState<SchoolProfileType>(null);
+
+    useEffect(() => {
+        // @ts-ignore
+        setProfileData(JsonData.profile);
+    }, []);
+
+    const onClose = () => {
+        setShowEditProfile(false);
+    };
+    const onDataSubmit = (data: SchoolProfileType) => {
+        setProfileData(data);
+        setShowEditProfile(false);
+    };
+
     return (
-        <section className="section">
-            <div className="section-header">
-                <p className="title">Description</p>
-                <Icon icon="pencil" />
-            </div>
-            <div className="section-body">
-                <div className="flex flex-row">
-                    <Icon icon="loader" size="sm" className="m-1 mr-2 w-auto h-auto bg-white" />
-                    <span className="text-lg mb-1 flex flex-row items-center py-1 w-full">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vitae nisi id
-                        mi sollicitudin tempus a nec metus. Sed efficitur malesuada justo, id congue
-                        augue sollicitudin mattis. Donec vel ex ornare, rutrum justo at, porttitor
-                        libero. Curabitur in turpis nec dui pulvinar porttitor non in risus.
-                        Maecenas sit amet facilisis lectus, at ornare purus. Cras commodo eget elit
-                        vitae pellentesque. In viverra orci neque, ac ullamcorper tellus fringilla
-                        ut. Vivamus luctus fringilla venenatis. Phasellus purus nunc, hendrerit a
-                        convallis a, gravida vitae augue. Aenean tempus venenatis convallis.
-                        Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                    </span>
+        <>
+            <section className="section">
+                <div className="section-header">
+                    <p className="title">About School</p>
+                    <IconButton icon="pencil" onClick={() => setShowEditProfile(true)} />
                 </div>
-            </div>
-        </section>
+                <div className="section-body p-2">
+                    <div className="icon-item">
+                        <Icon icon="unOrderedList" size="sm" className="mx-2" />
+                        <ul>
+                            {profileData?.subjects &&
+                                profileData?.subjects.map((subject) => (
+                                    <li
+                                        key={subject.id}
+                                    >{`${subject.board} ${subject.standard} ${subject.subject}`}</li>
+                                ))}
+                        </ul>
+                    </div>
+                    <div className="icon-item">
+                        <Icon icon="document" size="sm" className="mx-2" />
+                        <span
+                            className="icon-item-title unreset"
+                            dangerouslySetInnerHTML={{ __html: profileData?.about }}
+                        ></span>
+                    </div>
+                </div>
+            </section>
+            <Backdrop show={showEditProfile} onClose={onClose}>
+                <DescriptionForm
+                    profileData={profileData}
+                    onDataSubmit={onDataSubmit}
+                    onClose={onClose}
+                />
+            </Backdrop>
+        </>
     );
 };

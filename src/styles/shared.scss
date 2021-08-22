@@ -9,7 +9,7 @@
         @apply flex flex-row py-2;
     }
     .icon-item-title {
-        @apply text-base;
+        @apply text-base w-full;
     }
 
     /* Animations */
@@ -117,7 +117,7 @@
         @apply tracking-wide font-semibold text-base rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:outline-none;
     }
     .btn-primary {
-        @apply bg-primary-green text-gray-100 hover:bg-shades-1 disabled:bg-shades-1;
+        @apply bg-primary-green text-gray-100 hover:bg-shades-1 disabled:bg-shades-1 disabled:text-gray-200;
     }
     .btn-secondary {
         @apply bg-dustWhite text-black hover:bg-gray-500 hover:text-dustWhite;

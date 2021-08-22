@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Icon } from '@/static/Icons';
 
 interface ButtonProps {
     variant?: 'primary' | 'secondary' | 'danger';
@@ -7,6 +8,7 @@ interface ButtonProps {
     block?: boolean;
     onClick?: () => void;
     disabled?: boolean;
+    loading?: boolean;
     className?: string;
 }
 
@@ -14,6 +16,7 @@ export const Button: React.FC<ButtonProps> = ({
     variant = 'primary',
     type = 'button',
     disabled = false,
+    loading = false,
     onClick = () => {},
     className = '',
     block = false,
@@ -21,7 +24,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
     return (
         <button
-            disabled={disabled}
+            disabled={disabled || loading}
             type={type}
             className={classNames(
                 'btn',
@@ -31,11 +34,13 @@ export const Button: React.FC<ButtonProps> = ({
                     'btn-secondary': variant === 'secondary',
                     'btn-danger': variant === 'danger',
                     'w-full': block,
+                    'cursor-not-allowed': disabled || loading,
                 },
                 className
             )}
             onClick={onClick}
         >
+            {loading && <Icon icon="loader" className="mr-1 text-white" />}
             {children}
         </button>
     );

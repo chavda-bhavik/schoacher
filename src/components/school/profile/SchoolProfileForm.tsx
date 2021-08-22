@@ -7,6 +7,7 @@ import { SchoolProfileType } from '@/interfaces';
 import { useForm } from 'react-hook-form';
 import { regularExpressions } from '@/static/constants';
 import { IconButton } from '@/components/IconButton';
+import { useState } from 'react';
 
 interface SchoolProfileFormProps {
     profileData: SchoolProfileType;
@@ -25,13 +26,18 @@ export const SchoolProfileForm: React.FC<SchoolProfileFormProps> = ({
         handleSubmit,
         formState: { errors },
     } = useForm<SchoolProfileType>();
+    const [loading, setLoading] = useState<boolean>();
 
     useEffect(() => {
         reset(profileData);
     }, [reset, profileData]);
 
-    const onFormSubmit = (data) => {
-        onDataSubmit(data);
+    const onFormSubmit = async (data) => {
+        setLoading(true);
+        setTimeout(() => {
+            onDataSubmit(data);
+            setLoading(false);
+        }, 500);
     };
 
     return (
@@ -98,17 +104,26 @@ export const SchoolProfileForm: React.FC<SchoolProfileFormProps> = ({
                             label="Pincode"
                         />
                     </div>
-                    <Input
-                        id="state"
-                        name="state"
-                        type="text"
-                        label="State"
-                        register={register('address.state', {
-                            required: 'State is required',
-                        })}
-                        isInvalid={!!errors.address?.state?.message}
-                        error={errors.address?.state?.message}
-                    />
+                    <div className="grid grid-cols-2 gap-2">
+                        <Input
+                            id="state"
+                            name="state"
+                            type="text"
+                            label="State"
+                            register={register('address.state', {
+                                required: 'State is required',
+                            })}
+                            isInvalid={!!errors.address?.state?.message}
+                            error={errors.address?.state?.message}
+                        />
+                        <Input
+                            id="since"
+                            name="since"
+                            type="number"
+                            label="Since (Establishment Year)"
+                            register={register('since')}
+                        />
+                    </div>
                     <Input
                         id="email"
                         name="email"
@@ -146,7 +161,7 @@ export const SchoolProfileForm: React.FC<SchoolProfileFormProps> = ({
                     />
                 </Card.Body>
                 <Card.Footer>
-                    <Button block type="submit">
+                    <Button block loading={loading} type="submit">
                         Update
                     </Button>
                 </Card.Footer>
