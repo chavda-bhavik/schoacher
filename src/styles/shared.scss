@@ -120,7 +120,7 @@
         @apply bg-primary-green text-gray-100 hover:bg-shades-1 disabled:bg-shades-1 disabled:text-gray-200;
     }
     .btn-secondary {
-        @apply bg-dustWhite text-black hover:bg-gray-500 hover:text-dustWhite;
+        @apply bg-gray-600 text-white hover:bg-gray-500 hover:text-dustWhite;
     }
     .btn-danger {
         @apply bg-red-500 text-white hover:bg-red-400;

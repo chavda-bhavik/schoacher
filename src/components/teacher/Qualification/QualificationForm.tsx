@@ -42,7 +42,9 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
         <Card>
             <Card.Header>
                 <div className="flex flex-row justify-between items-center">
-                    <p className="title">Manage Qualification</p>
+                    <p className="title">
+                        {selectedQualification ? 'Update' : 'Add'} Qualification
+                    </p>
                     <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>
@@ -129,7 +131,7 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                 </Card.Body>
                 <Card.Footer>
                     <Button type="submit" block>
-                        Update
+                        Submit
                     </Button>
                 </Card.Footer>
             </form>

@@ -48,6 +48,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
             setError('Subjects are required');
             return;
         } else setError(undefined);
+        if (!selectedMaterial && !getValues('mediaObj')) return;
         let material: MaterialType = {
             ...data,
             subjects: materialSubjects,
@@ -59,7 +60,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
         <Card>
             <Card.Header>
                 <div className="flex flex-row justify-between items-center">
-                    <p className="title">Add/Edit MaterialType</p>
+                    <p className="title">{selectedMaterial ? 'Update' : 'Add'} Material</p>
                     <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>
@@ -88,8 +89,10 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                         name="file"
                         accept="application/pdf"
                         onChange={onFileChange}
-                        isInvalid={isSubmitted && !getValues('mediaObj')}
+                        isInvalid={isSubmitted && !selectedMaterial && !getValues('mediaObj')}
                         error="File is required"
+                        note="Only pdf files are allowed"
+                        label="Material PDF"
                     />
                     <Subjects
                         title="Subjects"
@@ -100,7 +103,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                 </Card.Body>
                 <Card.Footer>
                     <Button block type="submit">
-                        Add / Update
+                        Submit
                     </Button>
                 </Card.Footer>
             </form>

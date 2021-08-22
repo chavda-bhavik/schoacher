@@ -5,6 +5,7 @@ import { Icon } from '@/static/Icons';
 interface ButtonProps {
     variant?: 'primary' | 'secondary' | 'danger';
     type?: 'button' | 'submit' | 'reset';
+    size?: 'sm' | 'md';
     block?: boolean;
     onClick?: () => void;
     disabled?: boolean;
@@ -15,6 +16,7 @@ interface ButtonProps {
 export const Button: React.FC<ButtonProps> = ({
     variant = 'primary',
     type = 'button',
+    size = 'md',
     disabled = false,
     loading = false,
     onClick = () => {},
@@ -28,19 +30,20 @@ export const Button: React.FC<ButtonProps> = ({
             type={type}
             className={classNames(
                 'btn',
-                'p-3',
                 {
                     'btn-primary': variant === 'primary',
                     'btn-secondary': variant === 'secondary',
                     'btn-danger': variant === 'danger',
                     'w-full': block,
                     'cursor-not-allowed': disabled || loading,
+                    'p-3': size === 'md',
+                    'px-3 py-2': size === 'sm',
                 },
                 className
             )}
             onClick={onClick}
         >
-            {loading && <Icon icon="loader" className="mr-1 text-white" />}
+            {loading && <Icon icon="loader" className="mr-1 text-white" size="sm" />}
             {children}
         </button>
     );

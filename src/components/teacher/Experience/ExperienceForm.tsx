@@ -65,7 +65,7 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
         <Card>
             <Card.Header>
                 <div className="flex flex-row justify-between items-center">
-                    <p className="title">Add/Edit Experience</p>
+                    <p className="title">{selectedExperience ? 'Update' : 'Add'} Experience</p>
                     <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>

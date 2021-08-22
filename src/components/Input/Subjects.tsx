@@ -4,6 +4,8 @@ import { Subject } from '@/interfaces';
 import { useForm } from 'react-hook-form';
 import { IconButton } from '@/components/IconButton';
 import { Input } from '@/components/Input';
+import { Icon } from '@/static/Icons';
+import { Button } from '../Button';
 
 interface SubjectsProps {
     title?: string;
@@ -55,7 +57,7 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
                     <option value="GSEB">(GSEB) Gujarat Secondary Education Board</option>
                     <option value="GHEB">(GHEB) Gujarat Higher Secondary Education Board</option>
                 </Input>
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-row gap-2 py-1">
                     <Input
                         type="select"
                         id="standard"
@@ -83,7 +85,7 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
                     </Input>
                     <div className="flex flex-row gap-1">
                         <IconButton variant="primary" icon="check" onClick={addSubject} />
-                        <IconButton variant="danger" icon="close" onClick={deleteSubject} />
+                        <IconButton variant="danger" icon="trash" onClick={deleteSubject} />
                     </div>
                 </div>
             </div>
@@ -93,18 +95,21 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
     return (
         <div className="mt-3">
             <label className="label">Subjects</label>
-            <ul className="list-disc list-inside">
+            <ul className="divide-y-2 divide-gray-400">
                 {Array.isArray(subjects) &&
                     subjects.map((sub, i) =>
                         activeSubjectKey === i ? (
                             <SubjectFormContent key={i} />
                         ) : (
                             <li
-                                className="cursor-pointer my-1"
+                                className="flex justify-between p-2 hover:bg-gray-300 transition-colors rounded-sm cursor-pointer"
                                 key={i}
                                 onClick={() => setActiveSubjectKey(i)}
                             >
-                                {sub.board} {sub.standard} {sub.subject}
+                                <span>
+                                    {sub.board} {sub.standard} {sub.subject}
+                                </span>
+                                <Icon icon="pencil" size="xs" />
                             </li>
                         )
                     )}
@@ -114,10 +119,14 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
             (!subjects && activeSubjectKey === 1) ? (
                 <SubjectFormContent />
             ) : (
-                <IconButton
-                    icon="plus"
+                <Button
+                    variant="secondary"
                     onClick={() => setActiveSubjectKey(subjects ? subjects.length + 1 : 1)}
-                />
+                    size="sm"
+                    className="mt-1"
+                >
+                    Add
+                </Button>
             )}
         </div>
     );

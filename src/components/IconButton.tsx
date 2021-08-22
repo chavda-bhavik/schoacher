@@ -31,6 +31,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
                     'btn-primary': variant === 'primary',
                     'btn-secondary': variant === 'secondary',
                     'btn-danger': variant === 'danger',
+                    'cursor-not-allowed': disabled,
                 },
                 className
             )}
