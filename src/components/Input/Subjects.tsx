@@ -45,7 +45,7 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
     };
 
     let SubjectFormContent = () => (
-        <>
+        <div className="py-1">
             <div className="flex flex-col md:flex-row gap-2">
                 <Input
                     type="select"
@@ -57,7 +57,7 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
                     <option value="GSEB">(GSEB) Gujarat Secondary Education Board</option>
                     <option value="GHEB">(GHEB) Gujarat Higher Secondary Education Board</option>
                 </Input>
-                <div className="flex flex-row gap-2 py-1">
+                <div className="flex flex-row gap-2">
                     <Input
                         type="select"
                         id="standard"
@@ -90,19 +90,19 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
                 </div>
             </div>
             {error && <p className="input-error mt-1">{error}</p>}
-        </>
+        </div>
     );
     return (
         <div className="mt-3">
             <label className="label">Subjects</label>
-            <ul className="divide-y-2 divide-gray-400">
+            <ul className="divide-y-2 divide-gray-400 max-w-full">
                 {Array.isArray(subjects) &&
                     subjects.map((sub, i) =>
                         activeSubjectKey === i ? (
                             <SubjectFormContent key={i} />
                         ) : (
                             <li
-                                className="flex justify-between p-2 hover:bg-gray-300 transition-colors rounded-sm cursor-pointer"
+                                className="flex justify-between p-2 max-w-full hover:bg-gray-300 transition-colors rounded-sm cursor-pointer"
                                 key={i}
                                 onClick={() => setActiveSubjectKey(i)}
                             >

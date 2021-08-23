@@ -54,21 +54,24 @@ export const DescriptionForm: React.FC<DescriptionFormProps> = ({
                     <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>
-            <form onSubmit={handleSubmit(onFormSubmit)} className="w-96">
-                <Card.Body className="w-96">
+            <form onSubmit={handleSubmit(onFormSubmit)} className="max-w-full w-80 md:w-auto">
+                <Card.Body>
                     <Subjects setSubjects={setSubjects} subjects={subjects} />
-                    <Controller
-                        name="about"
-                        control={control}
-                        render={({ field }) => (
-                            <DefaultEditor
-                                value={field.value}
-                                placeholder="Write about your school here..."
-                                onChange={field.onChange}
-                                className="unreset"
-                            />
-                        )}
-                    />
+                    <div className="mt-2">
+                        <label className="label">About School</label>
+                        <Controller
+                            name="about"
+                            control={control}
+                            render={({ field }) => (
+                                <DefaultEditor
+                                    value={field.value}
+                                    placeholder="Write about your school here..."
+                                    onChange={field.onChange}
+                                    className="unreset"
+                                />
+                            )}
+                        />
+                    </div>
                 </Card.Body>
                 <Card.Footer>
                     <Button block loading={loading} type="submit">
