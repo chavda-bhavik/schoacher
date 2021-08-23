@@ -13,11 +13,11 @@ import { Teacher } from '@/static/SVGs';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { TeacherRegisterFieldTypes } from '@/interfaces';
-import { regularExpressions } from '@/static/constants';
+import { regularExpressions, passwordErrMessage, invalidEmail, uniqueEmailMsg } from '@/static/constants';
 
 interface teacherProps { }
 
-const Teachers: React.FC<teacherProps> = ({ }) => {
+const TeachersSignUp: React.FC<teacherProps> = ({ }) => {
     const [loading, setLoading] = useState(false);
 
     const router = useRouter();
@@ -109,10 +109,10 @@ const Teachers: React.FC<teacherProps> = ({ }) => {
                                     placeholder="Email"
                                     id="email"
                                     isInvalid={!!errors.email}
-                                    error={errors.email?.message || 'Please Enter Unique Email'}
+                                    error={errors.email?.message || uniqueEmailMsg}
                                     register={register('email', {
                                         validate: {
-                                            validateEmail: (v) => regularExpressions.email.test(v) || 'Email is not valid',
+                                            validateEmail: (v) => regularExpressions.email.test(v) || invalidEmail,
                                             uniqueEmail: (v) => emailMatch(v)
                                         },
                                         required: 'Email is required',
@@ -124,7 +124,7 @@ const Teachers: React.FC<teacherProps> = ({ }) => {
                                     name="password"
                                     placeholder="Password"
                                     isInvalid={!!errors.password}
-                                    error={errors.password?.message || 'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters'}
+                                    error={errors.password?.message || passwordErrMessage}
                                     register={register('password', {
                                         required: 'Password is required',
                                         validate: (v) => regularExpressions.password.test(v),
@@ -148,7 +148,7 @@ const Teachers: React.FC<teacherProps> = ({ }) => {
                                 {/* SubmitButton */}
                                 <Button className="mt-5" type="submit" disabled={loading} >
                                     <Icon icon="check" className="w-6 h-6 -ml-2" />
-                                    <span className="ml-3">{loading ? 'Loading ...' : 'Sign Up'}</span>
+                                    <span className="ml-3">{loading ? 'Singing up...' : 'Sign Up'}</span>
                                 </Button>
                                 <p className="mt-6 text-xs text-gray-600 text-center">
                                     I agree to abide by schoacher&apos;s{' '}
@@ -185,4 +185,4 @@ const Teachers: React.FC<teacherProps> = ({ }) => {
         </div>
     );
 };
-export default Teachers;
+export default TeachersSignUp;

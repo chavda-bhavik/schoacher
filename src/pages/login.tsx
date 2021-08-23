@@ -12,16 +12,20 @@ import { supabase } from '../api';
 import { regularExpressions } from '@/static/constants';
 import { useRouter } from 'next/router';
 
-interface indexProps { }
+interface loginProps { }
 
-const index: React.FC<indexProps> = ({ }) => {
+const Login: React.FC<loginProps> = ({ }) => {
+    /* eslint-disable */
     const [loginError, setLoginError] = useState('');
+    /* eslint-disable */
     const [loading, setLoading] = useState(false);
+    /* eslint-disable */
     const {
         register,
         formState: { errors },
         handleSubmit,
     } = useForm<LoginFieldTypes>();
+    /* eslint-disable */
     const router = useRouter();
 
     const onSubmit: SubmitHandler<LoginFieldTypes> = async (data) => {
@@ -91,7 +95,7 @@ const index: React.FC<indexProps> = ({ }) => {
                                 {/* SubmitButton */}
                                 <Button className="mt-5 btn btn-primary" type="submit" disabled={loading} >
                                     <Icon icon="logIn" className="w-6 h-6 -ml-2" />
-                                    <span className="ml-3">{loading ? 'Loading ...' : 'Log In'}</span>
+                                    <span className="ml-3">{loading ? 'Login ...' : 'Log In'}</span>
                                 </Button>
                                 <p className="mt-8 text-sm text-gray-600 text-center">
                                     Do not have an account?{' '}
@@ -118,4 +122,4 @@ const index: React.FC<indexProps> = ({ }) => {
         </div>
     );
 };
-export default index;
+export default Login;

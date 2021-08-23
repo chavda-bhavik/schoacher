@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import '../styles/index.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
+    /* eslint-disable */
     const router = useRouter();
     const user = supabase.auth.user();
 

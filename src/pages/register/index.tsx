@@ -3,15 +3,17 @@ import { useRouter } from 'next/router'
 import Image from 'next/image';
 import Logo from '@/static/images/Icon.svg';
 import Link from 'next/link';
-import { Icon } from '@/static/Icons';
-import { SignUp, Teacher } from '@/static/SVGs';
+import { SignUp } from '@/static/SVGs';
 
-interface indexProps { }
+interface registerProps { }
 
-const index: React.FC<indexProps> = ({ }) => {
+const Register: React.FC<registerProps> = ({ }) => {
+    /* eslint-disable */
     const router = useRouter();
+    /* eslint-disable */
     const [url, setUrl] = useState('teacher');
     const handleSubmit = () => {
+        console.log('called');
         if (url == 'school') {
             router.push('/register/school');
         }
@@ -40,7 +42,7 @@ const index: React.FC<indexProps> = ({ }) => {
                         <h1 className="heading">Sign Up</h1>
                         {/* FormContainer */}
                         <div className="w-full flex-1 mt-5">
-                            <form className="mx-auto max-w-md">
+                            <div className="mx-auto max-w-md">
                                 <label htmlFor="selection" className="leading-8 text-base">
                                     What best describes you?
                                 </label>
@@ -69,7 +71,7 @@ const index: React.FC<indexProps> = ({ }) => {
                                         School
                                     </label>
                                 </div>
-                                <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                                <button type="button" className="btn btn-primary" onClick={handleSubmit} >
                                     Let&apos;s Go
                                 </button>
                                 <p className="mt-8 text-sm text-gray-600 text-center">
@@ -83,7 +85,7 @@ const index: React.FC<indexProps> = ({ }) => {
                                         </a>
                                     </Link>
                                 </p>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,4 +99,4 @@ const index: React.FC<indexProps> = ({ }) => {
         </div>
     );
 };
-export default index;
+export default Register;
