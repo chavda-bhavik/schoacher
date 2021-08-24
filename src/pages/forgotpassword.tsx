@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '@/static/images/Icon.svg';
@@ -6,46 +6,56 @@ import { Icon } from '@/static/Icons';
 import { SignUp } from '@/static/SVGs';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
-import { LoginFieldTypes } from '@/interfaces';
+import { ForgotFieldTypes } from '@/interfaces';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { supabase } from '../api';
-import { regularExpressions } from '@/static/constants';
-import { useRouter } from 'next/router';
+import { regularExpressions, passwordErrMessage } from '@/static/constants';
 
-interface loginProps { }
+interface forgotPasswordProps { }
 
-const Login: React.FC<loginProps> = ({ }) => {
+const ForgotPassword: React.FC<forgotPasswordProps> = ({ }) => {
     /* eslint-disable */
     const [loginError, setLoginError] = useState('');
     /* eslint-disable */
     const [loading, setLoading] = useState(false);
+    const [token, setToken] = useState('');
     /* eslint-disable */
     const {
         register,
         formState: { errors },
         handleSubmit,
-    } = useForm<LoginFieldTypes>();
+        watch,
+    } = useForm<ForgotFieldTypes>();
     /* eslint-disable */
-    const router = useRouter();
 
-    const onSubmit: SubmitHandler<LoginFieldTypes> = async (data) => {
+    useEffect(() => {
+        const access_token = localStorage.getItem('supabase.auth.token') ? JSON.parse(localStorage.getItem('supabase.auth.token')) : null;
+        if (access_token && access_token.currentSession && access_token.currentSession.access_token) {
+            setToken(access_token.currentSession.access_token);
+        }
+    }, [token]);
+
+    const onSubmit: SubmitHandler<ForgotFieldTypes> = async (response) => {
         setLoading(true);
         try {
-            const { error } = await supabase.auth.signIn({
-                email: data.email,
-                password: data.password,
-            })
-            if (error) {
+            if (!token) {
+                const { data, error } = await supabase.auth.api.resetPasswordForEmail(response.email, {
+                    redirectTo: 'http://localhost:3000/forgotpassword'
+                });
                 setLoginError(error.message);
             }
             else {
-                setLoginError('');
-                router.push('/');
+                const { error, data } = await supabase.auth.api
+                    .updateUser(token, { password: response.password })
+                setToken('');
+                localStorage.setItem('supabase.auth.token', '');
+                setLoginError(error.message);
             }
         } catch (error) {
         }
         setLoading(false);
     };
+    console.log(token, 'token');
     return (
         <div className="auth-container">
             <div className="auth-wrapper">
@@ -64,11 +74,11 @@ const Login: React.FC<loginProps> = ({ }) => {
                     {/* Main Content */}
                     <div className="mt-6">
                         {/* Heading */}
-                        <h1 className="heading">Sign In</h1>
+                        <h1 className="heading">Forgot Password</h1>
                         {/* FormContainer */}
                         <div className="w-full flex-1 mt-5">
                             <form className="mx-auto max-w-md" onSubmit={handleSubmit(onSubmit)}>
-                                <Input
+                                {!token && <Input
                                     type="email"
                                     name="email"
                                     placeholder="Email"
@@ -79,42 +89,47 @@ const Login: React.FC<loginProps> = ({ }) => {
                                         validate: (v) => regularExpressions.email.test(v),
                                         required: 'Email is required',
                                     })}
-                                />
-                                <Input
+                                />}
+                                {token && <> <Input
                                     type="password"
                                     id="password"
                                     name="password"
                                     placeholder="Password"
                                     isInvalid={!!errors.password}
-                                    error={errors.password?.message}
+                                    error={errors.password?.message || passwordErrMessage}
                                     register={register('password', {
                                         required: 'Password is required',
+                                        validate: (v) => regularExpressions.password.test(v),
                                     })}
                                 />
+                                    <Input
+                                        type="password"
+                                        id="confirmPassword"
+                                        placeholder="Confirm Password"
+                                        name="confirmPassword"
+                                        isInvalid={!!errors.confirmPassword}
+                                        error={
+                                            errors.confirmPassword?.message ||
+                                            'Confirm password should match Password'
+                                        }
+                                        register={register('confirmPassword', {
+                                            validate: (value) => value === watch('password'),
+                                            required: 'Confirm Password is required',
+                                        })}
+                                    /></>}
                                 {<p className="text-red-500 text-xs italic">{!errors.password ? loginError : ''}</p>}
                                 {/* SubmitButton */}
                                 <Button className="mt-5 btn btn-primary" type="submit" disabled={loading} >
                                     <Icon icon="logIn" className="w-6 h-6 -ml-2" />
-                                    <span className="ml-3">{loading ? 'Login ...' : 'Log In'}</span>
+                                    <span className="ml-3">{loading ? 'Submit ...' : 'Submit'}</span>
                                 </Button>
                                 <p className="mt-8 text-sm text-gray-600 text-center">
-                                    <Link href="/forgotpassword">
-                                        <a
-                                            href="/forgotpassword"
-                                            className="border-b border-gray-500 border-dotted"
-                                        >
-                                            Forgotten password?
-                                        </a>
-                                    </Link>
-                                </p>
-                                <p className="mt-8 text-sm text-gray-600 text-center">
-                                    Do not have an account?{' '}
-                                    <Link href="/register">
+                                    <Link href="/login">
                                         <a
                                             href="#"
                                             className="border-b border-gray-500 border-dotted"
                                         >
-                                            Register here
+                                            Login
                                         </a>
                                     </Link>
                                 </p>
@@ -132,4 +147,4 @@ const Login: React.FC<loginProps> = ({ }) => {
         </div>
     );
 };
-export default Login;
+export default ForgotPassword;

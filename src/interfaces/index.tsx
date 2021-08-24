@@ -20,3 +20,9 @@ export type LoginFieldTypes = {
     email: string;
     password: string;
 };
+
+export type ForgotFieldTypes = {
+    email: string;
+    password: string;
+    confirmPassword: string;
+};
