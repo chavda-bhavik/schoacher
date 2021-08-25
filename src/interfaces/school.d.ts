@@ -1,4 +1,4 @@
-import { Address, Subject } from "@/..";
+import { Address, Subject } from '@/..';
 
 export interface SchoolProfileType {
     id: number | string;
