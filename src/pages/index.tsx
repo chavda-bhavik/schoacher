@@ -132,7 +132,7 @@ const Index: React.FC<IndexProps> = ({}) => {
                             <Selection />
                             <Input
                                 name="name"
-                                type="string"
+                                type="text"
                                 id="name"
                                 required={true}
                                 label="Full Name"
