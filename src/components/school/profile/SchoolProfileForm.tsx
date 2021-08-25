@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
@@ -24,11 +24,9 @@ export const SchoolProfileForm: React.FC<SchoolProfileFormProps> = ({
         register,
         reset,
         handleSubmit,
-        getValues,
-        formState: { errors, isSubmitted },
+        formState: { errors },
     } = useForm<SchoolProfileType>();
     const [loading, setLoading] = useState<boolean>();
-    const [image, setImage] = useState<File>();
 
     useEffect(() => {
         reset(profileData);
@@ -37,15 +35,9 @@ export const SchoolProfileForm: React.FC<SchoolProfileFormProps> = ({
     const onFormSubmit = async (data) => {
         setLoading(true);
         setTimeout(() => {
-            onDataSubmit({
-                ...data,
-                imageObj: image ? image : null,
-            });
+            onDataSubmit(data);
             setLoading(false);
         }, 500);
-    };
-    const onImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setImage(e.target.files[0]);
     };
 
     return (
@@ -129,11 +121,7 @@ export const SchoolProfileForm: React.FC<SchoolProfileFormProps> = ({
                             name="since"
                             type="number"
                             label="Since (Establishment Year)"
-                            register={register('since', {
-                                validate: (v) => v > 1900 && v < new Date().getFullYear(),
-                            })}
-                            isInvalid={!!errors.since}
-                            error="Establishment Year is invalid"
+                            register={register('since')}
                         />
                     </div>
                     <Input

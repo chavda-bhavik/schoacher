@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
 import Card from '@/components/Card';
@@ -54,24 +54,21 @@ export const DescriptionForm: React.FC<DescriptionFormProps> = ({
                     <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>
-            <form onSubmit={handleSubmit(onFormSubmit)} className="max-w-full w-80 md:w-auto">
-                <Card.Body>
+            <form onSubmit={handleSubmit(onFormSubmit)} className="w-96">
+                <Card.Body className="w-96">
                     <Subjects setSubjects={setSubjects} subjects={subjects} />
-                    <div className="mt-2">
-                        <label className="label">About School</label>
-                        <Controller
-                            name="about"
-                            control={control}
-                            render={({ field }) => (
-                                <DefaultEditor
-                                    value={field.value}
-                                    placeholder="Write about your school here..."
-                                    onChange={field.onChange}
-                                    className="unreset"
-                                />
-                            )}
-                        />
-                    </div>
+                    <Controller
+                        name="about"
+                        control={control}
+                        render={({ field }) => (
+                            <DefaultEditor
+                                value={field.value}
+                                placeholder="Write about your school here..."
+                                onChange={field.onChange}
+                                className="unreset"
+                            />
+                        )}
+                    />
                 </Card.Body>
                 <Card.Footer>
                     <Button block loading={loading} type="submit">

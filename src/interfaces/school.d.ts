@@ -10,6 +10,4 @@ export interface SchoolProfileType {
     email?: string;
     subjects?: Subject[];
     about?: string;
-    imageUrl?: string;
-    imageObj?: File;
 }
