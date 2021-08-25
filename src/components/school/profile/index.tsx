@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import Image from 'next/image';
 
 import JsonData from '@/static/school-profile-data.json';
 import { IconButton } from '@/components/IconButton';
@@ -7,12 +8,15 @@ import { IconItem } from '@/components/IconItem';
 import { combineAddress, arrayValuesCombiner } from '@/static/helper';
 import { Backdrop } from '@/components/Backdrop';
 import { SchoolProfileForm } from './SchoolProfileForm';
+import constants from '@/static/constants';
+import { Dialog } from '@/components/Dialog';
 
 interface SchoolProfileProps {}
 
 export const SchoolProfile: React.FC<SchoolProfileProps> = ({}) => {
     const [showEditProfile, setShowEditProfile] = useState(false);
     const [profileData, setProfileData] = useState<SchoolProfileType>(null);
+    const [showDeleteImageDialog, setShowDeleteImageDialog] = useState<boolean>(false);
 
     useEffect(() => {
         // @ts-ignore
@@ -25,6 +29,16 @@ export const SchoolProfile: React.FC<SchoolProfileProps> = ({}) => {
     const onDataSubmit = (data: SchoolProfileType) => {
         setProfileData(data);
         setShowEditProfile(false);
+    };
+
+    const onProfileImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        console.log(e.target.files[0]);
+        // upload image & update profile data to reflact
+    };
+    const onProfileImageRemove = () => {
+        console.log('remove profile image');
+        setShowDeleteImageDialog(true);
+        // remove uploaded image and set default school image
     };
 
     return (
@@ -45,12 +59,38 @@ export const SchoolProfile: React.FC<SchoolProfileProps> = ({}) => {
                         </IconItem>
                         <IconItem icon="inbox">{profileData?.email || ''}</IconItem>
                     </div>
+
                     <div>
-                        <img
-                            src="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            alt="School image"
-                            className="rounded-md p-1 border-2 border-darker mx-auto"
-                        />
+                        <div className="flex items-center justify-center">
+                            <label htmlFor="image">
+                                {profileData && (
+                                    <Image
+                                        src={profileData.profileImageUrl}
+                                        alt="School image"
+                                        width="350"
+                                        height="250"
+                                        className="rounded-md p-1 border-2 border-darker cursor-pointer"
+                                    />
+                                )}
+                            </label>
+                            <input
+                                type="file"
+                                accept={constants.acceptImage}
+                                className="hidden"
+                                id="image"
+                                onChange={onProfileImageChange}
+                                name="image"
+                            />
+                        </div>
+                        <p className="input-note text-center mt-1">
+                            * Click on the image to change <i>or</i>{' '}
+                            <u
+                                className="text-red-500 not-italic cursor-pointer"
+                                onClick={onProfileImageRemove}
+                            >
+                                remove image
+                            </u>
+                        </p>
                     </div>
                 </figure>
             </section>
@@ -61,6 +101,21 @@ export const SchoolProfile: React.FC<SchoolProfileProps> = ({}) => {
                     onDataSubmit={onDataSubmit}
                 />
             </Backdrop>
+            <Dialog
+                show={showDeleteImageDialog}
+                variant="danger"
+                onClose={() => setShowDeleteImageDialog(false)}
+                title="Remove Profile Image?"
+                message="Are you sure? Do you want to remove your profile image?"
+                cancelButton={{
+                    text: 'Cancel',
+                    onClick: () => console.log('cancelled'),
+                }}
+                dangerButton={{
+                    text: 'Yes',
+                    onClick: () => console.log('delete'),
+                }}
+            />
         </>
     );
 };

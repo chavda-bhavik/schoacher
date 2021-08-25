@@ -37,7 +37,9 @@ export type IconsType =
     | 'document'
     | 'inbox'
     | 'loader'
-    | 'trash';
+    | 'trash'
+    | 'danger'
+    | 'info';
 
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';
 

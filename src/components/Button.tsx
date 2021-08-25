@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Icon } from '@/static/Icons';
 
 interface ButtonProps {
-    variant?: 'primary' | 'secondary' | 'danger';
+    variant?: 'primary' | 'secondary' | 'danger' | 'success';
     type?: 'button' | 'submit' | 'reset';
     size?: 'sm' | 'md';
     block?: boolean;
@@ -34,6 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
                     'btn-primary': variant === 'primary',
                     'btn-secondary': variant === 'secondary',
                     'btn-danger': variant === 'danger',
+                    'btn-success': variant === 'success',
                     'w-full': block,
                     'cursor-not-allowed': disabled || loading,
                     'p-3': size === 'md',
