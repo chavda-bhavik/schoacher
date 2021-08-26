@@ -27,14 +27,13 @@ const ForgotPassword: React.FC<forgotPasswordProps> = ({ }) => {
         watch,
     } = useForm<ForgotFieldTypes>();
     /* eslint-disable */
-
+    const session = supabase.auth.session();
     useEffect(() => {
         const access_token = localStorage.getItem('supabase.auth.token') ? JSON.parse(localStorage.getItem('supabase.auth.token')) : null;
         if (access_token && access_token.currentSession && access_token.currentSession.access_token) {
             setToken(access_token.currentSession.access_token);
         }
-    }, [token]);
-
+    }, [token, session]);
     const onSubmit: SubmitHandler<ForgotFieldTypes> = async (response) => {
         setLoading(true);
         try {
@@ -55,7 +54,6 @@ const ForgotPassword: React.FC<forgotPasswordProps> = ({ }) => {
         }
         setLoading(false);
     };
-    console.log(token, 'token');
     return (
         <div className="auth-container">
             <div className="auth-wrapper">
