@@ -27,11 +27,12 @@ export const useAuth = () => useContext(AuthContext)
 export const ProtectRoute = ({ children }) => {
     const router = useRouter();
     const { isAuthenticated }: any = useAuth();
-    if (!isAuthenticated && router.pathname.startsWith('/register') || router.pathname.startsWith('/forgotpassword') || router.pathname.startsWith('/forgotpassword#')) {
+    if (!isAuthenticated && router.pathname.startsWith('/register') || router.pathname.startsWith('/forgotpassword') || router.pathname.startsWith('/u/forgotpassword')) {
         return children;
     }
     if (!isAuthenticated && !router.pathname.startsWith('/login')) {
-        return <Login />;
+        router.push('/login');
+        // return <Login />;
     }
     return children;
 };

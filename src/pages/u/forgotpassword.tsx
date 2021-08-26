@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '@/static/images/Icon.svg';
@@ -9,7 +9,8 @@ import { Button } from '@/components/Button';
 import { ForgotFieldTypes } from '@/interfaces';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { supabase } from '@/api';
-import { regularExpressions } from '@/static/constants';
+import { regularExpressions, passwordErrMessage } from '@/static/constants';
+import { useRouter } from 'next/router'
 
 interface forgotPasswordProps { }
 
@@ -18,20 +19,33 @@ const ForgotPassword: React.FC<forgotPasswordProps> = ({ }) => {
     const [loginError, setLoginError] = useState('');
     /* eslint-disable */
     const [loading, setLoading] = useState(false);
+    const [token, setToken] = useState({});
     /* eslint-disable */
     const {
         register,
         formState: { errors },
         handleSubmit,
+        watch,
     } = useForm<ForgotFieldTypes>();
     /* eslint-disable */
+    const session = supabase.auth.session();
+    const router = useRouter();
+    useEffect(() => {
+        setToken(session);
+    }, [session]);
     const onSubmit: SubmitHandler<ForgotFieldTypes> = async (response) => {
         setLoading(true);
         try {
-            const { data, error } = await supabase.auth.api.resetPasswordForEmail(response.email, {
-                redirectTo: 'http://localhost:3000/u/forgotpassword'
-            });
-            setLoginError(error.message);
+            const { error, data } = await supabase.auth.api
+                .updateUser(session.access_token, { password: response.password })
+            if (error) {
+                setLoginError(error.message);
+            }
+            else {
+                setToken('');
+                localStorage.setItem('supabase.auth.token', '');
+                router.push('/login');
+            }
         } catch (error) {
         }
         setLoading(false);
@@ -59,15 +73,30 @@ const ForgotPassword: React.FC<forgotPasswordProps> = ({ }) => {
                         <div className="w-full flex-1 mt-5">
                             <form className="mx-auto max-w-md" onSubmit={handleSubmit(onSubmit)}>
                                 <Input
-                                    type="email"
-                                    name="email"
-                                    placeholder="Email"
-                                    id="email"
-                                    isInvalid={!!errors.email}
-                                    error={errors.email?.message || 'Email is not valid'}
-                                    register={register('email', {
-                                        validate: (v) => regularExpressions.email.test(v),
-                                        required: 'Email is required',
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    isInvalid={!!errors.password}
+                                    error={errors.password?.message || passwordErrMessage}
+                                    register={register('password', {
+                                        required: 'Password is required',
+                                        validate: (v) => regularExpressions.password.test(v),
+                                    })}
+                                />
+                                <Input
+                                    type="password"
+                                    id="confirmPassword"
+                                    placeholder="Confirm Password"
+                                    name="confirmPassword"
+                                    isInvalid={!!errors.confirmPassword}
+                                    error={
+                                        errors.confirmPassword?.message ||
+                                        'Confirm password should match Password'
+                                    }
+                                    register={register('confirmPassword', {
+                                        validate: (value) => value === watch('password'),
+                                        required: 'Confirm Password is required',
                                     })}
                                 />
                                 {<p className="text-red-500 text-xs italic">{!errors.password ? loginError : ''}</p>}
