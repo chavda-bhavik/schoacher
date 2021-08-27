@@ -10,4 +10,5 @@ export interface SchoolProfileType {
     email?: string;
     subjects?: Subject[];
     about?: string;
+    profileImageUrl?: string;
 }

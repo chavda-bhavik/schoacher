@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { toggleBodyOverflowHidden } from '@/static/helper';
 import { CSSTransition } from 'react-transition-group';
+import classNames from 'classnames';
 
 interface BackdropProps {
     show: boolean;
+    bottomCenter?: boolean;
     onClose: () => void;
 }
 
-export const Backdrop: React.FC<BackdropProps> = ({ show, onClose, children }) => {
+export const Backdrop: React.FC<BackdropProps> = ({ show, onClose, children, bottomCenter }) => {
     useEffect(() => {
         toggleBodyOverflowHidden(show);
     }, [show]);
@@ -20,7 +22,12 @@ export const Backdrop: React.FC<BackdropProps> = ({ show, onClose, children }) =
                 role="dialog"
                 aria-modal="true"
             >
-                <div className={`flex items-center justify-center min-h-screen h-full`}>
+                <div
+                    className={classNames('flex justify-center min-h-screen h-full', {
+                        'items-center': !bottomCenter,
+                        'items-end md:items-center xs:items-center': bottomCenter,
+                    })}
+                >
                     {/* <IconButton
                         icon={['fas', 'times']}
                         className="z-30 absolute top-4 right-4"

@@ -6,8 +6,10 @@ export const regularExpressions = {
 
 const constants = {
     teacherProfile: {
-        dateFormat: 'MMM-YYYY'
-    }
-}
+        dateFormat: 'MMM-YYYY',
+    },
+    acceptPDF: 'application/pdf',
+    acceptImage: 'image/jpeg,image/jpg,image/png',
+};
 
 export default constants;
