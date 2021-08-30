@@ -1,37 +1,46 @@
 {
-    "name": "schoacher",
-    "version": "1.0.0",
-    "main": "index.js",
-    "license": "MIT",
-    "scripts": {
-        "dev": "next",
-        "build": "next build",
-        "start": "next start",
-        "type-check": "tsc",
-        "lint": "next lint",
-        "prepare": "husky install"
-    },
-    "dependencies": {
-        "@formcarry/react": "^1.0.3",
-        "@supabase/supabase-js": "^1.21.0",
-        "@supabase/ui": "^0.32.2",
-        "next": "^11.0.1",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-hook-form": "^7.12.2",
-        "typescript": "^4.3.5",
-        "uuid": "^8.3.2"
-    },
-    "devDependencies": {
-        "@types/node": "^16.4.12",
-        "@types/react": "^17.0.15",
-        "@types/react-dom": "^17.0.9",
-        "autoprefixer": "^10.3.1",
-        "classnames": "^2.3.1",
-        "eslint": "^7.32.0",
-        "eslint-config-next": "^11.0.1",
-        "husky": "^7.0.1",
-        "postcss": "^8.3.6",
-        "tailwindcss": "^2.2.7"
-    }
+        "name": "schoacher",
+        "version": "1.0.0",
+        "main": "index.js",
+        "license": "MIT",
+        "scripts": {
+                "dev": "next",
+                "build": "next build",
+                "start": "next start",
+                "type-check": "tsc",
+                "lint": "next lint",
+                "prepare": "husky install"
+        },
+        "dependencies": {
+                "@formcarry/react": "^1.0.3",
+                "@supabase/supabase-js": "^1.21.0",
+                "dayjs": "^1.10.6",
+                "next": "^11.0.1",
+                "react": "^17.0.2",
+                "react-datepicker": "^4.2.0",
+                "react-dom": "^17.0.2",
+                "react-hook-form": "^7.12.2",
+                "typescript": "^4.3.5",
+                "uuid": "^8.3.2",
+                "react-simple-wysiwyg": "^1.0.2",
+                "react-transition-group": "^4.4.2"
+        },
+        "devDependencies": {
+                "@tailwindcss/forms": "^0.3.3",
+                "@types/node": "^16.4.12",
+                "@types/react": "^17.0.15",
+                "@types/react-datepicker": "^4.1.4",
+                "@types/react-dom": "^17.0.9",
+                "@types/react-transition-group": "^4.4.2",
+                "autoprefixer": "^10.3.1",
+                "classnames": "^2.3.1",
+                "eslint": "^7.32.0",
+                "eslint-config-next": "^11.0.1",
+                "husky": "^7.0.1",
+                "postcss": "^8.3.6",
+                "postcss-import": "^14.0.2",
+                "sass": "^1.38.0",
+                "tailwindcss": "^2.2.7",
+                "typescript": "^4.3.5"
+        }
 }

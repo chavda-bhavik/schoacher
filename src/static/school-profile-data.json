@@ -1,0 +1,45 @@
+{
+    "profile": {
+        "id": 1,
+        "name": "Saraswati Vidhyalaya",
+        "address": {
+            "street1": "b-501, Hari Om Complex",
+            "street2": "Modi Mohallo, A.K.road",
+            "city": "surat",
+            "state": "Gujarat",
+            "pincode": 395008
+        },
+        "mobile1": 9638837399,
+        "mobile2": 9099704951,
+        "email": "saraswatividhyalya@gmail.com",
+        "since": 1999,
+        "profileImageUrl": "https://source.unsplash.com/umhyDLYKfLM/350x250",
+        "about": "",
+        "subjects": [
+            {
+                "id": 1,
+                "board": "GSEB",
+                "standard": "1",
+                "subject": "all"
+            },
+            {
+                "id": 2,
+                "board": "GSEB",
+                "standard": "2",
+                "subject": "all"
+            },
+            {
+                "id": 3,
+                "board": "GSEB",
+                "standard": "3",
+                "subject": "all"
+            },
+            {
+                "id": 4,
+                "board": "GSEB",
+                "standard": "4",
+                "subject": "all"
+            }
+        ]
+    }
+}

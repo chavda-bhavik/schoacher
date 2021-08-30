@@ -4,6 +4,8 @@ import ProtectedRoutes from '../contexts/auth';
 import { useRouter } from 'next/router';
 import '../styles/index.css';
 
+import 'react-datepicker/dist/react-datepicker.css';
+
 function MyApp({ Component, pageProps }: AppProps) {
     const router = useRouter();
     return (

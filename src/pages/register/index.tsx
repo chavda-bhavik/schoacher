@@ -13,7 +13,6 @@ const Register: React.FC<registerProps> = ({ }) => {
     /* eslint-disable */
     const [url, setUrl] = useState('teacher');
     const handleSubmit = () => {
-        console.log('called');
         if (url == 'school') {
             router.push('/register/school');
         }

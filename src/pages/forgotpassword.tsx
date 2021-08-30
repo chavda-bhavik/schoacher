@@ -72,7 +72,7 @@ const ForgotPassword: React.FC<forgotPasswordProps> = ({ }) => {
                                 />
                                 {<p className="text-red-500 text-xs italic">{!errors.password ? loginError : ''}</p>}
                                 {/* SubmitButton */}
-                                <Button className="mt-5 btn btn-primary" type="submit" disabled={loading} >
+                                <Button className="mt-5 btn btn-primary" type="submit" disabled={loading} loading={loading} >
                                     <Icon icon="logIn" className="w-6 h-6 -ml-2" />
                                     <span className="ml-3">{loading ? 'Submit ...' : 'Submit'}</span>
                                 </Button>

@@ -135,7 +135,7 @@ const SchoolSignUp: React.FC<schoolSingupProps> = ({ }) => {
                                     })}
                                 />
                                 {/* SubmitButton */}
-                                <Button className="mt-5" type="submit" disabled={loading} >
+                                <Button className="mt-5" type="submit" disabled={loading} loading={loading}>
                                     <Icon icon="check" className="w-6 h-6 -ml-2" />
                                     <span className="ml-3">{loading ? 'Singing up...' : 'Sign Up'}</span>
                                 </Button>
