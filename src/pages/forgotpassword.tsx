@@ -29,7 +29,7 @@ const ForgotPassword: React.FC<forgotPasswordProps> = ({ }) => {
         setLoading(true);
         try {
             const { data, error } = await supabase.auth.api.resetPasswordForEmail(response.email, {
-                redirectTo: 'http://localhost:3000/u/forgotpassword'
+                redirectTo: 'http://localhost:3000/resetpassword'
             });
             setLoginError(error.message);
         } catch (error) {

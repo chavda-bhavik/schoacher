@@ -12,9 +12,9 @@ import { supabase } from '@/api';
 import { regularExpressions, passwordErrMessage } from '@/static/constants';
 import { useRouter } from 'next/router'
 
-interface forgotPasswordProps { }
+interface resetPasswordProps { }
 
-const ForgotPassword: React.FC<forgotPasswordProps> = ({ }) => {
+const ResetPassword: React.FC<resetPasswordProps> = ({ }) => {
     /* eslint-disable */
     const [loginError, setLoginError] = useState('');
     /* eslint-disable */
@@ -129,4 +129,4 @@ const ForgotPassword: React.FC<forgotPasswordProps> = ({ }) => {
         </div>
     );
 };
-export default ForgotPassword;
+export default ResetPassword;

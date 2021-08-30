@@ -8,3 +8,13 @@ export const passwordErrMessage = 'Password must be 8 or more characters long an
 export const uniqueEmailMsg = 'Please Enter Unique Email';
 
 export const invalidEmail = 'Email is not valid';
+
+export const appRoutes = {
+    LOGIN_PAGE: '/login',
+    FORGOT_PASSWORD: '/forgotpassword',
+    RESET_PASSWORD: '/resetpassword',
+    SIGNUP: '/signup',
+    REGISTER_SCHOOL: '/register/school',
+    REGISTER_TEACHER: '/register/teacher',
+    LANDING: '/',
+};

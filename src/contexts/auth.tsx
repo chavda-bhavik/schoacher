@@ -1,38 +1,28 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { appRoutes } from "../static/constants";
 import { supabase } from '@/api'
-import Login from '../pages/login';
 
-const AuthContext = createContext({});
+const isBrowser = () => typeof window !== "undefined";
 
-export const AuthProvider = ({ children }) => {
+const ProtectedRoute = ({ router, children }) => {
     const users = supabase.auth.user();
-    const session = supabase.auth.session();
-    const [sessions, setSessions] = useState({});
-    const [user, setUser] = useState({});
+    const isAuthenticated = users;
+    const port = "http://localhost:3000";
+    let unprotectedRoutes = [
+        appRoutes.LOGIN_PAGE,
+        appRoutes.FORGOT_PASSWORD,
+        appRoutes.RESET_PASSWORD,
+        appRoutes.REGISTER_SCHOOL,
+        appRoutes.REGISTER_TEACHER,
+        appRoutes.SIGNUP,
+    ];
 
-    useEffect(() => {
-        setUser(users);
-        setSessions(session);
-    }, []);
-    return (
-        <AuthContext.Provider value={{ isAuthenticated: !!user, user, sessions }}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+    let pathIsProtected = unprotectedRoutes.indexOf(router.pathname) === -1;
 
-export const useAuth = () => useContext(AuthContext)
-
-export const ProtectRoute = ({ children }) => {
-    const router = useRouter();
-    const { isAuthenticated }: any = useAuth();
-    if (!isAuthenticated && router.pathname.startsWith('/register') || router.pathname.startsWith('/forgotpassword') || router.pathname.startsWith('/u/forgotpassword')) {
-        return children;
+    if (isBrowser() && !isAuthenticated && pathIsProtected) {
+        router.push(port + appRoutes.LOGIN_PAGE);
     }
-    if (!isAuthenticated && !router.pathname.startsWith('/login')) {
-        router.push('/login');
-        // return <Login />;
-    }
+
     return children;
 };
+
+export default ProtectedRoute;

@@ -1,15 +1,15 @@
 import React from 'react';
 import { AppProps } from 'next/app';
-import { ProtectRoute, AuthProvider } from '../contexts/auth'
+import ProtectedRoutes from '../contexts/auth';
+import { useRouter } from 'next/router';
 import '../styles/index.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
+    const router = useRouter();
     return (
-        <AuthProvider>
-            <ProtectRoute>
-                <Component {...pageProps} />
-            </ProtectRoute>
-        </AuthProvider>
+        <ProtectedRoutes router={router}>
+            <Component {...pageProps} />
+        </ProtectedRoutes >
     )
 }
 
