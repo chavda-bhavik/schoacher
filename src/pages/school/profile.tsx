@@ -5,6 +5,7 @@ import { LogoGreen } from '@/static/SVGs';
 
 import { SchoolProfile } from '@/components/school/profile';
 import { SchoolDescription } from '@/components/school/description';
+import { Requirements } from '@/components/school/requirements';
 
 interface ProfileProps {}
 
@@ -18,6 +19,7 @@ const Profile: React.FC<ProfileProps> = ({}) => {
 
             <SchoolProfile />
             <SchoolDescription />
+            <Requirements />
         </div>
     );
 };
