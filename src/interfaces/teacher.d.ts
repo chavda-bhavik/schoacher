@@ -47,7 +47,7 @@ export interface RequirementType {
     title: string;
     subjects: Subject[];
     description?: string;
-    type: string;
+    type: number;
     qualification?: string;
     time?: {
         startTime: Date;

@@ -41,5 +41,53 @@
                 "subject": "all"
             }
         ]
-    }
+    },
+    "requirements": [
+        {
+            "id": 1,
+            "title": "English Teacher for Standard 10 NCERT Board",
+            "description": null,
+            "type": 1,
+            "qualification": "B. Ed Pass",
+            "time": {
+                "startTime": "2012-04-23T18:25:43.511Z",
+                "endTime": "2012-04-23T18:25:43.511Z"
+            },
+            "salaryRange": {
+                "start": 15000,
+                "end": 50000
+            },
+            "subjects": [
+                {
+                    "id": 1,
+                    "board": "NCERT",
+                    "standard": "1",
+                    "subject": "English"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Gujarati Teacher for Standard 10 NCERT Board",
+            "description": "<p>some dommy description will come here",
+            "type": 2,
+            "qualification": "M.Ed Pass",
+            "time": {
+                "startTime": "2012-04-23T18:25:43.511Z",
+                "endTime": "2012-04-23T18:25:43.511Z"
+            },
+            "salaryRange": {
+                "start": 15000,
+                "end": 30000
+            },
+            "subjects": [
+                {
+                    "id": 1,
+                    "board": "NCERT",
+                    "standard": "1",
+                    "subject": "Gujarati"
+                }
+            ]
+        }
+    ]
 }
