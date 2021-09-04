@@ -39,7 +39,8 @@ export type IconsType =
     | 'loader'
     | 'trash'
     | 'danger'
-    | 'info';
+    | 'info'
+    | 'filter';
 
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';
 

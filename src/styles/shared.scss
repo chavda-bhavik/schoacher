@@ -130,3 +130,9 @@ input[type='radio']:checked + .option {
 }
 /* End of Button */
 /* } */
+
+// Main Section
+.teacher-section {
+    @apply bg-primary-lightBlue min-h-screen p-2 space-y-2;
+}
+// End of main Section
