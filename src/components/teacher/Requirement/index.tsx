@@ -9,12 +9,18 @@ interface RequirementProps {
     location: string;
 }
 
-export const Requirement: React.FC<RequirementProps> = ({}) => {
+export const Requirement: React.FC<RequirementProps> = ({
+    imageUrl,
+    title,
+    schoolName,
+    type,
+    location,
+}) => {
     return (
-        <div className="flex flex-row items-center p-1 group cursor-pointer hover:bg-gray-200 group transition-all duration-150 py-3">
-            <div className="w-20 flex items-center justify-center">
+        <div className="flex flex-row items-center p-1 group cursor-pointer hover:bg-gray-200 group transition-all duration-150 py-3 self-center">
+            <div className="w-24 md:w-20 flex items-center justify-center">
                 <Image
-                    src="https://source.unsplash.com/umhyDLYKfLM/350x250"
+                    src={imageUrl}
                     width={55}
                     height={55}
                     className="rounded-md self-center object-fill"
@@ -24,12 +30,12 @@ export const Requirement: React.FC<RequirementProps> = ({}) => {
             </div>
             <div className="flex-grow">
                 <p className="mb-0 text-xl font-medium group-hover:underline transition duration-150">
-                    English Teacher Needed for Standard 11 &amp; 12
+                    {title}
                 </p>
-                <p className="mb0 text-base">Mauni Ankur Scool of Science</p>
+                <p className="mb0 text-base">{schoolName}</p>
                 <div className="divide-x-2 divide-primary-dark text-sm font-normal space-x-1">
-                    <span>Full Time</span>
-                    <span className="pl-1">Surat, Gujarat, India</span>
+                    <span>{type}</span>
+                    <span className="pl-1">{location}</span>
                     <span className="pl-1">20K - 40K</span>
                 </div>
             </div>

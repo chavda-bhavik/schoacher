@@ -1,10 +1,10 @@
-import { IconsSizesType, IconsType } from '@/interfaces';
+import { ButtonVariants, IconsSizesType, IconsType } from '@/interfaces';
 import { Icon } from '@/static/Icons';
 import classNames from 'classnames';
 import React from 'react';
 
 interface IconButtonProps {
-    variant?: 'primary' | 'secondary' | 'danger' | 'success';
+    variant?: ButtonVariants;
     type?: 'button' | 'submit' | 'reset';
     icon: IconsType;
     onClick?: () => void;
@@ -34,6 +34,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
                     'btn-secondary': variant === 'secondary',
                     'btn-danger': variant === 'danger',
                     'btn-success': variant === 'success',
+                    'btn-bordered': variant === 'bordered',
                     'cursor-not-allowed': disabled || loading,
                 },
                 className

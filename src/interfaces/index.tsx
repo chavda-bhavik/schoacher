@@ -3,9 +3,10 @@ export type {
     MaterialType,
     QualificationType,
     TeacherProfileType,
+    TeacherRequirementFilterType,
 } from './teacher';
 
-export type { SchoolProfileType } from './school';
+export type { SchoolProfileType, RequirementType } from './school';
 
 export type IconsType =
     | 'check'
@@ -43,6 +44,20 @@ export type IconsType =
     | 'filter';
 
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';
+
+export type ButtonVariants = 'primary' | 'secondary' | 'danger' | 'success' | 'bordered';
+
+export type InputTypes =
+    | 'text'
+    | 'number'
+    | 'tel'
+    | 'password'
+    | 'email'
+    | 'textarea'
+    | 'select'
+    | 'radio'
+    | 'checkbox'
+    | 'file';
 
 export type SchoolRegisterFieldTypes = {
     firstName: string;

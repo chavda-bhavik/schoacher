@@ -22,3 +22,12 @@ export const combineAddress = (address: Address): string => {
 export const arrayValuesCombiner = (...values: stringNumber[]): string => {
     return values.filter(v => !!v).join(', ');
 }
+
+export const removeEmptyUndefiendValues = (obj) => {
+    return Object.keys(obj)
+        .filter(key => !!obj[key])
+        .reduce((newObj, key) => {
+            newObj[key] = obj[key];
+            return newObj;
+        }, {});
+}

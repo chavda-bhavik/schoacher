@@ -6,18 +6,34 @@ import { IconButton } from '@/components/IconButton';
 import { Input } from '@/components/Input';
 import { Icon } from '@/static/Icons';
 import { Button } from '../Button';
-
+import constants from '@/static/constants';
 interface SubjectsProps {
     title?: string;
     subjects: Subject[];
     setSubjects: (subjects: Subject[]) => void;
+    limit?: number;
 }
 
-export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects }) => {
+export const Subjects: React.FC<SubjectsProps> = ({
+    title = 'Subjects',
+    subjects,
+    setSubjects,
+    limit,
+}) => {
     const [activeSubjectKey, setActiveSubjectKey] = useState<number>(null);
     const [error, setError] = useState<string>(null);
 
-    const { register, handleSubmit } = useForm<Subject>();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<Subject>({
+        defaultValues: {
+            board: '',
+            subject: '',
+            standard: '',
+        },
+    });
 
     const addSubject = () => {
         handleSubmit((data) => {
@@ -37,6 +53,11 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
     };
 
     const deleteSubject = () => {
+        if (!subjects) {
+            setActiveSubjectKey(null);
+            setError(null);
+            return;
+        }
         let newSubjects = [...subjects];
         newSubjects = newSubjects.filter((_, i) => i !== activeSubjectKey);
         setSubjects(newSubjects);
@@ -49,41 +70,63 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
             <div className="flex flex-col md:flex-row gap-2">
                 <Input
                     type="select"
+                    row={true}
                     className="overflow-ellipsis overflow-hidden"
                     id="board"
                     name="board"
-                    register={register('board')}
+                    register={register('board', {
+                        required: 'Please select Board',
+                    })}
+                    isInvalid={!!errors.board}
+                    error={errors.board?.message}
                 >
-                    <option value="GSEB">(GSEB) Gujarat Secondary Education Board</option>
-                    <option value="GHEB">(GHEB) Gujarat Higher Secondary Education Board</option>
+                    <option disabled value=""></option>
+                    {constants.boards.map((board, i) => (
+                        <option key={i} value={board.value}>
+                            {board.label}
+                        </option>
+                    ))}
                 </Input>
                 <div className="flex flex-row gap-2 py-1">
                     <Input
+                        row={true}
                         type="select"
                         id="standard"
                         name="standard"
                         className="overflow-ellipsis overflow-hidden"
-                        register={register('standard')}
+                        register={register('standard', {
+                            required: 'Please select standardd',
+                        })}
+                        isInvalid={!!errors.standard}
+                        error={errors.standard?.message}
                     >
-                        <option value="Nursery">Nursery</option>
-                        <option value="SKG">SKG</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
+                        <option disabled value=""></option>
+                        {constants.standards.map((std, i) => (
+                            <option key={i} value={std.value}>
+                                {std.label}
+                            </option>
+                        ))}
                     </Input>
                     <Input
+                        row={true}
                         type="select"
                         id="subject"
                         name="subject"
                         className="overflow-ellipsis flex-grow overflow-hidden"
-                        register={register('subject')}
+                        register={register('subject', {
+                            required: 'Please select subject',
+                        })}
+                        isInvalid={!!errors.subject}
+                        error={errors.subject?.message}
                     >
-                        <option value="Gujarati">Gujarati</option>
-                        <option value="English">English</option>
-                        <option value="Hindi">Hindi</option>
-                        <option value="Sanskrit">Sanskrit</option>
-                        <option value="all">All</option>
+                        <option disabled value=""></option>
+                        {constants.subjets.map((sbj, i) => (
+                            <option key={i} value={sbj.value}>
+                                {sbj.label}
+                            </option>
+                        ))}
                     </Input>
-                    <div className="flex flex-row gap-1">
+                    <div className="flex flex-row gap-1 items-center">
                         <IconButton variant="primary" icon="check" onClick={addSubject} />
                         <IconButton variant="danger" icon="trash" onClick={deleteSubject} />
                     </div>
@@ -92,9 +135,22 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
             {error && <p className="input-error mt-1">{error}</p>}
         </>
     );
+
+    let button = (
+        <Button
+            variant="secondary"
+            onClick={() => setActiveSubjectKey(subjects ? subjects.length + 1 : 1)}
+            size="sm"
+            className="mt-1"
+        >
+            Add
+        </Button>
+    );
+    if (limit && subjects && limit <= subjects.length) button = null;
+
     return (
         <div className="mt-3">
-            <label className="label">Subjects</label>
+            <label className="label">{title}</label>
             <ul className="divide-y-2 divide-gray-400">
                 {Array.isArray(subjects) &&
                     subjects.map((sub, i) =>
@@ -119,14 +175,7 @@ export const Subjects: React.FC<SubjectsProps> = ({ title, subjects, setSubjects
             (!subjects && activeSubjectKey === 1) ? (
                 <SubjectFormContent />
             ) : (
-                <Button
-                    variant="secondary"
-                    onClick={() => setActiveSubjectKey(subjects ? subjects.length + 1 : 1)}
-                    size="sm"
-                    className="mt-1"
-                >
-                    Add
-                </Button>
+                button
             )}
         </div>
     );

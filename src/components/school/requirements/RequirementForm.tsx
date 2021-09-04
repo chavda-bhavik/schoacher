@@ -9,7 +9,7 @@ import { IconButton } from '@/components/IconButton';
 import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
 import { Subject } from '@/interfaces';
-import { RequirementType } from '@/interfaces/teacher';
+import { RequirementType } from '@/interfaces';
 
 interface RequirementFormProps {
     onClose: () => void;

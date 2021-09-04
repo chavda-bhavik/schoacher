@@ -9,6 +9,7 @@ import { ExperienceType, Subject } from '@/interfaces';
 import Card from '@/components/Card';
 import classNames from 'classnames';
 import { IconButton } from '@/components/IconButton';
+import constants from '@/static/constants';
 
 interface ExperienceFormProps {
     onSubmit: (data: ExperienceType) => void;
@@ -89,9 +90,11 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
                         label="Type"
                         register={register('type')}
                     >
-                        <option value="school">School</option>
-                        <option value="tution">Tution</option>
-                        <option value="home-batch">Home Batch</option>
+                        {constants.experienceRequirementType.map((type, i) => (
+                            <option key={i} value={type.value}>
+                                {type.label}
+                            </option>
+                        ))}
                     </Input>
                     <Input
                         id="schoolName"

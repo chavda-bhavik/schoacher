@@ -5,7 +5,7 @@ import { Backdrop } from '@/components/Backdrop';
 import { IconButton } from '@/components/IconButton';
 import { RequirementForm } from './RequirementForm';
 import { Requirement } from './RequirementItem';
-import { RequirementType } from '@/interfaces/teacher';
+import { RequirementType } from '@/interfaces';
 
 interface RequirementsProps {}
 

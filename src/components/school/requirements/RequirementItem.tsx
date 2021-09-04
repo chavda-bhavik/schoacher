@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from '@/static/Icons';
-import { RequirementType } from '@/interfaces/teacher';
+import { RequirementType } from '@/interfaces';
 import dayjs from 'dayjs';
 import constants from '@/static/constants';
 

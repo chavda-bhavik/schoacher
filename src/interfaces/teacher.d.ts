@@ -1,5 +1,4 @@
-import Subject from 'react-hook-form/dist/utils/Subject';
-
+import { Subject } from ".";
 export interface TeacherProfileType {
     firstName: string;
     lastName: string;
@@ -42,19 +41,11 @@ export interface MaterialType {
     description: string;
 }
 
-export interface RequirementType {
-    id: string | number;
-    title: string;
-    subjects: Subject[];
-    description?: string;
-    type: number;
-    qualification?: string;
-    time?: {
-        startTime: Date;
-        endTime: Date;
-    };
-    salaryRange?: {
-        start?: number;
-        end?: number;
-    };
+export interface TeacherRequirementFilterType {
+    expectedSalary?: number;
+    city?: string;
+    state?: string;
+    type?: string;
+    pincode?: number;
+    subjects?: Subject[];
 }
