@@ -50,7 +50,7 @@ export const SchoolDescription: React.FC<SchoolDescriptionProps> = ({}) => {
                         <span
                             className="icon-item-title unreset"
                             dangerouslySetInnerHTML={{ __html: profileData?.about }}
-                        ></span>
+                        />
                     </div>
                 </div>
             </section>

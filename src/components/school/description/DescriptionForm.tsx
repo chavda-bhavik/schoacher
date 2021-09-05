@@ -38,6 +38,7 @@ export const DescriptionForm: React.FC<DescriptionFormProps> = ({
     }, [reset, profileData]);
 
     const onFormSubmit = async (data: SchoolProfileType) => {
+        console.log(data.about);
         setLoading(true);
         setTimeout(() => {
             data.subjects = [...subjects];
@@ -47,15 +48,15 @@ export const DescriptionForm: React.FC<DescriptionFormProps> = ({
     };
 
     return (
-        <Card>
+        <Card asModal>
             <Card.Header>
                 <div className="flex flex-row justify-between items-center">
                     <p className="title">About School</p>
                     <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>
-            <form onSubmit={handleSubmit(onFormSubmit)} className="w-96">
-                <Card.Body className="w-96">
+            <form onSubmit={handleSubmit(onFormSubmit)}>
+                <Card.Body>
                     <Subjects setSubjects={setSubjects} subjects={subjects} />
                     <Controller
                         name="about"

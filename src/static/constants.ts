@@ -8,6 +8,7 @@ const constants = {
     teacherProfile: {
         dateFormat: 'MMM-YYYY',
     },
+    timeFormat: 'hh:mm A',
     acceptPDF: 'application/pdf',
     acceptImage: 'image/jpeg,image/jpg,image/png',
     experienceRequirementType: [

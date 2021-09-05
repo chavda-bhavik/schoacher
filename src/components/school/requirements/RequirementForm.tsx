@@ -46,7 +46,8 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({
         }
     }, [reset, selectedRequirement]);
 
-    const onFormSubmit = (data) => {
+    const onFormSubmit = (data: RequirementType) => {
+        console.log(data.description, subjects);
         onSubmit({
             ...data,
             subjects: subjects,

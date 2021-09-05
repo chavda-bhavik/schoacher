@@ -75,7 +75,7 @@ export interface Subject {
 }
 
 export interface Address {
-    id: string | number;
+    id?: string | number;
     street1?: string;
     street2?: string;
     city?: string;
