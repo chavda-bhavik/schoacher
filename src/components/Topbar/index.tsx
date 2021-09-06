@@ -1,3 +1,4 @@
 import { TeacherTopbar } from './Teacher';
+import { SchoolTopbar } from './School';
 
-export { TeacherTopbar };
+export { TeacherTopbar, SchoolTopbar };
