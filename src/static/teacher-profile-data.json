@@ -1,5 +1,6 @@
 {
     "profile": {
+        "headline": "School Teacher at Saraswati Vidhyalya",
         "firstName": "Bhavik",
         "lastName": "Chavda",
         "address": "b-501, Hari Om Complex, Modi Mohallo, A.K.Road, Surat",
@@ -7,7 +8,8 @@
         "mobile2": null,
         "photoUrl": "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
         "email": "bhavik.chvda@gmail.com",
-        "emailVerified": false
+        "emailVerified": false,
+        "about": ""
     },
     "qualification": [
         {

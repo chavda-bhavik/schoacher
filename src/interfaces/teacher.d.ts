@@ -1,4 +1,4 @@
-import { Subject } from ".";
+import { Subject } from '.';
 export interface TeacherProfileType {
     firstName: string;
     lastName: string;
@@ -8,6 +8,8 @@ export interface TeacherProfileType {
     photoUrl?: string;
     email?: string;
     emailVerified?: boolean;
+    headline?: string;
+    about?: string;
 }
 
 export interface QualificationType {

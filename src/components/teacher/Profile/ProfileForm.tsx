@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+import { DefaultEditor } from 'react-simple-wysiwyg';
+import { useForm, Controller } from 'react-hook-form';
 
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { TeacherProfileType } from '@/interfaces';
-import { useForm } from 'react-hook-form';
 import { regularExpressions } from '@/static/constants';
 import { IconButton } from '@/components/IconButton';
 
@@ -19,6 +20,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onDataSub
         register,
         reset,
         handleSubmit,
+        control,
         formState: { errors },
     } = useForm<TeacherProfileType>();
 
@@ -40,6 +42,17 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onDataSub
             </Card.Header>
             <form onSubmit={handleSubmit(onFormSubmit)}>
                 <Card.Body>
+                    <Input
+                        id="headline"
+                        name="headline"
+                        type="text"
+                        register={register('headline', {
+                            required: 'Headline is required',
+                        })}
+                        isInvalid={!!errors.headline}
+                        error={errors.headline?.message}
+                        label="Headline"
+                    />
                     <div className="grid grid-cols-2 gap-2">
                         <Input
                             id="firstName"
@@ -104,6 +117,21 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onDataSub
                         })}
                         error="Mobile Number is not valid"
                     />
+                    <div className="mt-3">
+                        <label className="label">About</label>
+                        <Controller
+                            name="about"
+                            control={control}
+                            render={({ field }) => (
+                                <DefaultEditor
+                                    value={field.value}
+                                    placeholder="Write about yourself here..."
+                                    onChange={field.onChange}
+                                    className="unreset"
+                                />
+                            )}
+                        />
+                    </div>
                 </Card.Body>
                 <Card.Footer>
                     <Button block type="submit">
