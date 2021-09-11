@@ -81,77 +81,77 @@ const Jobs: React.FC<JobsProps> = ({}) => {
                         <Requirement
                             imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
                             location="Surat, Gujarat, India"
-                            schoolName="Mauni Ankur School of Science"
+                            employerName="Mauni Ankur School of Science"
                             title="English Teacher Needed for standard 11 &amp; 12"
                             type="Full Time"
                         />
                         <Requirement
                             imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
                             location="Surat, Gujarat, India"
-                            schoolName="Mauni Ankur School of Science"
+                            employerName="Mauni Ankur School of Science"
                             title="English Teacher Needed for standard 11 &amp; 12"
                             type="Full Time"
                         />
                         <Requirement
                             imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
                             location="Surat, Gujarat, India"
-                            schoolName="Mauni Ankur School of Science"
+                            employerName="Mauni Ankur School of Science"
                             title="English Teacher Needed for standard 11 &amp; 12"
                             type="Full Time"
                         />
                         <Requirement
                             imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
                             location="Surat, Gujarat, India"
-                            schoolName="Mauni Ankur School of Science"
+                            employerName="Mauni Ankur School of Science"
                             title="English Teacher Needed for standard 11 &amp; 12"
                             type="Full Time"
                         />
                         <Requirement
                             imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
                             location="Surat, Gujarat, India"
-                            schoolName="Mauni Ankur School of Science"
+                            employerName="Mauni Ankur School of Science"
                             title="English Teacher Needed for standard 11 &amp; 12"
                             type="Full Time"
                         />
                         <Requirement
                             imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
                             location="Surat, Gujarat, India"
-                            schoolName="Mauni Ankur School of Science"
+                            employerName="Mauni Ankur School of Science"
                             title="English Teacher Needed for standard 11 &amp; 12"
                             type="Full Time"
                         />
                         <Requirement
                             imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
                             location="Surat, Gujarat, India"
-                            schoolName="Mauni Ankur School of Science"
+                            employerName="Mauni Ankur School of Science"
                             title="English Teacher Needed for standard 11 &amp; 12"
                             type="Full Time"
                         />
                         <Requirement
                             imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
                             location="Surat, Gujarat, India"
-                            schoolName="Mauni Ankur School of Science"
+                            employerName="Mauni Ankur School of Science"
                             title="English Teacher Needed for standard 11 &amp; 12"
                             type="Full Time"
                         />
                         <Requirement
                             imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
                             location="Surat, Gujarat, India"
-                            schoolName="Mauni Ankur School of Science"
+                            employerName="Mauni Ankur School of Science"
                             title="English Teacher Needed for standard 11 &amp; 12"
                             type="Full Time"
                         />
                         <Requirement
                             imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
                             location="Surat, Gujarat, India"
-                            schoolName="Mauni Ankur School of Science"
+                            employerName="Mauni Ankur School of Science"
                             title="English Teacher Needed for standard 11 &amp; 12"
                             type="Full Time"
                         />
                         <Requirement
                             imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
                             location="Surat, Gujarat, India"
-                            schoolName="Mauni Ankur School of Science"
+                            employerName="Mauni Ankur School of Science"
                             title="English Teacher Needed for standard 11 &amp; 12"
                             type="Full Time"
                         />
