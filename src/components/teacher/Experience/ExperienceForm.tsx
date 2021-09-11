@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useForm, Controller } from 'react-hook-form';
+import classNames from 'classnames';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
 import { ExperienceType, Subject } from '@/interfaces';
 import Card from '@/components/Card';
-import classNames from 'classnames';
 import { IconButton } from '@/components/IconButton';
 import constants from '@/static/constants';
 
@@ -97,15 +97,15 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
                         ))}
                     </Input>
                     <Input
-                        id="schoolName"
-                        name="schoolName"
+                        id="employerName"
+                        name="employerName"
                         type="text"
-                        label="School/Tution Name"
-                        register={register('schoolName', {
-                            required: 'School Name is required',
+                        label="Employer Name"
+                        register={register('employerName', {
+                            required: 'Employer Name is required',
                         })}
-                        isInvalid={!!errors.schoolName}
-                        error={errors.schoolName?.message}
+                        isInvalid={!!errors.employerName}
+                        error={errors.employerName?.message}
                     />
                     <div className="grid grid-cols-2 gap-2 mt-3">
                         <div>

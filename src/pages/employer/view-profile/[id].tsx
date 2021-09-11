@@ -4,16 +4,16 @@ import dayjs from 'dayjs';
 import constants from '@/static/constants';
 
 import List from '@/components/List';
-import { SchoolTopbar } from '@/components/Topbar';
-import { arrayValuesCombiner, combineAddress } from '@/static/helper';
+import { EmployerTopbar } from '@/components/Topbar';
+import { arrayValuesCombiner } from '@/static/helper';
 import TeacherProfileData from '../../../static/teacher-profile-data.json';
 
 interface JobProfileProps {}
 
 const JobProfile: React.FC<JobProfileProps> = ({}) => {
     return (
-        <section className="school-section">
-            <SchoolTopbar />
+        <section className="employer-section">
+            <EmployerTopbar />
 
             <div className="bg-white shadow overflow-hidden sm:rounded-lg">
                 <div className="px-4 py-5 sm:px-6">

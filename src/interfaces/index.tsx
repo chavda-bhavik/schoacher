@@ -6,7 +6,7 @@ export type {
     TeacherRequirementFilterType,
 } from './teacher';
 
-export type { SchoolProfileType, RequirementType } from './school';
+export type { EmployerProfileType, RequirementType } from './employer';
 
 export type IconsType =
     | 'check'

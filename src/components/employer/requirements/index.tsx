@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import SchoolData from '../../../static/school-profile-data.json';
+import JsonData from '../../../static/employer-profile-data.json';
 import { Backdrop } from '@/components/Backdrop';
 import { IconButton } from '@/components/IconButton';
 import { RequirementForm } from './RequirementForm';
@@ -16,7 +16,7 @@ export const Requirements: React.FC<RequirementsProps> = ({}) => {
 
     useEffect(() => {
         // @ts-ignore
-        setRequirements(SchoolData?.requirements);
+        setRequirements(JsonData?.requirements);
     }, []);
 
     const onRequirementClose = () => {

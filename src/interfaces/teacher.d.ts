@@ -26,7 +26,7 @@ export interface ExperienceType {
     id: string | number;
     title: string;
     type: string;
-    schoolName: string;
+    employerName: string;
     start: Date;
     end?: Date;
     currentlyWorking: Boolean;

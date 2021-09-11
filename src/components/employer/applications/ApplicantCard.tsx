@@ -6,7 +6,7 @@ interface ApplicantCardProps {}
 
 export const ApplicantCard: React.FC<ApplicantCardProps> = ({}) => {
     return (
-        <Link href="/school/view-profile/1">
+        <Link href="/employer/view-profile/1">
             <a className="transform duration-500 rounded-md block">
                 <article className="relative group cursor-pointer transition-shadow duration-200 hover:shadow-md">
                     <div className="overflow-hidden rounded-t-md">

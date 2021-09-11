@@ -5,7 +5,7 @@ import Link from 'next/link';
 interface RequirementProps {
     imageUrl: string;
     title: string;
-    schoolName: string;
+    employerName: string;
     type: string;
     location: string;
 }
@@ -13,7 +13,7 @@ interface RequirementProps {
 export const Requirement: React.FC<RequirementProps> = ({
     imageUrl,
     title,
-    schoolName,
+    employerName,
     type,
     location,
 }) => {
@@ -34,7 +34,7 @@ export const Requirement: React.FC<RequirementProps> = ({
                     <p className="mb-0 text-xl font-medium group-hover:underline transition duration-150">
                         {title}
                     </p>
-                    <p className="mb0 text-base">{schoolName}</p>
+                    <p className="mb0 text-base">{employerName}</p>
                     <div className="divide-x-2 divide-primary-dark text-sm font-normal space-x-1">
                         <span>{type}</span>
                         <span className="pl-1">{location}</span>

@@ -1,6 +1,6 @@
 import { Address, Subject } from '@/..';
 
-export interface SchoolProfileType {
+export interface EmployerProfileType {
     id: number | string;
     since?: number;
     name: string;

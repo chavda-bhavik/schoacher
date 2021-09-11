@@ -173,7 +173,7 @@ const JobProfile: React.FC<JobProfileProps> = ({}) => {
                     <div className="flex items-center justify-center py-3">
                         <Image
                             src={profileData.profileImageUrl}
-                            alt="School image"
+                            alt="SchoEol image"
                             width="350"
                             height="250"
                             className="rounded-md p-1 self-center border-2 border-darker cursor-pointer max-h-full"
