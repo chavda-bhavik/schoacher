@@ -117,7 +117,7 @@ input[type='radio']:checked + .option {
     @apply tracking-wide font-semibold text-base rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:outline-none;
 }
 .btn-primary {
-    @apply bg-primary-green text-gray-100 hover:bg-shades-1 disabled:bg-shades-1 disabled:text-gray-200;
+    @apply bg-primary-blue text-gray-100 hover:bg-primary-lightBlue hover:text-white disabled:bg-primary-lightBlue disabled:text-gray-200;
 }
 .btn-secondary {
     @apply bg-gray-600 text-white hover:bg-gray-500 hover:text-dustWhite;
@@ -126,7 +126,19 @@ input[type='radio']:checked + .option {
     @apply bg-red-500 text-white hover:bg-red-400;
 }
 .btn-success {
-    @apply bg-green-500 text-black hover:bg-green-400;
+    @apply bg-green-500 text-gray-100 hover:bg-green-400;
+}
+.btn-bordered {
+    @apply border-2 border-gray-600 text-gray-900 hover:bg-gray-500 hover:text-dustWhite;
 }
 /* End of Button */
 /* } */
+
+// Main Section
+.teacher-section {
+    @apply bg-primary-lightBlue min-h-screen p-2 space-y-2;
+}
+.employer-section {
+    @apply bg-primary-lightBlue min-h-screen p-2 space-y-2;
+}
+// End of main Section

@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
-import JsonData from '@/static/school-profile-data.json';
+import JsonData from '@/static/employer-profile-data.json';
 import { Icon } from '@/static/Icons';
-import { SchoolProfileType } from '@/interfaces';
+import { EmployerProfileType } from '@/interfaces';
 import { Backdrop } from '@/components/Backdrop';
 import { DescriptionForm } from './DescriptionForm';
 import { IconButton } from '@/components/IconButton';
 
-interface SchoolDescriptionProps {}
+interface EmployerDescriptionProps {}
 
-export const SchoolDescription: React.FC<SchoolDescriptionProps> = ({}) => {
+export const EmployerDescription: React.FC<EmployerDescriptionProps> = ({}) => {
     const [showEditProfile, setShowEditProfile] = useState(false);
-    const [profileData, setProfileData] = useState<SchoolProfileType>(null);
+    const [profileData, setProfileData] = useState<EmployerProfileType>(null);
 
     useEffect(() => {
         // @ts-ignore
@@ -21,7 +21,7 @@ export const SchoolDescription: React.FC<SchoolDescriptionProps> = ({}) => {
     const onClose = () => {
         setShowEditProfile(false);
     };
-    const onDataSubmit = (data: SchoolProfileType) => {
+    const onDataSubmit = (data: EmployerProfileType) => {
         setProfileData(data);
         setShowEditProfile(false);
     };
@@ -30,7 +30,7 @@ export const SchoolDescription: React.FC<SchoolDescriptionProps> = ({}) => {
         <>
             <section className="section">
                 <div className="section-header">
-                    <p className="title">About School</p>
+                    <p className="title">About</p>
                     <IconButton icon="pencil" onClick={() => setShowEditProfile(true)} />
                 </div>
                 <div className="section-body p-2">
@@ -50,7 +50,7 @@ export const SchoolDescription: React.FC<SchoolDescriptionProps> = ({}) => {
                         <span
                             className="icon-item-title unreset"
                             dangerouslySetInnerHTML={{ __html: profileData?.about }}
-                        ></span>
+                        />
                     </div>
                 </div>
             </section>

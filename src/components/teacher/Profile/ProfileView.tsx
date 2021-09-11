@@ -31,8 +31,13 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ profileData }) => {
                 <div className="p-6">
                     <div className="flex flex-col-reverse md:flex-row md:gap-2 justify-center md:justify-between">
                         <figure className="pt-0 md:pt-16 flex-grow">
+                            {profileData?.headline ? (
+                                <h1 className="font-sans font-medium text-2xl">{`${profileData?.headline}`}</h1>
+                            ) : (
+                                <ContentPlaceholder className="w-1/3" />
+                            )}
                             {profileData?.firstName && profileData.lastName ? (
-                                <h1 className="font-sans font-medium text-2xl">{`${profileData?.firstName} ${profileData?.lastName}`}</h1>
+                                <h2 className="font-sans font-normal text-xl">{`${profileData?.firstName} ${profileData?.lastName}`}</h2>
                             ) : (
                                 <ContentPlaceholder className="w-1/3" />
                             )}
@@ -87,6 +92,12 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ profileData }) => {
                             </p>
                         </figure>
                     </div>
+                    {profileData?.about ? (
+                        <div
+                            className="unreset border-t mt-2 pt-2 border-gray-200"
+                            dangerouslySetInnerHTML={{ __html: profileData?.about }}
+                        />
+                    ) : null}
                 </div>
             </div>
             <Dialog

@@ -1,3 +1,4 @@
+import { Subject } from '.';
 export interface TeacherProfileType {
     firstName: string;
     lastName: string;
@@ -7,6 +8,8 @@ export interface TeacherProfileType {
     photoUrl?: string;
     email?: string;
     emailVerified?: boolean;
+    headline?: string;
+    about?: string;
 }
 
 export interface QualificationType {
@@ -23,7 +26,7 @@ export interface ExperienceType {
     id: string | number;
     title: string;
     type: string;
-    schoolName: string;
+    employerName: string;
     start: Date;
     end?: Date;
     currentlyWorking: Boolean;
@@ -38,4 +41,13 @@ export interface MaterialType {
     mediaUrl?: string;
     mediaObj?: File;
     description: string;
+}
+
+export interface TeacherRequirementFilterType {
+    expectedSalary?: number;
+    city?: string;
+    state?: string;
+    type?: string;
+    pincode?: number;
+    subjects?: Subject[];
 }

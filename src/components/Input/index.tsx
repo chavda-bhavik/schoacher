@@ -1,20 +1,11 @@
 import React, { ChangeEvent } from 'react';
 import classNames from 'classnames';
+import { InputTypes } from '@/interfaces';
 
 interface InputProps {
     name: string;
     id: string;
-    type:
-        | 'text'
-        | 'number'
-        | 'tel'
-        | 'password'
-        | 'email'
-        | 'textarea'
-        | 'select'
-        | 'radio'
-        | 'checkbox'
-        | 'file';
+    type: InputTypes;
     label?: string;
     placeholder?: string;
     required?: boolean;

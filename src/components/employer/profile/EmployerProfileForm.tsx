@@ -3,19 +3,19 @@ import React, { useEffect } from 'react';
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { SchoolProfileType } from '@/interfaces';
+import { EmployerProfileType } from '@/interfaces';
 import { useForm } from 'react-hook-form';
 import { regularExpressions } from '@/static/constants';
 import { IconButton } from '@/components/IconButton';
 import { useState } from 'react';
 
-interface SchoolProfileFormProps {
-    profileData: SchoolProfileType;
-    onDataSubmit?: (data: SchoolProfileType) => void;
+interface EmployerProfileFormProps {
+    profileData: EmployerProfileType;
+    onDataSubmit?: (data: EmployerProfileType) => void;
     onClose?: () => void;
 }
 
-export const SchoolProfileForm: React.FC<SchoolProfileFormProps> = ({
+export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
     profileData,
     onDataSubmit,
     onClose,
@@ -25,7 +25,7 @@ export const SchoolProfileForm: React.FC<SchoolProfileFormProps> = ({
         reset,
         handleSubmit,
         formState: { errors },
-    } = useForm<SchoolProfileType>();
+    } = useForm<EmployerProfileType>();
     const [loading, setLoading] = useState<boolean>();
 
     useEffect(() => {

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useForm, Controller } from 'react-hook-form';
+import classNames from 'classnames';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
 import { ExperienceType, Subject } from '@/interfaces';
 import Card from '@/components/Card';
-import classNames from 'classnames';
 import { IconButton } from '@/components/IconButton';
+import constants from '@/static/constants';
 
 interface ExperienceFormProps {
     onSubmit: (data: ExperienceType) => void;
@@ -89,20 +90,22 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
                         label="Type"
                         register={register('type')}
                     >
-                        <option value="school">School</option>
-                        <option value="tution">Tution</option>
-                        <option value="home-batch">Home Batch</option>
+                        {constants.experienceRequirementType.map((type, i) => (
+                            <option key={i} value={type.value}>
+                                {type.label}
+                            </option>
+                        ))}
                     </Input>
                     <Input
-                        id="schoolName"
-                        name="schoolName"
+                        id="employerName"
+                        name="employerName"
                         type="text"
-                        label="School/Tution Name"
-                        register={register('schoolName', {
-                            required: 'School Name is required',
+                        label="Employer Name"
+                        register={register('employerName', {
+                            required: 'Employer Name is required',
                         })}
-                        isInvalid={!!errors.schoolName}
-                        error={errors.schoolName?.message}
+                        isInvalid={!!errors.employerName}
+                        error={errors.employerName?.message}
                     />
                     <div className="grid grid-cols-2 gap-2 mt-3">
                         <div>

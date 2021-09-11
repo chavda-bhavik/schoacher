@@ -1,21 +1,21 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import Image from 'next/image';
 
-import JsonData from '@/static/school-profile-data.json';
+import JsonData from '@/static/employer-profile-data.json';
 import { IconButton } from '@/components/IconButton';
-import { SchoolProfileType } from '@/interfaces';
+import { EmployerProfileType } from '@/interfaces';
 import { IconItem } from '@/components/IconItem';
 import { combineAddress, arrayValuesCombiner } from '@/static/helper';
 import { Backdrop } from '@/components/Backdrop';
-import { SchoolProfileForm } from './SchoolProfileForm';
+import { EmployerProfileForm } from './EmployerProfileForm';
 import constants from '@/static/constants';
 import { Dialog } from '@/components/Dialog';
 
-interface SchoolProfileProps {}
+interface EmployerProfileProps {}
 
-export const SchoolProfile: React.FC<SchoolProfileProps> = ({}) => {
+export const EmployerProfile: React.FC<EmployerProfileProps> = ({}) => {
     const [showEditProfile, setShowEditProfile] = useState(false);
-    const [profileData, setProfileData] = useState<SchoolProfileType>(null);
+    const [profileData, setProfileData] = useState<EmployerProfileType>(null);
     const [showDeleteImageDialog, setShowDeleteImageDialog] = useState<boolean>(false);
 
     useEffect(() => {
@@ -26,7 +26,7 @@ export const SchoolProfile: React.FC<SchoolProfileProps> = ({}) => {
     const onClose = () => {
         setShowEditProfile(false);
     };
-    const onDataSubmit = (data: SchoolProfileType) => {
+    const onDataSubmit = (data: EmployerProfileType) => {
         setProfileData(data);
         setShowEditProfile(false);
     };
@@ -45,7 +45,7 @@ export const SchoolProfile: React.FC<SchoolProfileProps> = ({}) => {
         <>
             <section className="section">
                 <div className="section-header">
-                    <p className="title">School Details</p>
+                    <p className="title">Details</p>
                     <IconButton icon="pencil" onClick={() => setShowEditProfile(true)} />
                 </div>
                 <figure className="flex flex-col-reverse md:flex-row justify-between p-2">
@@ -66,7 +66,7 @@ export const SchoolProfile: React.FC<SchoolProfileProps> = ({}) => {
                                 {profileData && (
                                     <Image
                                         src={profileData.profileImageUrl}
-                                        alt="School image"
+                                        alt="Employer image"
                                         width="350"
                                         height="250"
                                         className="rounded-md p-1 border-2 border-darker cursor-pointer"
@@ -95,7 +95,7 @@ export const SchoolProfile: React.FC<SchoolProfileProps> = ({}) => {
                 </figure>
             </section>
             <Backdrop show={showEditProfile} onClose={onClose}>
-                <SchoolProfileForm
+                <EmployerProfileForm
                     profileData={profileData}
                     onClose={onClose}
                     onDataSubmit={onDataSubmit}

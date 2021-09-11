@@ -3,9 +3,10 @@ export type {
     MaterialType,
     QualificationType,
     TeacherProfileType,
+    TeacherRequirementFilterType,
 } from './teacher';
 
-export type { SchoolProfileType } from './school';
+export type { EmployerProfileType, RequirementType } from './employer';
 
 export type IconsType =
     | 'check'
@@ -39,9 +40,24 @@ export type IconsType =
     | 'loader'
     | 'trash'
     | 'danger'
-    | 'info';
+    | 'info'
+    | 'filter';
 
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';
+
+export type ButtonVariants = 'primary' | 'secondary' | 'danger' | 'success' | 'bordered';
+
+export type InputTypes =
+    | 'text'
+    | 'number'
+    | 'tel'
+    | 'password'
+    | 'email'
+    | 'textarea'
+    | 'select'
+    | 'radio'
+    | 'checkbox'
+    | 'file';
 
 export type SchoolRegisterFieldTypes = {
     firstName: string;
@@ -59,7 +75,7 @@ export interface Subject {
 }
 
 export interface Address {
-    id: string | number;
+    id?: string | number;
     street1?: string;
     street2?: string;
     city?: string;

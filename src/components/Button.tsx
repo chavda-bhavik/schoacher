@@ -1,9 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Icon } from '@/static/Icons';
+import { ButtonVariants } from '@/interfaces';
 
 interface ButtonProps {
-    variant?: 'primary' | 'secondary' | 'danger' | 'success';
+    variant?: ButtonVariants;
     type?: 'button' | 'submit' | 'reset';
     size?: 'sm' | 'md';
     block?: boolean;
@@ -35,6 +36,7 @@ export const Button: React.FC<ButtonProps> = ({
                     'btn-secondary': variant === 'secondary',
                     'btn-danger': variant === 'danger',
                     'btn-success': variant === 'success',
+                    'btn-bordered': variant === 'bordered',
                     'w-full': block,
                     'cursor-not-allowed': disabled || loading,
                     'p-3': size === 'md',

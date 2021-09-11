@@ -3,15 +3,15 @@ import { useForm, Controller } from 'react-hook-form';
 
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
-import { SchoolProfileType } from '@/interfaces';
+import { EmployerProfileType } from '@/interfaces';
 import { IconButton } from '@/components/IconButton';
 import { Subjects } from '@/components/Input/Subjects';
 import { Subject } from '@/interfaces';
 import { DefaultEditor } from 'react-simple-wysiwyg';
 
 interface DescriptionFormProps {
-    profileData: SchoolProfileType;
-    onDataSubmit?: (data: SchoolProfileType) => void;
+    profileData: EmployerProfileType;
+    onDataSubmit?: (data: EmployerProfileType) => void;
     onClose?: () => void;
 }
 
@@ -20,7 +20,7 @@ export const DescriptionForm: React.FC<DescriptionFormProps> = ({
     onDataSubmit,
     onClose,
 }) => {
-    const { reset, handleSubmit, control } = useForm<SchoolProfileType>({
+    const { reset, handleSubmit, control } = useForm<EmployerProfileType>({
         defaultValues: {
             about: null,
         },
@@ -37,7 +37,8 @@ export const DescriptionForm: React.FC<DescriptionFormProps> = ({
         setSubjects(profileData.subjects);
     }, [reset, profileData]);
 
-    const onFormSubmit = async (data: SchoolProfileType) => {
+    const onFormSubmit = async (data: EmployerProfileType) => {
+        console.log(data.about);
         setLoading(true);
         setTimeout(() => {
             data.subjects = [...subjects];
@@ -47,15 +48,15 @@ export const DescriptionForm: React.FC<DescriptionFormProps> = ({
     };
 
     return (
-        <Card>
+        <Card asModal>
             <Card.Header>
                 <div className="flex flex-row justify-between items-center">
-                    <p className="title">About School</p>
+                    <p className="title">About</p>
                     <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>
-            <form onSubmit={handleSubmit(onFormSubmit)} className="w-96">
-                <Card.Body className="w-96">
+            <form onSubmit={handleSubmit(onFormSubmit)}>
+                <Card.Body>
                     <Subjects setSubjects={setSubjects} subjects={subjects} />
                     <Controller
                         name="about"
@@ -63,7 +64,7 @@ export const DescriptionForm: React.FC<DescriptionFormProps> = ({
                         render={({ field }) => (
                             <DefaultEditor
                                 value={field.value}
-                                placeholder="Write about your school here..."
+                                placeholder="Write about your school/tution here..."
                                 onChange={field.onChange}
                                 className="unreset"
                             />
