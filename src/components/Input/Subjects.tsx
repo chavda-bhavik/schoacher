@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from '@apollo/client';
 
 import { Subject } from '@/interfaces';
 import { useForm } from 'react-hook-form';
@@ -6,7 +7,12 @@ import { IconButton } from '@/components/IconButton';
 import { Input } from '@/components/Input';
 import { Icon } from '@/static/Icons';
 import { Button } from '../Button';
-import constants from '@/static/constants';
+
+// graphql
+import { getSubStdBoards } from '@/graphql/shared/query/__generated__/getSubStdBoards';
+import { GET_SUB_STD_BOARDS } from '@/graphql/shared/query/SubStdBoards';
+import { convertArrayToObj } from '@/static/helper';
+
 interface SubjectsProps {
     title?: string;
     subjects: Subject[];
@@ -20,8 +26,22 @@ export const Subjects: React.FC<SubjectsProps> = ({
     setSubjects,
     limit,
 }) => {
+    const { loading, data } = useQuery<getSubStdBoards>(GET_SUB_STD_BOARDS);
     const [activeSubjectKey, setActiveSubjectKey] = useState<number>(null);
     const [error, setError] = useState<string>(null);
+    const [subStdBoardObj, setSubStdBoardObj] = useState<SubStdBoardState>();
+
+    useEffect(() => {
+        let newSubStdBoards: SubStdBoardState = {
+            subjects: {},
+            boards: {},
+            standards: {},
+        };
+        newSubStdBoards.subjects = convertArrayToObj(data.subjects, 'id', 'value');
+        newSubStdBoards.boards = convertArrayToObj(data.boards, 'id', 'value');
+        newSubStdBoards.standards = convertArrayToObj(data.standards, 'id', 'value');
+        setSubStdBoardObj(newSubStdBoards);
+    }, [data]);
 
     const {
         register,
@@ -67,7 +87,7 @@ export const Subjects: React.FC<SubjectsProps> = ({
 
     let SubjectFormContent = () => (
         <>
-            <div className="flex flex-col md:flex-row gap-2">
+            <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
                 <Input
                     type="select"
                     row={true}
@@ -81,13 +101,14 @@ export const Subjects: React.FC<SubjectsProps> = ({
                     error={errors.board?.message}
                 >
                     <option disabled value=""></option>
-                    {constants.boards.map((board, i) => (
-                        <option key={i} value={board.value}>
-                            {board.label}
-                        </option>
-                    ))}
+                    {!loading &&
+                        data.boards.map((board, i) => (
+                            <option key={i} value={board.id}>
+                                {board.label}
+                            </option>
+                        ))}
                 </Input>
-                <div className="flex flex-row gap-2 py-1">
+                <div className="flex flex-row space-x-2">
                     <Input
                         row={true}
                         type="select"
@@ -101,11 +122,12 @@ export const Subjects: React.FC<SubjectsProps> = ({
                         error={errors.standard?.message}
                     >
                         <option disabled value=""></option>
-                        {constants.standards.map((std, i) => (
-                            <option key={i} value={std.value}>
-                                {std.label}
-                            </option>
-                        ))}
+                        {!loading &&
+                            data.standards.map((standard, i) => (
+                                <option key={i} value={standard.id}>
+                                    {standard.label}
+                                </option>
+                            ))}
                     </Input>
                     <Input
                         row={true}
@@ -120,13 +142,14 @@ export const Subjects: React.FC<SubjectsProps> = ({
                         error={errors.subject?.message}
                     >
                         <option disabled value=""></option>
-                        {constants.subjets.map((sbj, i) => (
-                            <option key={i} value={sbj.value}>
-                                {sbj.label}
-                            </option>
-                        ))}
+                        {!loading &&
+                            data.subjects.map((subject, i) => (
+                                <option key={i} value={subject.id}>
+                                    {subject.label}
+                                </option>
+                            ))}
                     </Input>
-                    <div className="flex flex-row gap-1 items-center">
+                    <div className="flex flex-row space-x-1 items-center">
                         <IconButton variant="primary" icon="check" onClick={addSubject} />
                         <IconButton variant="danger" icon="trash" onClick={deleteSubject} />
                     </div>
@@ -163,7 +186,9 @@ export const Subjects: React.FC<SubjectsProps> = ({
                                 onClick={() => setActiveSubjectKey(i)}
                             >
                                 <span>
-                                    {sub.board} {sub.standard} {sub.subject}
+                                    {subStdBoardObj.boards[Number(sub.board)]}{' '}
+                                    {subStdBoardObj.standards[Number(sub.standard)]}{' '}
+                                    {subStdBoardObj.subjects[Number(sub.subject)]}
                                 </span>
                                 <Icon icon="pencil" size="xs" />
                             </li>

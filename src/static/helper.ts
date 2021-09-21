@@ -35,3 +35,14 @@ export const removeEmptyUndefiendValues = (obj) => {
 export const valueAvailable = (val) => {
     return !!val;
 };
+
+export const convertArrayToObj = (
+    array: any,
+    keyFieldName: string,
+    valueFieldName: string
+): Record<string | number, string> => {
+    return array.reduce((obj, item) => {
+        obj[item[keyFieldName]] = item[valueFieldName];
+        return obj;
+    }, {});
+};
