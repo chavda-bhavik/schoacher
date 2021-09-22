@@ -11,6 +11,7 @@ import { IconButton } from '@/components/IconButton';
 interface QualificationFormProps {
     selectedQualification?: QualificationType;
     onQualificationSubmit?: (data: QualificationType) => void;
+    onQualificationDelete?: () => void;
     onClose?: () => void;
 }
 
@@ -18,6 +19,7 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
     onClose,
     selectedQualification,
     onQualificationSubmit,
+    onQualificationDelete,
 }) => {
     const {
         register,
@@ -29,11 +31,7 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
 
     useEffect(() => {
         if (selectedQualification) {
-            reset({
-                ...selectedQualification,
-                start: new Date(selectedQualification.start),
-                end: new Date(selectedQualification.end),
-            });
+            reset(selectedQualification);
         }
         return () => reset(null);
     }, [reset, selectedQualification]);
@@ -83,7 +81,7 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                                 name="start"
                                 render={({ field }) => (
                                     <DatePicker
-                                        selected={field.value}
+                                        selected={field.value ? new Date(field.value) : null}
                                         onChange={(date) => field.onChange(date)}
                                         dateFormat="MM/yyyy"
                                         className="input"
@@ -102,7 +100,7 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                                 name="end"
                                 render={({ field }) => (
                                     <DatePicker
-                                        selected={field.value}
+                                        selected={field.value ? new Date(field.value) : null}
                                         onChange={(date) => field.onChange(date)}
                                         dateFormat="MM/yyyy"
                                         className="input"
@@ -130,9 +128,15 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                     />
                 </Card.Body>
                 <Card.Footer>
-                    <Button type="submit" block>
-                        Submit
-                    </Button>
+                    <div className="flex justify-end space-x-2">
+                        <Button type="button" variant="secondary" onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button type="submit">Submit</Button>
+                        <Button type="button" variant="danger" onClick={onQualificationDelete}>
+                            Delete
+                        </Button>
+                    </div>
                 </Card.Footer>
             </form>
         </Card>

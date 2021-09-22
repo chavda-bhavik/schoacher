@@ -17,8 +17,8 @@ export interface QualificationType {
     degree: string;
     college: string;
     description?: string;
-    start: Date;
-    end: Date;
+    start: string;
+    end: string;
     grade?: string;
 }
 
