@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 
-import { Backdrop } from '@/components/Backdrop';
+import { Wrapper } from '@/components/Wrapper';
 import { QualificationType } from '@/interfaces';
+import { Backdrop } from '@/components/Backdrop';
 import { IconButton } from '@/components/IconButton';
 import { QualificationItem } from './QualificationItem';
 import { QualificationForm } from './QualificationForm';
 
 // graphql
-import { GET_ALL_QUALIFICATIONS } from '@/graphql/teacher/query/qualifications';
-import { getQualifications } from '@/graphql/teacher/query/__generated__/getQualifications';
+import { GET_ALL_QUALIFICATIONS, getQualifications } from '@/graphql/teacher/query';
 import {
     UPDATE_QUALIFICATION,
     updateQualification,
@@ -31,15 +31,17 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
             getAllQualificationsTeacherId: 2,
         },
     });
-    const [updateQualification] = useMutation<updateQualification>(UPDATE_QUALIFICATION);
+    const [updateQualification, {}] = useMutation<updateQualification>(UPDATE_QUALIFICATION);
     const [addQualification] = useMutation<addQualification>(ADD_QUALIFICATION);
     const [deleteQualification] = useMutation<deleteQualification>(DELETE_QUALIFICATION);
+
+    const [formDataLoading, setFormDataLoading] = useState(false);
+    const [serverErrors, setServerErrors] = useState<FieldError[]>();
     const [showQualification, setShowQualification] = useState(false);
     const [qualificationData, setQualificationData] = useState<QualificationType[]>([]);
     const [selectedQualification, setSelectedQualification] = useState<QualificationType>(null);
 
     useEffect(() => {
-        // @ts-ignore
         if (!qualificationsLoading && qualificationsData) {
             setQualificationData(
                 qualificationsData.getAllQualifications.map((q) => ({
@@ -59,28 +61,40 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
         setSelectedQualification(data);
         setShowQualification(true);
     };
-    const onQualificationUpdate = async (data: QualificationType) => {
+    const onQualificationUpdate = async (formData: QualificationType) => {
+        let success = false;
+        setFormDataLoading(true);
         if (selectedQualification) {
             // edit
-            delete data.id;
+            delete formData.id;
             let response = await updateQualification({
                 variables: {
-                    updateQualificationData: data,
+                    updateQualificationData: formData,
                     updateQualificationQualificationId: selectedQualification.id,
                 },
             });
-            if (response.data.updateQualification.entity) refetch();
+            if (response.data.updateQualification.entity) {
+                refetch();
+                success = true;
+            }
         } else {
-            let response = await addQualification({
+            let { data, errors } = await addQualification({
                 variables: {
-                    data,
+                    data: formData,
                     teacherId: 2,
                 },
             });
-            if (response.data.addQualification.entity) refetch();
+            if (data.addQualification.entity) {
+                refetch();
+                success = true;
+            } else if (data.addQualification.errors) setServerErrors(data.addQualification.errors);
+            else console.log(errors);
         }
-        setShowQualification(false);
-        setSelectedQualification(null);
+        if (success) {
+            setShowQualification(false);
+            setSelectedQualification(null);
+        }
+        setFormDataLoading(false);
     };
     const onQualificationDelete = async () => {
         try {
@@ -90,7 +104,11 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
                     qualificationId: selectedQualification.id,
                 },
             });
-            if (qualification.data.deleteQualification) refetch();
+            if (qualification.data.deleteQualification) {
+                refetch();
+                setSelectedQualification(null);
+                setShowQualification(false);
+            }
         } catch (err) {
             console.log(err);
         }
@@ -98,6 +116,7 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
     const onQualificationClose = () => {
         setSelectedQualification(null);
         setShowQualification(false);
+        setServerErrors(null);
     };
 
     return (
@@ -112,17 +131,20 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
                     />
                 </div>
                 <div className="divide-y-2 section-body">
-                    {qualificationData.map((qualification) => (
-                        <QualificationItem
-                            key={qualification.id}
-                            qualification={qualification}
-                            onClick={onQualificationItemClick}
-                        />
-                    ))}
+                    <Wrapper loading={qualificationsLoading}>
+                        {qualificationData.map((qualification) => (
+                            <QualificationItem
+                                key={qualification.id}
+                                qualification={qualification}
+                                onClick={onQualificationItemClick}
+                            />
+                        ))}
+                    </Wrapper>
                 </div>
             </section>
             <Backdrop show={showQualification} onClose={onQualificationClose}>
                 <QualificationForm
+                    serverErrors={serverErrors}
                     selectedQualification={selectedQualification}
                     onQualificationSubmit={onQualificationUpdate}
                     onQualificationDelete={onQualificationDelete}

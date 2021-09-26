@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 
 import { QualificationType } from '@/interfaces';
 import { Icon } from '@/static/Icons';
-import constants from '@/static/constants';
 
 interface QualificationProps {
     qualification: QualificationType;
@@ -21,9 +20,9 @@ export const QualificationItem: React.FC<QualificationProps> = ({ qualification,
                 <p className="mb-0 text-xl font-medium">{qualification.degree}</p>
                 <p className="mb-0">{qualification.college}</p>
                 <span className="text-sm font-normal text-primary-dark">
-                    {dayjs(qualification.start).format(constants.teacherProfile.dateFormat)}
+                    {dayjs(qualification.start).format('YYYY')}
                     {' - '}
-                    {dayjs(qualification.end).format(constants.teacherProfile.dateFormat)}
+                    {dayjs(qualification.end).format('YYYY')}
                 </span>
             </div>
         </div>

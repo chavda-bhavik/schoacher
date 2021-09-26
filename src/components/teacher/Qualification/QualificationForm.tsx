@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { useForm, Controller } from 'react-hook-form';
+import classNames from 'classnames';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
@@ -13,6 +14,8 @@ interface QualificationFormProps {
     onQualificationSubmit?: (data: QualificationType) => void;
     onQualificationDelete?: () => void;
     onClose?: () => void;
+    loading?: boolean;
+    serverErrors?: FieldError[];
 }
 
 export const QualificationForm: React.FC<QualificationFormProps> = ({
@@ -20,6 +23,8 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
     selectedQualification,
     onQualificationSubmit,
     onQualificationDelete,
+    loading,
+    serverErrors,
 }) => {
     const {
         register,
@@ -27,14 +32,30 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
         reset,
         formState: { errors },
         control,
-    } = useForm<QualificationType>();
+        setError,
+        clearErrors,
+        unregister,
+    } = useForm<QualificationType>({
+        shouldUnregister: false,
+    });
 
     useEffect(() => {
         if (selectedQualification) {
             reset(selectedQualification);
         }
-        return () => reset(null);
-    }, [reset, selectedQualification]);
+        return () => {
+            unregister();
+        };
+    }, [reset, selectedQualification, serverErrors, unregister]);
+
+    useEffect(() => {
+        if (Array.isArray(serverErrors) && serverErrors.length > 0) {
+            serverErrors.forEach((err) => {
+                console.log(err);
+                setError(err.field, { type: 'manual', message: err.message });
+            });
+        }
+    }, [serverErrors, clearErrors, setError]);
 
     return (
         <Card>
@@ -50,12 +71,13 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                 <Card.Body>
                     <Input
                         id="degree"
-                        name="college"
+                        name="degree"
                         type="text"
                         label="Degree Name"
                         register={register('degree', {
                             required: 'Degree is required',
                         })}
+                        required
                         row={true}
                         isInvalid={!!errors.degree}
                         error={errors.degree?.message}
@@ -64,6 +86,7 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                         id="college"
                         name="college"
                         type="text"
+                        required
                         label="College/University Name"
                         register={register('college', {
                             required: 'College is required',
@@ -74,39 +97,55 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                     <div className="grid grid-cols-2 gap-2 mt-3">
                         <div>
                             <label className="label" htmlFor="start">
-                                Start
+                                Start <span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 control={control}
                                 name="start"
-                                render={({ field }) => (
-                                    <DatePicker
-                                        selected={field.value ? new Date(field.value) : null}
-                                        onChange={(date) => field.onChange(date)}
-                                        dateFormat="MM/yyyy"
-                                        className="input"
-                                        showMonthYearPicker
-                                        id="start"
-                                    />
+                                rules={{ required: 'Start is required' }}
+                                render={({ field, fieldState: { error } }) => (
+                                    <>
+                                        <DatePicker
+                                            selected={field.value ? new Date(field.value) : null}
+                                            onChange={(date) => field.onChange(date)}
+                                            dateFormat="MM/yyyy"
+                                            className={classNames('input', {
+                                                'input-invalid': !!error,
+                                            })}
+                                            showMonthYearPicker
+                                            id="start"
+                                        />
+                                        {error && (
+                                            <span className="input-error">{error.message}</span>
+                                        )}
+                                    </>
                                 )}
                             />
                         </div>
                         <div>
                             <label className="label" htmlFor="end">
-                                End
+                                End <span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 control={control}
                                 name="end"
-                                render={({ field }) => (
-                                    <DatePicker
-                                        selected={field.value ? new Date(field.value) : null}
-                                        onChange={(date) => field.onChange(date)}
-                                        dateFormat="MM/yyyy"
-                                        className="input"
-                                        showMonthYearPicker
-                                        id="start"
-                                    />
+                                rules={{ required: 'End is required' }}
+                                render={({ field, fieldState: { error } }) => (
+                                    <>
+                                        <DatePicker
+                                            selected={field.value ? new Date(field.value) : null}
+                                            onChange={(date) => field.onChange(date)}
+                                            dateFormat="MM/yyyy"
+                                            className={classNames('input', {
+                                                'input-invalid': !!error,
+                                            })}
+                                            showMonthYearPicker
+                                            id="end"
+                                        />
+                                        {error && (
+                                            <span className="input-error">{error.message}</span>
+                                        )}
+                                    </>
                                 )}
                             />
                         </div>
@@ -129,13 +168,27 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                 </Card.Body>
                 <Card.Footer>
                     <div className="flex justify-end space-x-2">
-                        <Button type="button" variant="secondary" onClick={onClose}>
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            disabled={loading}
+                            onClick={onClose}
+                        >
                             Cancel
                         </Button>
-                        <Button type="submit">Submit</Button>
-                        <Button type="button" variant="danger" onClick={onQualificationDelete}>
-                            Delete
+                        <Button type="submit" loading={loading}>
+                            Submit
                         </Button>
+                        {selectedQualification && (
+                            <Button
+                                type="button"
+                                variant="danger"
+                                disabled={loading}
+                                onClick={onQualificationDelete}
+                            >
+                                Delete
+                            </Button>
+                        )}
                     </div>
                 </Card.Footer>
             </form>
