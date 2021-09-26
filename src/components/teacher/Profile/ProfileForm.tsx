@@ -13,20 +13,39 @@ interface ProfileFormProps {
     profileData: TeacherProfileType;
     onDataSubmit?: (data: TeacherProfileType) => void;
     onClose?: () => void;
+    serverErrors?: FieldError[];
 }
 
-export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onDataSubmit, onClose }) => {
+export const ProfileForm: React.FC<ProfileFormProps> = ({
+    profileData,
+    onDataSubmit,
+    onClose,
+    serverErrors,
+}) => {
     const {
         register,
         reset,
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<TeacherProfileType>();
+        setError,
+        unregister,
+    } = useForm<TeacherProfileType>({
+        shouldUnregister: false,
+    });
 
     useEffect(() => {
         reset(profileData);
-    }, [reset, profileData]);
+        return () => unregister();
+    }, [reset, profileData, unregister]);
+
+    useEffect(() => {
+        if (Array.isArray(serverErrors) && serverErrors.length > 0) {
+            serverErrors.forEach((err) => {
+                setError(err.field, { type: 'manual', message: err.message });
+            });
+        }
+    }, [serverErrors, setError]);
 
     const onFormSubmit = (data) => {
         onDataSubmit(data);
@@ -83,17 +102,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onDataSub
                         type="text"
                         label="Address"
                         register={register('address')}
-                    />
-                    <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        label="Email"
-                        register={register('email', {
-                            validate: (v) => regularExpressions.email.test(v),
-                        })}
-                        isInvalid={!!errors.email}
-                        error="Email is not valid"
                     />
                     <Input
                         id="mobile1"

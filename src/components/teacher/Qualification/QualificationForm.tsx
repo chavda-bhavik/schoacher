@@ -33,7 +33,6 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
         formState: { errors },
         control,
         setError,
-        clearErrors,
         unregister,
     } = useForm<QualificationType>({
         shouldUnregister: false,
@@ -43,19 +42,16 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
         if (selectedQualification) {
             reset(selectedQualification);
         }
-        return () => {
-            unregister();
-        };
+        return () => unregister();
     }, [reset, selectedQualification, serverErrors, unregister]);
 
     useEffect(() => {
         if (Array.isArray(serverErrors) && serverErrors.length > 0) {
             serverErrors.forEach((err) => {
-                console.log(err);
                 setError(err.field, { type: 'manual', message: err.message });
             });
         }
-    }, [serverErrors, clearErrors, setError]);
+    }, [serverErrors, setError]);
 
     return (
         <Card>

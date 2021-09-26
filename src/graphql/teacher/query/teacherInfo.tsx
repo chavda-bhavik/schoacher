@@ -5,48 +5,15 @@ export const GET_TEACHER_INFO = gql`
         teacher(id: $teacherId) {
             address
             email
-            id
-            headline
+            firstName
             gender
-            experiences {
-                currentlyWorking
-                title
-                type
-                start
-                end
-                subjects {
-                    board {
-                        value
-                    }
-                    standard {
-                        value
-                    }
-                    subject {
-                        value
-                    }
-                }
-            }
-            qualifications {
-                college
-                degree
-                start
-                end
-            }
-            materials {
-                title
-                fileUrl
-                subjects {
-                    board {
-                        value
-                    }
-                    standard {
-                        value
-                    }
-                    subject {
-                        value
-                    }
-                }
-            }
+            lastName
+            gender
+            about
+            headline
+            mobile1
+            mobile2
+            photoUrl
         }
     }
 `;

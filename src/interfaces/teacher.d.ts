@@ -7,7 +7,8 @@ export interface TeacherProfileType {
     mobile2?: string;
     photoUrl?: string;
     email?: string;
-    emailVerified?: boolean;
+    gender?: number;
+    photoUrl?: string;
     headline?: string;
     about?: string;
 }

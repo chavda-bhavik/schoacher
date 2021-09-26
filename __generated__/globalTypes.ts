@@ -16,6 +16,18 @@ export interface QualificationType {
   grade?: string | null;
 }
 
+export interface UpdateTeacherType {
+  firstName?: string | null;
+  lastName?: string | null;
+  mobile1?: string | null;
+  mobile2?: string | null;
+  headline?: string | null;
+  address?: string | null;
+  gender?: number | null;
+  about?: string | null;
+  photo?: any | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
