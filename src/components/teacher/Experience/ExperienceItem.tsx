@@ -32,12 +32,11 @@ export const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience, onCl
                 <ul className="list-disc list-inside">
                     {experience.subjects.map((subject) => (
                         <li className="leading-tight" key={subject.id}>
-                            {subject.board} {subject.standard} {subject.subject}
+                            {subject.board.value} {subject.standard.value} {subject.subject.value}
                         </li>
                     ))}
                 </ul>
             </div>
-            {/* <Icon icon="pencil" className="action-icon mx-5" /> */}
         </div>
     );
 };

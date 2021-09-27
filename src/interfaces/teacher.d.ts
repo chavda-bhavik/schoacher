@@ -1,4 +1,4 @@
-import { Subject } from '.';
+import { Subject, SubjectFormType } from '.';
 export interface TeacherProfileType {
     firstName: string;
     lastName: string;
@@ -23,16 +23,21 @@ export interface QualificationType {
     grade?: string;
 }
 
-export interface ExperienceType {
+export interface ExperienceBase {
     id: string | number;
     title: string;
     type: string;
-    employerName: string;
-    start: Date;
-    end?: Date;
+    employerName?: string;
+    start: string;
+    end?: string;
     currentlyWorking: Boolean;
-    description: string;
-    subjects: Subject[];
+    description?: string;
+}
+export interface ExperienceType extends ExperienceBase {
+    subjects: Partial<Subject>[];
+}
+export interface ExperienceFormType extends ExperienceBase {
+    subjects: SubjectFormType[];
 }
 
 export interface MaterialType {

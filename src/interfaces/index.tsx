@@ -1,5 +1,6 @@
 export type {
     ExperienceType,
+    ExperienceFormType,
     MaterialType,
     QualificationType,
     TeacherProfileType,
@@ -67,11 +68,24 @@ export type SchoolRegisterFieldTypes = {
     confirmPassword: string;
 };
 
+interface SubjectStandardBoard {
+    id: number;
+    label: string;
+    value: string;
+}
+
 export interface Subject {
     id: number | string;
-    board: string;
-    standard: string;
-    subject: string;
+    board: Partial<SubjectStandardBoard>;
+    standard: Partial<SubjectStandardBoard>;
+    subject: Partial<SubjectStandardBoard>;
+}
+
+export interface SubjectFormType {
+    id: number | string;
+    boardId: number | string;
+    standardId: number | string;
+    subjectId: number | string;
 }
 
 export interface Address {

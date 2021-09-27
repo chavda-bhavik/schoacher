@@ -6,15 +6,15 @@ import classNames from 'classnames';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
-import { ExperienceType, Subject } from '@/interfaces';
+import { ExperienceFormType, SubjectFormType } from '@/interfaces';
 import Card from '@/components/Card';
 import { IconButton } from '@/components/IconButton';
 import constants from '@/static/constants';
 
 interface ExperienceFormProps {
-    onSubmit: (data: ExperienceType) => void;
+    onSubmit: (data: ExperienceFormType) => void;
     onClose?: () => void;
-    selectedExperience?: ExperienceType;
+    selectedExperience?: ExperienceFormType;
 }
 
 export const ExperienceForm: React.FC<ExperienceFormProps> = ({
@@ -31,8 +31,8 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
         reset,
         watch,
         formState: { errors },
-    } = useForm<ExperienceType>();
-    const [experienceSubjects, setExperienceSubjects] = useState<Subject[]>(null);
+    } = useForm<ExperienceFormType>();
+    const [experienceSubjects, setExperienceSubjects] = useState<SubjectFormType[]>(null);
     const [error, setError] = useState<string>(null);
     const currentlyWorkingWatcher = watch('currentlyWorking');
 
@@ -49,13 +49,13 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
         }
     }, [reset, selectedExperience]);
 
-    const handleSubmitData = (data: ExperienceType) => {
+    const handleSubmitData = (data: ExperienceFormType) => {
         if (!experienceSubjects || experienceSubjects.length === 0) {
             setError('Subjects are required');
             return;
         }
         setError(null);
-        let experience: ExperienceType = {
+        let experience: ExperienceFormType = {
             ...data,
             subjects: experienceSubjects,
         };

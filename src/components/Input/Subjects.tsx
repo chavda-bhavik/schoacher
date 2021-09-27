@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 
-import { Subject } from '@/interfaces';
+import { SubjectFormType } from '@/interfaces';
 import { useForm } from 'react-hook-form';
 import { IconButton } from '@/components/IconButton';
 import { Input } from '@/components/Input';
@@ -15,8 +15,8 @@ import { convertArrayToObj } from '@/static/helper';
 
 interface SubjectsProps {
     title?: string;
-    subjects: Subject[];
-    setSubjects: (subjects: Subject[]) => void;
+    subjects: SubjectFormType[];
+    setSubjects: (subjects: SubjectFormType[]) => void;
     limit?: number;
 }
 
@@ -32,26 +32,28 @@ export const Subjects: React.FC<SubjectsProps> = ({
     const [subStdBoardObj, setSubStdBoardObj] = useState<SubStdBoardState>();
 
     useEffect(() => {
-        let newSubStdBoards: SubStdBoardState = {
-            subjects: {},
-            boards: {},
-            standards: {},
-        };
-        newSubStdBoards.subjects = convertArrayToObj(data.subjects, 'id', 'value');
-        newSubStdBoards.boards = convertArrayToObj(data.boards, 'id', 'value');
-        newSubStdBoards.standards = convertArrayToObj(data.standards, 'id', 'value');
-        setSubStdBoardObj(newSubStdBoards);
-    }, [data]);
+        if (!loading && data) {
+            let newSubStdBoards: SubStdBoardState = {
+                subjects: {},
+                boards: {},
+                standards: {},
+            };
+            newSubStdBoards.subjects = convertArrayToObj(data.subjects, 'id', 'value');
+            newSubStdBoards.boards = convertArrayToObj(data.boards, 'id', 'value');
+            newSubStdBoards.standards = convertArrayToObj(data.standards, 'id', 'value');
+            setSubStdBoardObj(newSubStdBoards);
+        }
+    }, [data, loading]);
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<Subject>({
+    } = useForm<SubjectFormType>({
         defaultValues: {
-            board: '',
-            subject: '',
-            standard: '',
+            boardId: '',
+            subjectId: '',
+            standardId: '',
         },
     });
 
@@ -92,13 +94,13 @@ export const Subjects: React.FC<SubjectsProps> = ({
                     type="select"
                     row={true}
                     className="overflow-ellipsis overflow-hidden"
-                    id="board"
-                    name="board"
-                    register={register('board', {
+                    id="boardId"
+                    name="boardId"
+                    register={register('boardId', {
                         required: 'Please select Board',
                     })}
-                    isInvalid={!!errors.board}
-                    error={errors.board?.message}
+                    isInvalid={!!errors.boardId}
+                    error={errors.boardId?.message}
                 >
                     <option disabled value=""></option>
                     {!loading &&
@@ -112,14 +114,14 @@ export const Subjects: React.FC<SubjectsProps> = ({
                     <Input
                         row={true}
                         type="select"
-                        id="standard"
-                        name="standard"
+                        id="standardId"
+                        name="standardId"
                         className="overflow-ellipsis overflow-hidden"
-                        register={register('standard', {
+                        register={register('standardId', {
                             required: 'Please select standardd',
                         })}
-                        isInvalid={!!errors.standard}
-                        error={errors.standard?.message}
+                        isInvalid={!!errors.standardId}
+                        error={errors.standardId?.message}
                     >
                         <option disabled value=""></option>
                         {!loading &&
@@ -132,14 +134,14 @@ export const Subjects: React.FC<SubjectsProps> = ({
                     <Input
                         row={true}
                         type="select"
-                        id="subject"
-                        name="subject"
+                        id="subjectId"
+                        name="subjectId"
                         className="overflow-ellipsis flex-grow overflow-hidden"
-                        register={register('subject', {
+                        register={register('subjectId', {
                             required: 'Please select subject',
                         })}
-                        isInvalid={!!errors.subject}
-                        error={errors.subject?.message}
+                        isInvalid={!!errors.subjectId}
+                        error={errors.subjectId?.message}
                     >
                         <option disabled value=""></option>
                         {!loading &&
@@ -186,9 +188,9 @@ export const Subjects: React.FC<SubjectsProps> = ({
                                 onClick={() => setActiveSubjectKey(i)}
                             >
                                 <span>
-                                    {subStdBoardObj.boards[Number(sub.board)]}{' '}
-                                    {subStdBoardObj.standards[Number(sub.standard)]}{' '}
-                                    {subStdBoardObj.subjects[Number(sub.subject)]}
+                                    {subStdBoardObj.boards[Number(sub.boardId)]}{' '}
+                                    {subStdBoardObj.standards[Number(sub.standardId)]}{' '}
+                                    {subStdBoardObj.subjects[Number(sub.subjectId)]}
                                 </span>
                                 <Icon icon="pencil" size="xs" />
                             </li>

@@ -1,29 +1,54 @@
 import React, { useState, useEffect } from 'react';
+import { useQuery, useLazyQuery } from '@apollo/client';
 
 import { ExperienceItem } from '@/components/teacher/Experience/ExperienceItem';
 import { IconButton } from '@/components/IconButton';
-import { ExperienceType } from '@/interfaces';
+import { ExperienceType, ExperienceFormType } from '@/interfaces';
 import { ExperienceForm } from '@/components/teacher/Experience/ExperienceForm';
 import { Backdrop } from '@/components/Backdrop';
-import JsonData from '@/static/teacher-profile-data.json';
+
+// graphql
+import {
+    getAllExperiences,
+    GET_ALL_EXPERIENCES,
+    getExperience,
+    GET_EXPERIENCE,
+} from '@/graphql/teacher/query';
 
 interface ExperienceProps {}
 
 export const Experience: React.FC<ExperienceProps> = ({}) => {
+    const { loading: experiencesLoading, data: experiencesData } = useQuery<getAllExperiences>(
+        GET_ALL_EXPERIENCES,
+        {
+            variables: {
+                teacherId: 2,
+            },
+        }
+    );
+    const [fetchExperience, { loading: experienceLoading, data: experience }] =
+        useLazyQuery<getExperience>(GET_EXPERIENCE);
     const [showExperience, setShowExperience] = useState(false);
 
-    const [selectedExperience, setSelectedExperience] = useState<ExperienceType>(null);
+    const [selectedExperience, setSelectedExperience] = useState<ExperienceFormType>(null);
     const [experienceData, setExperienceData] = useState<ExperienceType[]>(null);
 
+    // Set All Experience Data
     useEffect(() => {
-        // @ts-ignore
-        setExperienceData(JsonData.experience);
-    }, []);
+        if (!experiencesLoading && experiencesData)
+            setExperienceData(experiencesData.getAllExperiences);
+    }, [experiencesLoading, experiencesData]);
 
-    // Experience
+    // Set Single Experience Data
+    useEffect(() => {
+        if (!experienceLoading && experience) {
+            setSelectedExperience(experience.getExperience);
+            setShowExperience(true);
+        }
+    }, [experience, experienceLoading]);
+
     const onExperienceItemClick = (data: ExperienceType) => {
-        setSelectedExperience(data);
-        setShowExperience(true);
+        fetchExperience({ variables: { experienceId: data.id, teacherId: 2 } });
     };
     const onExperienceSubmit = (data: ExperienceType) => {
         let newExperiences = [...experienceData];

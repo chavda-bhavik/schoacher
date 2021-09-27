@@ -35,7 +35,6 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
     const [addQualification] = useMutation<addQualification>(ADD_QUALIFICATION);
     const [deleteQualification] = useMutation<deleteQualification>(DELETE_QUALIFICATION);
 
-    const [formDataLoading, setFormDataLoading] = useState(false);
     const [serverErrors, setServerErrors] = useState<FieldError[]>();
     const [showQualification, setShowQualification] = useState(false);
     const [qualificationData, setQualificationData] = useState<QualificationType[]>([]);
@@ -63,7 +62,6 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
     };
     const onQualificationUpdate = async (formData: QualificationType) => {
         let success = false;
-        setFormDataLoading(true);
         if (selectedQualification) {
             // edit
             delete formData.id;
@@ -94,7 +92,6 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
             setShowQualification(false);
             setSelectedQualification(null);
         }
-        setFormDataLoading(false);
     };
     const onQualificationDelete = async () => {
         try {
