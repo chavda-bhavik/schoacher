@@ -18,6 +18,7 @@ interface SubjectsProps {
     subjects: SubjectFormType[];
     setSubjects: (subjects: SubjectFormType[]) => void;
     limit?: number;
+    setSubjectsModified?: (status: boolean) => void;
 }
 
 export const Subjects: React.FC<SubjectsProps> = ({
@@ -25,11 +26,16 @@ export const Subjects: React.FC<SubjectsProps> = ({
     subjects,
     setSubjects,
     limit,
+    setSubjectsModified,
 }) => {
     const { loading, data } = useQuery<getSubStdBoards>(GET_SUB_STD_BOARDS);
     const [activeSubjectKey, setActiveSubjectKey] = useState<number>(null);
     const [error, setError] = useState<string>(null);
-    const [subStdBoardObj, setSubStdBoardObj] = useState<SubStdBoardState>();
+    const [subStdBoardObj, setSubStdBoardObj] = useState<SubStdBoardState>({
+        boards: [],
+        standards: [],
+        subjects: [],
+    });
 
     useEffect(() => {
         if (!loading && data) {
@@ -65,7 +71,13 @@ export const Subjects: React.FC<SubjectsProps> = ({
             );
             if (subject) setError('Subject of same type is already added.');
             else {
-                if (newSubjects.length + 1 === activeSubjectKey) newSubjects.push(data);
+                if (setSubjectsModified) setSubjectsModified(true);
+                if (newSubjects.length + 1 === activeSubjectKey)
+                    newSubjects.push({
+                        boardId: Number(data.boardId),
+                        subjectId: Number(data.subjectId),
+                        standardId: Number(data.standardId),
+                    });
                 else newSubjects[activeSubjectKey] = data;
                 setSubjects(newSubjects);
                 setActiveSubjectKey(null);

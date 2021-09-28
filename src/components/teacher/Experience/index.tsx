@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import { useQuery, useLazyQuery, useMutation, OperationVariables } from '@apollo/client';
 
 import { ExperienceItem } from '@/components/teacher/Experience/ExperienceItem';
 import { IconButton } from '@/components/IconButton';
@@ -14,22 +14,30 @@ import {
     getExperience,
     GET_EXPERIENCE,
 } from '@/graphql/teacher/query';
+import {
+    addExperience,
+    ADD_EXPERIENCE,
+    updateExperience,
+    UPDATE_EXPERIENCE,
+} from '@/graphql/teacher/mutation';
 
 interface ExperienceProps {}
 
 export const Experience: React.FC<ExperienceProps> = ({}) => {
-    const { loading: experiencesLoading, data: experiencesData } = useQuery<getAllExperiences>(
-        GET_ALL_EXPERIENCES,
-        {
-            variables: {
-                teacherId: 2,
-            },
-        }
-    );
+    const {
+        loading: experiencesLoading,
+        data: experiencesData,
+        refetch,
+    } = useQuery<getAllExperiences>(GET_ALL_EXPERIENCES, {
+        variables: {
+            teacherId: 2,
+        },
+    });
     const [fetchExperience, { loading: experienceLoading, data: experience }] =
         useLazyQuery<getExperience>(GET_EXPERIENCE);
+    const [updateExperience] = useMutation<updateExperience>(UPDATE_EXPERIENCE);
+    const [addExperience] = useMutation<addExperience>(ADD_EXPERIENCE);
     const [showExperience, setShowExperience] = useState(false);
-
     const [selectedExperience, setSelectedExperience] = useState<ExperienceFormType>(null);
     const [experienceData, setExperienceData] = useState<ExperienceType[]>(null);
 
@@ -42,7 +50,9 @@ export const Experience: React.FC<ExperienceProps> = ({}) => {
     // Set Single Experience Data
     useEffect(() => {
         if (!experienceLoading && experience) {
-            setSelectedExperience(experience.getExperience);
+            let data = { ...experience.getExperience };
+            delete data.__typename;
+            setSelectedExperience(data);
             setShowExperience(true);
         }
     }, [experience, experienceLoading]);
@@ -50,20 +60,34 @@ export const Experience: React.FC<ExperienceProps> = ({}) => {
     const onExperienceItemClick = (data: ExperienceType) => {
         fetchExperience({ variables: { experienceId: data.id, teacherId: 2 } });
     };
-    const onExperienceSubmit = (data: ExperienceType) => {
-        let newExperiences = [...experienceData];
+    const onExperienceSubmit = async (formData: ExperienceFormType) => {
+        let success = false;
+        let subjects;
+        if (formData.subjects) {
+            subjects = [...formData.subjects];
+            delete formData.subjects;
+        }
+        delete formData.id;
         if (selectedExperience) {
             // edit
-            newExperiences = newExperiences.map((experience) => {
-                if (experience.id === selectedExperience.id) return { ...data };
-                else return { ...experience };
-            });
+            let variables: OperationVariables = {
+                data: formData,
+                experienceId: selectedExperience.id,
+            };
+            if (subjects) variables.subjects = subjects;
+            let { data } = await updateExperience({ variables });
+            if (data.updateExperience.entity) success = true;
         } else {
-            newExperiences.push({ ...data, id: newExperiences.length + 5 });
+            let variables: OperationVariables = { data: formData, teacherId: 2 };
+            if (subjects) variables.subjects = subjects;
+            let { data } = await addExperience({ variables });
+            if (data.addExperience.entity) success = true;
         }
-        setExperienceData(newExperiences);
-        setShowExperience(false);
-        setSelectedExperience(null);
+        if (success) {
+            refetch();
+            setShowExperience(false);
+            setSelectedExperience(null);
+        }
     };
     const onExperienceClose = () => {
         setShowExperience(false);

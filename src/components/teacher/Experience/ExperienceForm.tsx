@@ -33,6 +33,7 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
         formState: { errors },
     } = useForm<ExperienceFormType>();
     const [experienceSubjects, setExperienceSubjects] = useState<SubjectFormType[]>(null);
+    const [subjectsModified, setSubjectsModified] = useState(false);
     const [error, setError] = useState<string>(null);
     const currentlyWorkingWatcher = watch('currentlyWorking');
 
@@ -45,7 +46,14 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
             let experience = { ...selectedExperience };
             delete experience.subjects;
             reset(experience);
-            setExperienceSubjects(selectedExperience.subjects);
+            setExperienceSubjects(
+                selectedExperience.subjects.map((subj) => ({
+                    boardId: subj.boardId,
+                    standardId: subj.standardId,
+                    subjectId: subj.subjectId,
+                    id: subj.id,
+                }))
+            );
         }
     }, [reset, selectedExperience]);
 
@@ -57,8 +65,10 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
         setError(null);
         let experience: ExperienceFormType = {
             ...data,
-            subjects: experienceSubjects,
+            start: new Date(data.start).toISOString(),
+            end: new Date(data.end).toISOString(),
         };
+        if (subjectsModified) experience.subjects = experienceSubjects;
         onSubmit(experience);
     };
 
@@ -178,6 +188,7 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
                         title="Subjects"
                         subjects={experienceSubjects}
                         setSubjects={(subjects) => setExperienceSubjects(subjects)}
+                        setSubjectsModified={setSubjectsModified}
                     />
                     {error && <p className="input-error">{error}</p>}
                 </Card.Body>

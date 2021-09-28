@@ -7,6 +7,25 @@
 // START Enums and Input Objects
 //==============================================================
 
+/**
+ * Enum describing Employer Type
+ */
+export enum EmployerTypeEnum {
+  HOMEBATCH = "HOMEBATCH",
+  SCHOOL = "SCHOOL",
+  TUTION = "TUTION",
+}
+
+export interface ExperienceType {
+  start?: string | null;
+  end?: string | null;
+  title?: string | null;
+  currentlyWorking?: boolean | null;
+  description?: string | null;
+  type?: EmployerTypeEnum | null;
+  employerName?: string | null;
+}
+
 export interface QualificationType {
   start?: string | null;
   end?: string | null;
@@ -14,6 +33,12 @@ export interface QualificationType {
   degree?: string | null;
   description?: string | null;
   grade?: string | null;
+}
+
+export interface SubStdBoardType {
+  boardId: number;
+  subjectId: number;
+  standardId: number;
 }
 
 export interface UpdateTeacherType {

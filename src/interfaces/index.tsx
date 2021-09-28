@@ -82,7 +82,7 @@ export interface Subject {
 }
 
 export interface SubjectFormType {
-    id: number | string;
+    id?: number | string;
     boardId: number | string;
     standardId: number | string;
     subjectId: number | string;

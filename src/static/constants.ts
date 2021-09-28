@@ -12,9 +12,9 @@ const constants = {
     acceptPDF: 'application/pdf',
     acceptImage: 'image/jpeg,image/jpg,image/png',
     experienceRequirementType: [
-        { label: 'School', value: 'school' },
-        { label: 'Tution', value: 'tution' },
-        { label: 'Home Batch', value: 'home-batch' },
+        { label: 'School', value: 'School' },
+        { label: 'Tution', value: 'Tution' },
+        { label: 'Home Batch', value: 'HomeBatch' },
     ],
     boards: [
         { label: '(GSEB) Gujarat Secondary & Higher Secondary Education Board', value: 'GSEB' },
