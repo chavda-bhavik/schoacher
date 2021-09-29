@@ -11,9 +11,9 @@
  * Enum describing Employer Type
  */
 export enum EmployerTypeEnum {
-  HOMEBATCH = "HOMEBATCH",
-  SCHOOL = "SCHOOL",
-  TUTION = "TUTION",
+  HomeBatch = "HomeBatch",
+  School = "School",
+  Tution = "Tution",
 }
 
 export interface ExperienceType {

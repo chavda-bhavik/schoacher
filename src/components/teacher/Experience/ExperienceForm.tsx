@@ -12,15 +12,21 @@ import { IconButton } from '@/components/IconButton';
 import constants from '@/static/constants';
 
 interface ExperienceFormProps {
+    serverErrors?: FieldError[];
     onSubmit: (data: ExperienceFormType) => void;
     onClose?: () => void;
+    onExperienceDelete?: () => void;
+    loading?: boolean;
     selectedExperience?: ExperienceFormType;
 }
 
 export const ExperienceForm: React.FC<ExperienceFormProps> = ({
     onSubmit,
     selectedExperience,
+    onExperienceDelete,
     onClose,
+    loading,
+    serverErrors,
 }) => {
     const {
         register,
@@ -30,16 +36,25 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
         setValue,
         reset,
         watch,
+        setError,
         formState: { errors },
     } = useForm<ExperienceFormType>();
     const [experienceSubjects, setExperienceSubjects] = useState<SubjectFormType[]>(null);
     const [subjectsModified, setSubjectsModified] = useState(false);
-    const [error, setError] = useState<string>(null);
+    const [subjectsError, setSubjectsError] = useState<string>(null);
     const currentlyWorkingWatcher = watch('currentlyWorking');
 
     useEffect(() => {
         if (currentlyWorkingWatcher) setValue('end', null);
     }, [currentlyWorkingWatcher, setValue]);
+
+    useEffect(() => {
+        if (Array.isArray(serverErrors) && serverErrors.length > 0) {
+            serverErrors.forEach((err) => {
+                setError(err.field, { type: 'manual', message: err.message });
+            });
+        }
+    }, [serverErrors, setError]);
 
     useEffect(() => {
         if (selectedExperience) {
@@ -51,7 +66,6 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
                     boardId: subj.boardId,
                     standardId: subj.standardId,
                     subjectId: subj.subjectId,
-                    id: subj.id,
                 }))
             );
         }
@@ -59,10 +73,10 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
 
     const handleSubmitData = (data: ExperienceFormType) => {
         if (!experienceSubjects || experienceSubjects.length === 0) {
-            setError('Subjects are required');
+            setSubjectsError('Subjects are required');
             return;
         }
-        setError(null);
+        setSubjectsError(null);
         let experience: ExperienceFormType = {
             ...data,
             start: new Date(data.start).toISOString(),
@@ -77,7 +91,7 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
             <Card.Header>
                 <div className="flex flex-row justify-between items-center">
                     <p className="title">{selectedExperience ? 'Update' : 'Add'} Experience</p>
-                    <IconButton icon="close" onClick={onClose} />
+                    <IconButton icon="close" onClick={onClose} disabled={loading} />
                 </div>
             </Card.Header>
             <form onSubmit={handleSubmit(handleSubmitData)}>
@@ -190,12 +204,32 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
                         setSubjects={(subjects) => setExperienceSubjects(subjects)}
                         setSubjectsModified={setSubjectsModified}
                     />
-                    {error && <p className="input-error">{error}</p>}
+                    {subjectsError && <p className="input-error">{subjectsError}</p>}
                 </Card.Body>
                 <Card.Footer>
-                    <Button block type="submit">
-                        Submit
-                    </Button>
+                    <div className="flex justify-end space-x-2">
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            disabled={loading}
+                            onClick={onClose}
+                        >
+                            Cancel
+                        </Button>
+                        <Button type="submit" loading={loading}>
+                            Submit
+                        </Button>
+                        {selectedExperience && (
+                            <Button
+                                type="button"
+                                variant="danger"
+                                disabled={loading}
+                                onClick={onExperienceDelete}
+                            >
+                                Delete
+                            </Button>
+                        )}
+                    </div>
                 </Card.Footer>
             </form>
         </Card>

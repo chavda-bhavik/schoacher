@@ -1,3 +1,4 @@
+import { EmployerTypeEnum } from '@/../__generated__/globalTypes';
 import { Subject, SubjectFormType } from '.';
 export interface TeacherProfileType {
     firstName: string;
@@ -24,13 +25,13 @@ export interface QualificationType {
 }
 
 export interface ExperienceBase {
-    id: string | number;
+    id: number;
     title: string;
-    type: string;
+    type: EmployerTypeEnum;
     employerName?: string;
     start: string;
     end?: string;
-    currentlyWorking: Boolean;
+    currentlyWorking: boolean;
     description?: string;
 }
 export interface ExperienceType extends ExperienceBase {

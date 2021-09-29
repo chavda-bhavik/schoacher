@@ -3768,19 +3768,19 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "SCHOOL",
+            "name": "School",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "TUTION",
+            "name": "Tution",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "HOMEBATCH",
+            "name": "HomeBatch",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
