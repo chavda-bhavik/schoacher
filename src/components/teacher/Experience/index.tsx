@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, useLazyQuery, useMutation, OperationVariables } from '@apollo/client';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 
 import { ExperienceItem } from '@/components/teacher/Experience/ExperienceItem';
 import { IconButton } from '@/components/IconButton';

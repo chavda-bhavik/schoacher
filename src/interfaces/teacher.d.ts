@@ -41,13 +41,19 @@ export interface ExperienceFormType extends ExperienceBase {
     subjects: SubjectFormType[];
 }
 
-export interface MaterialType {
-    id: string | number;
+export interface MaterialBase {
+    id: number;
     title: string;
     subjects: Subject[];
-    mediaUrl?: string;
-    mediaObj?: File;
-    description: string;
+    fileUrl?: string;
+    document?: File;
+    description?: string;
+}
+export interface MaterialType extends MaterialBase {
+    subjects: Partial<Subject>[];
+}
+export interface MaterialFormType extends MaterialBase {
+    subjects: SubjectFormType[];
 }
 
 export interface TeacherRequirementFilterType {

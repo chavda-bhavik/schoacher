@@ -932,8 +932,8 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "ENUM",
+                "name": "EmployerTypeEnum",
                 "ofType": null
               }
             },
@@ -1008,6 +1008,36 @@
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "EmployerTypeEnum",
+        "description": "Enum describing Employer Type",
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "School",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "Tution",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "HomeBatch",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "possibleTypes": null
       },
       {
@@ -3759,36 +3789,6 @@
         "possibleTypes": null
       },
       {
-        "kind": "ENUM",
-        "name": "EmployerTypeEnum",
-        "description": "Enum describing Employer Type",
-        "specifiedByUrl": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "School",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "Tution",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "HomeBatch",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "possibleTypes": null
-      },
-      {
         "kind": "OBJECT",
         "name": "BoardResponseType",
         "description": null,
@@ -4128,7 +4128,7 @@
             "deprecationReason": null
           },
           {
-            "name": "image",
+            "name": "document",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -4176,7 +4176,7 @@
             "deprecationReason": null
           },
           {
-            "name": "image",
+            "name": "document",
             "description": null,
             "type": {
               "kind": "SCALAR",

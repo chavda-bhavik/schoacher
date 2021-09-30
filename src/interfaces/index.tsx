@@ -2,6 +2,7 @@ export type {
     ExperienceType,
     ExperienceFormType,
     MaterialType,
+    MaterialFormType,
     QualificationType,
     TeacherProfileType,
     TeacherRequirementFilterType,

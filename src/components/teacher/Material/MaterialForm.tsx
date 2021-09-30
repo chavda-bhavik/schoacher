@@ -1,16 +1,17 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
-import { Subject, MaterialType } from '@/interfaces';
-import { useForm } from 'react-hook-form';
+import { SubjectFormType, MaterialFormType } from '@/interfaces';
 import { IconButton } from '@/components/IconButton';
 
 interface MaterialFormProps {
-    selectedMaterial?: MaterialType;
-    onSubmit: (data: MaterialType) => void;
+    serverErrors?: FieldError[];
+    selectedMaterial?: MaterialFormType;
+    onSubmit: (data: MaterialFormType) => void;
     onClose?: () => void;
 }
 
@@ -18,41 +19,56 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
     onSubmit,
     selectedMaterial,
     onClose,
+    serverErrors,
 }) => {
-    const [materialSubjects, setMaterialSubjects] = useState<Subject[]>(null);
+    const [materialSubjects, setMaterialSubjects] = useState<SubjectFormType[]>(null);
     const {
         register,
         handleSubmit,
         setValue,
         reset,
         getValues,
+        setError,
         formState: { errors, isSubmitted },
-    } = useForm<MaterialType>();
-    const [error, setError] = useState<string>();
+    } = useForm<MaterialFormType>();
+    const [subjectsError, setSubjectsError] = useState<string>();
+    const [subjectsModified, setSubjectsModified] = useState(false);
 
     useEffect(() => {
         if (selectedMaterial) {
             let material = { ...selectedMaterial };
             delete material.subjects;
             reset(material);
-            setMaterialSubjects(selectedMaterial.subjects);
+            setMaterialSubjects(
+                selectedMaterial.subjects.map((subj) => ({
+                    boardId: subj.boardId,
+                    standardId: subj.standardId,
+                    subjectId: subj.subjectId,
+                }))
+            );
         }
     }, [reset, selectedMaterial]);
 
+    useEffect(() => {
+        if (Array.isArray(serverErrors) && serverErrors.length > 0) {
+            serverErrors.forEach((err) => {
+                setError(err.field, { type: 'manual', message: err.message });
+            });
+        }
+    }, [serverErrors, setError]);
+
     const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue('mediaObj', e.target.files[0]);
+        setValue('document', e.target.files[0]);
     };
 
     const onMaterialFormSubmit = (data) => {
         if (!materialSubjects || materialSubjects.length === 0) {
-            setError('Subjects are required');
+            setSubjectsError('Subjects are required');
             return;
-        } else setError(undefined);
-        if (!selectedMaterial && !getValues('mediaObj')) return;
-        let material: MaterialType = {
-            ...data,
-            subjects: materialSubjects,
-        };
+        } else setSubjectsError(undefined);
+        if (!selectedMaterial && !getValues('document')) return;
+        let material: MaterialFormType = data;
+        if (subjectsModified) material.subjects = materialSubjects;
         onSubmit(material);
     };
 
@@ -89,7 +105,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                         name="file"
                         accept="application/pdf"
                         onChange={onFileChange}
-                        isInvalid={isSubmitted && !selectedMaterial && !getValues('mediaObj')}
+                        isInvalid={isSubmitted && !selectedMaterial && !getValues('document')}
                         error="File is required"
                         note="Only pdf files are allowed"
                         label="Material PDF"
@@ -98,8 +114,9 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                         title="Subjects"
                         subjects={materialSubjects}
                         setSubjects={(subjects) => setMaterialSubjects(subjects)}
+                        setSubjectsModified={setSubjectsModified}
                     />
-                    {error && <p className="input-error">{error}</p>}
+                    {subjectsError && <p className="input-error">{subjectsError}</p>}
                 </Card.Body>
                 <Card.Footer>
                     <Button block type="submit">

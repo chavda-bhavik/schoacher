@@ -78,7 +78,12 @@ export const Subjects: React.FC<SubjectsProps> = ({
                         subjectId: Number(data.subjectId),
                         standardId: Number(data.standardId),
                     });
-                else newSubjects[activeSubjectKey] = data;
+                else
+                    newSubjects[activeSubjectKey] = {
+                        boardId: Number(data.boardId),
+                        subjectId: Number(data.subjectId),
+                        standardId: Number(data.standardId),
+                    };
                 setSubjects(newSubjects);
                 setActiveSubjectKey(null);
                 setError(null);
@@ -92,6 +97,7 @@ export const Subjects: React.FC<SubjectsProps> = ({
             setError(null);
             return;
         }
+        if (setSubjectsModified) setSubjectsModified(true);
         let newSubjects = [...subjects];
         newSubjects = newSubjects.filter((_, i) => i !== activeSubjectKey);
         setSubjects(newSubjects);

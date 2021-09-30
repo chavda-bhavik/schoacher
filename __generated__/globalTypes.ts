@@ -16,6 +16,12 @@ export enum EmployerTypeEnum {
   Tution = "Tution",
 }
 
+export interface AddMaterialType {
+  title?: string | null;
+  description?: string | null;
+  document?: any | null;
+}
+
 export interface ExperienceType {
   start?: string | null;
   end?: string | null;
@@ -39,6 +45,12 @@ export interface SubStdBoardType {
   boardId: number;
   subjectId: number;
   standardId: number;
+}
+
+export interface UpdateMaterialType {
+  title?: string | null;
+  description?: string | null;
+  document?: any | null;
 }
 
 export interface UpdateTeacherType {
