@@ -10,7 +10,6 @@ interface FieldError {
 
 interface ToastType {
     type?: 'danger' | 'base' | 'info' | 'error' | 'warning' | 'success',
-    title?: string,
     message: string,
     duration?: number,
 }

@@ -59,6 +59,7 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
         });
         if (data.updateTeacherInfo.entity) {
             refetch();
+            toast.success('Profile Updated');
             setShowEditProfile(false);
         } else if (data.updateTeacherInfo.errors) setServerErrors(data.updateTeacherInfo.errors);
     };

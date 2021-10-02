@@ -43,7 +43,8 @@ export type IconsType =
     | 'trash'
     | 'danger'
     | 'info'
-    | 'filter';
+    | 'filter'
+    | 'msgAlt';
 
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';
 

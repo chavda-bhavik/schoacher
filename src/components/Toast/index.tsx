@@ -5,6 +5,7 @@ import pubsub from 'sweet-pubsub';
 import { IconButton } from '@/components/IconButton';
 import { generateUniqueString } from '@/shared/helper';
 import { ToastVariantType } from '@/interfaces';
+import { Icon } from '@/shared/Icons';
 
 const VARIANTS: Record<string, ToastVariantType> = {
     info: {
@@ -16,13 +17,13 @@ const VARIANTS: Record<string, ToastVariantType> = {
     error: {
         base: 'bg-white border-red-500 ',
         iconstyle: 'text-red-500 ',
-        icon: 'trash',
+        icon: 'info',
         name: 'Error',
     },
     warning: {
         base: 'bg-white border-yellow-500',
         iconstyle: 'text-yellow-500 ',
-        icon: 'trash',
+        icon: 'info',
         name: 'Warning',
     },
     success: {
@@ -34,7 +35,7 @@ const VARIANTS: Record<string, ToastVariantType> = {
     base: {
         base: 'bg-white border-gray-600',
         iconstyle: '',
-        icon: 'check',
+        icon: 'msgAlt',
         name: 'base',
     },
 };
@@ -43,13 +44,21 @@ const Toast = () => {
     const [toasts, setToasts] = useState([]);
 
     useEffect(() => {
-        const addToast = ({ type = 'success', title, message, duration = 500 }) => {
+        const addToast = ({ type = 'success', message, duration = 3 }) => {
             const id = generateUniqueString();
             const variant = VARIANTS[type] ? VARIANTS[type] : VARIANTS.base;
 
             setToasts((currentToasts) => [
                 ...currentToasts,
-                { id, type, title, message, base: variant.base },
+                {
+                    id,
+                    type,
+                    title: variant.name,
+                    message,
+                    base: variant.base,
+                    icon: variant.icon,
+                    iconStyle: variant.iconstyle,
+                },
             ]);
 
             if (duration) {
@@ -85,6 +94,18 @@ const Toast = () => {
                                         className={`flex w-full visible flex-row shadow-lg border-l-4 rounded-md duration-100 cursor-pointer transform transition-all hover:scale-102 ${toast.base} max-h-40`}
                                     >
                                         <div className="flex flex-row p-2 flex-no-wrap w-full">
+                                            {toast.icon && (
+                                                <div
+                                                    className={
+                                                        'flex items-center h-12 w-12 mx-auto text-xl select-none'
+                                                    }
+                                                >
+                                                    <Icon
+                                                        icon={toast.icon}
+                                                        className={toast.iconStyle}
+                                                    />
+                                                </div>
+                                            )}
                                             <div className="flex flex-col flex-no-wrap px-1 w-full">
                                                 <div className="flex my-auto font-bold select-none">
                                                     {toast.title}

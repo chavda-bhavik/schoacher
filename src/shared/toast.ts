@@ -7,9 +7,7 @@ const success = (message: string) => show({ type: 'success', message });
 const error = (err: string) => {
     show({
         type: 'danger',
-        title: 'Error',
-        message: err,
-        duration: 0,
+        message: err
     });
 };
 
