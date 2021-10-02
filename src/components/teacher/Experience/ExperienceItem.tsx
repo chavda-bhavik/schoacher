@@ -30,8 +30,8 @@ export const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience, onCl
                     </span>
                 </div>
                 <ul className="list-disc list-inside">
-                    {experience.subjects.map((subject) => (
-                        <li className="leading-tight" key={subject.id}>
+                    {experience.subjects.map((subject, i) => (
+                        <li className="leading-tight" key={i}>
                             {subject.board.value} {subject.standard.value} {subject.subject.value}
                         </li>
                     ))}

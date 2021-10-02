@@ -1,6 +1,8 @@
 import { Address } from '@/interfaces';
 type stringNumber = string | number;
 
+export const isProduction = process.env.NODE_ENV === "production";
+
 export const toggleBodyOverflowHidden = (add: boolean) => {
     let body = document.getElementsByTagName('body')[0];
     if (add) {

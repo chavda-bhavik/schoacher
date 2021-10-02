@@ -10,6 +10,7 @@ import { ProfileForm } from './ProfileForm';
 // graphql
 import { getTeacherInfo, GET_TEACHER_INFO } from '@/graphql/teacher/query';
 import { updateTeacherInfo, UPDATE_TEACHER_INFO } from '@/graphql/teacher/mutation';
+import { Wrapper } from '@/components/Wrapper';
 
 interface ProfileProps {}
 
@@ -18,6 +19,7 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
         data: teacherInfo,
         loading: profileLoading,
         refetch,
+        error: profileError,
     } = useQuery<getTeacherInfo>(GET_TEACHER_INFO, {
         variables: {
             teacherId: 2,
@@ -48,17 +50,18 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
                 photo: null,
             };
 
-        let { data, errors } = await updateTeacher({
+        let { data } = await updateTeacher({
             variables: {
                 data: apiData,
                 teacherId: 2,
             },
         });
-        if (data.updateTeacherInfo.entity) refetch();
-        else if (data.updateTeacherInfo.errors) setServerErrors(data.updateTeacherInfo.errors);
-        else if (errors) console.log(errors);
-        setShowEditProfile(false);
+        if (data.updateTeacherInfo.entity) {
+            refetch();
+            setShowEditProfile(false);
+        } else if (data.updateTeacherInfo.errors) setServerErrors(data.updateTeacherInfo.errors);
     };
+
     const formatAndSetProfileData = (data) => {
         let formattedData = { ...data };
         delete formattedData.__typename;
@@ -66,6 +69,7 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
         delete formattedData.photoUrl;
         setProfileData(formattedData);
     };
+
     const onProfileClose = () => {
         setShowEditProfile(false);
     };
@@ -75,15 +79,25 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
             <section className="section">
                 <div className="section-header">
                     <p className="title">Personal Details</p>
-                    <IconButton icon="pencil" onClick={() => setShowEditProfile(true)} />
+                    <IconButton
+                        icon="pencil"
+                        onClick={() => setShowEditProfile(true)}
+                        disabled={profileLoading || !!profileError?.message}
+                    />
                 </div>
                 <div className="section-body py-0">
-                    <ProfileView
-                        onPhotoSelect={(photo: File) => onProfileDataSubmit(null, photo)}
-                        onRemovePhoto={() => onProfileDataSubmit(null, null, true)}
-                        profileData={profileData}
-                        profileImageUrl={teacherInfo?.teacher?.photoUrl}
-                    />
+                    <Wrapper
+                        loading={profileLoading}
+                        error={profileError?.message}
+                        onReset={refetch}
+                    >
+                        <ProfileView
+                            onPhotoSelect={(photo: File) => onProfileDataSubmit(null, photo)}
+                            onRemovePhoto={() => onProfileDataSubmit(null, null, true)}
+                            profileData={profileData}
+                            profileImageUrl={teacherInfo?.teacher?.photoUrl}
+                        />
+                    </Wrapper>
                 </div>
             </section>
             <Backdrop show={showEditProfile} onClose={onProfileClose}>

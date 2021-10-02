@@ -142,9 +142,12 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                     </div>
                 </Card.Body>
                 <Card.Footer>
-                    <Button block type="submit">
-                        Update
-                    </Button>
+                    <div className="flex justify-end space-x-2">
+                        <Button type="button" variant="secondary" onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button type="submit">Update</Button>
+                    </div>
                 </Card.Footer>
             </form>
         </Card>
