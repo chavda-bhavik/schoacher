@@ -4,6 +4,8 @@ const show = (toast: ToastType) => pubsub.emit('toast', toast);
 
 const success = (message: string) => show({ type: 'success', message });
 
+const info = (message: string) => show({ type: 'info', message });
+
 const error = (err: string) => {
     show({
         type: 'danger',
@@ -11,6 +13,6 @@ const error = (err: string) => {
     });
 };
 
-const toast = { show, error, success }
+const toast = { show, error, success, info }
 
 export default toast;

@@ -7,6 +7,7 @@ import { Backdrop } from '@/components/Backdrop';
 import { IconButton } from '@/components/IconButton';
 import { QualificationItem } from './QualificationItem';
 import { QualificationForm } from './QualificationForm';
+import Toast from '@/shared/toast';
 
 // graphql
 import { GET_ALL_QUALIFICATIONS, getQualifications } from '@/graphql/teacher/query';
@@ -31,7 +32,7 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
             getAllQualificationsTeacherId: 2,
         },
     });
-    const [updateQualification, {}] = useMutation<updateQualification>(UPDATE_QUALIFICATION);
+    const [updateQualification] = useMutation<updateQualification>(UPDATE_QUALIFICATION);
     const [addQualification] = useMutation<addQualification>(ADD_QUALIFICATION);
     const [deleteQualification] = useMutation<deleteQualification>(DELETE_QUALIFICATION);
 
@@ -65,18 +66,21 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
         if (selectedQualification) {
             // edit
             delete formData.id;
-            let response = await updateQualification({
+            let { data } = await updateQualification({
                 variables: {
                     updateQualificationData: formData,
                     updateQualificationQualificationId: selectedQualification.id,
                 },
             });
-            if (response.data.updateQualification.entity) {
+            if (data.updateQualification.entity) {
                 refetch();
+                Toast.info('Qualification Updated');
                 success = true;
-            }
+            } else if (data.updateQualification.errors)
+                setServerErrors(data.updateQualification.errors);
         } else {
-            let { data, errors } = await addQualification({
+            // add
+            let { data } = await addQualification({
                 variables: {
                     data: formData,
                     teacherId: 2,
@@ -84,9 +88,9 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
             });
             if (data.addQualification.entity) {
                 refetch();
+                Toast.success('Qualification Added');
                 success = true;
             } else if (data.addQualification.errors) setServerErrors(data.addQualification.errors);
-            else console.log(errors);
         }
         if (success) {
             setShowQualification(false);
@@ -94,20 +98,17 @@ export const Qualification: React.FC<QualificationProps> = ({}) => {
         }
     };
     const onQualificationDelete = async () => {
-        try {
-            let qualification = await deleteQualification({
-                variables: {
-                    teacherId: 2,
-                    qualificationId: selectedQualification.id,
-                },
-            });
-            if (qualification.data.deleteQualification) {
-                refetch();
-                setSelectedQualification(null);
-                setShowQualification(false);
-            }
-        } catch (err) {
-            console.log(err);
+        let qualification = await deleteQualification({
+            variables: {
+                teacherId: 2,
+                qualificationId: selectedQualification.id,
+            },
+        });
+        if (qualification.data.deleteQualification) {
+            refetch();
+            Toast.success('Qualification Deleted');
+            setSelectedQualification(null);
+            setShowQualification(false);
         }
     };
     const onQualificationClose = () => {
