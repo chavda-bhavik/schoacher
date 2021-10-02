@@ -97,3 +97,10 @@ export interface Address {
     state?: string;
     pincode?: string | number;
 }
+
+export interface ToastVariantType {
+    base: string;
+    iconstyle: string;
+    icon: IconsType;
+    name: string;
+}

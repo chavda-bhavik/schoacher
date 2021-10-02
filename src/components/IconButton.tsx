@@ -1,5 +1,5 @@
 import { ButtonVariants, IconsSizesType, IconsType } from '@/interfaces';
-import { Icon } from '@/static/Icons';
+import { Icon } from '@/shared/Icons';
 import classNames from 'classnames';
 import React from 'react';
 

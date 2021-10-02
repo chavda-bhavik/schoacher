@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { Icon } from '@/static/Icons';
-import { LogoGreen } from '@/static/SVGs';
+import { Icon } from '@/shared/Icons';
+import { LogoGreen } from '@/shared/SVGs';
 
 interface EmployerTopbarProps {}
 

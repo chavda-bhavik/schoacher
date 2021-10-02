@@ -74,3 +74,5 @@ export const downloadFile = (fileUrl: string, name: string) => {
             link.parentNode.removeChild(link);
         });
 };
+
+export const generateUniqueString = () => Math.random().toString(36).substr(2,);

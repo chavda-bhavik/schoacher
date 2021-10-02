@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 
 import { QualificationType } from '@/interfaces';
-import { Icon } from '@/static/Icons';
+import { Icon } from '@/shared/Icons';
 
 interface QualificationProps {
     qualification: QualificationType;

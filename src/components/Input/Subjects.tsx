@@ -5,13 +5,13 @@ import { SubjectFormType } from '@/interfaces';
 import { useForm } from 'react-hook-form';
 import { IconButton } from '@/components/IconButton';
 import { Input } from '@/components/Input';
-import { Icon } from '@/static/Icons';
+import { Icon } from '@/shared/Icons';
 import { Button } from '../Button';
 
 // graphql
 import { getSubStdBoards } from '@/graphql/shared/query/__generated__/getSubStdBoards';
 import { GET_SUB_STD_BOARDS } from '@/graphql/shared/query/SubStdBoards';
-import { convertArrayToObj } from '@/static/helper';
+import { convertArrayToObj } from '@/shared/helper';
 
 interface SubjectsProps {
     title?: string;

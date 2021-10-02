@@ -2,8 +2,8 @@ import React from 'react';
 import dayjs from 'dayjs';
 
 import { ExperienceType } from '@/interfaces';
-import { Icon } from '@/static/Icons';
-import constants from '@/static/constants';
+import { Icon } from '@/shared/Icons';
+import constants from '@/shared/constants';
 
 interface ExperienceItemProps {
     experience: ExperienceType;

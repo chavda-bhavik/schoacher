@@ -2,8 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '@/static/images/Icon.svg';
-import { Icon } from '@/static/Icons';
-import { SignUp, Teacher } from '@/static/SVGs';
+import { Icon } from '@/shared/Icons';
+import { SignUp, Teacher } from '@/shared/SVGs';
 
 interface indexProps {}
 

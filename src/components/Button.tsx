@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Icon } from '@/static/Icons';
+import { Icon } from '@/shared/Icons';
 import { ButtonVariants } from '@/interfaces';
 
 interface ButtonProps {

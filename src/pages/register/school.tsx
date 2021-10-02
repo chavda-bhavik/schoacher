@@ -3,8 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import Logo from '@/static/images/Icon.svg';
-import { Icon } from '@/static/Icons';
-import { School } from '@/static/SVGs';
+import { Icon } from '@/shared/Icons';
+import { School } from '@/shared/SVGs';
 
 interface indexProps {}
 

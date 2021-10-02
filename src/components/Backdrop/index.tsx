@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { toggleBodyOverflowHidden } from '@/static/helper';
+import { toggleBodyOverflowHidden } from '@/shared/helper';
 import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 

@@ -6,7 +6,7 @@ import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { TeacherProfileType } from '@/interfaces';
-import { regularExpressions } from '@/static/constants';
+import { regularExpressions } from '@/shared/constants';
 import { IconButton } from '@/components/IconButton';
 
 interface ProfileFormProps {

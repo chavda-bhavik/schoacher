@@ -5,10 +5,10 @@ import JsonData from '@/static/employer-profile-data.json';
 import { IconButton } from '@/components/IconButton';
 import { EmployerProfileType } from '@/interfaces';
 import { IconItem } from '@/components/IconItem';
-import { combineAddress, arrayValuesCombiner } from '@/static/helper';
+import { combineAddress, arrayValuesCombiner } from '@/shared/helper';
 import { Backdrop } from '@/components/Backdrop';
 import { EmployerProfileForm } from './EmployerProfileForm';
-import constants from '@/static/constants';
+import constants from '@/shared/constants';
 import { Dialog } from '@/components/Dialog';
 
 interface EmployerProfileProps {}

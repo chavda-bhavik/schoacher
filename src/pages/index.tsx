@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Selection } from '@/components/Selection';
-import { Curls, Teaching, School, Teacher } from '@/static/SVGs';
+import { Curls, Teaching, School, Teacher } from '@/shared/SVGs';
 import { useForm } from '@formcarry/react';
-import { Icon } from '@/static/Icons';
+import { Icon } from '@/shared/Icons';
 import Image from 'next/image';
 import { SEO } from '@/components/SEO';
 

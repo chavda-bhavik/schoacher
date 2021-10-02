@@ -5,7 +5,7 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { EmployerProfileType } from '@/interfaces';
 import { useForm } from 'react-hook-form';
-import { regularExpressions } from '@/static/constants';
+import { regularExpressions } from '@/shared/constants';
 import { IconButton } from '@/components/IconButton';
 import { useState } from 'react';
 

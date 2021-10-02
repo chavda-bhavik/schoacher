@@ -2,9 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 
 import { TeacherTopbar } from '@/components/Topbar';
-import { arrayValuesCombiner, combineAddress } from '@/static/helper';
+import { arrayValuesCombiner, combineAddress } from '@/shared/helper';
 import dayjs from 'dayjs';
-import constants from '@/static/constants';
+import constants from '@/shared/constants';
 
 interface JobProfileProps {}
 

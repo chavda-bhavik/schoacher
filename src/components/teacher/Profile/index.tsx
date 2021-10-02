@@ -11,6 +11,7 @@ import { ProfileForm } from './ProfileForm';
 import { getTeacherInfo, GET_TEACHER_INFO } from '@/graphql/teacher/query';
 import { updateTeacherInfo, UPDATE_TEACHER_INFO } from '@/graphql/teacher/mutation';
 import { Wrapper } from '@/components/Wrapper';
+import toast from '@/shared/toast';
 
 interface ProfileProps {}
 

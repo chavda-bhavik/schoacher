@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import JsonData from '@/static/employer-profile-data.json';
-import { Icon } from '@/static/Icons';
+import { Icon } from '@/shared/Icons';
 import { EmployerProfileType } from '@/interfaces';
 import { Backdrop } from '@/components/Backdrop';
 import { DescriptionForm } from './DescriptionForm';

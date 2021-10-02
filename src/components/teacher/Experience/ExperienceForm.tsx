@@ -9,7 +9,7 @@ import { Subjects } from '@/components/Input/Subjects';
 import { ExperienceFormType, SubjectFormType } from '@/interfaces';
 import Card from '@/components/Card';
 import { IconButton } from '@/components/IconButton';
-import constants from '@/static/constants';
+import constants from '@/shared/constants';
 
 interface ExperienceFormProps {
     serverErrors?: FieldError[];

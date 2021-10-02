@@ -1,5 +1,5 @@
 import { IconsType } from '@/interfaces';
-import { Icon } from '@/static/Icons';
+import { Icon } from '@/shared/Icons';
 import React from 'react';
 import { Backdrop } from '../Backdrop';
 import { Button } from '../Button';

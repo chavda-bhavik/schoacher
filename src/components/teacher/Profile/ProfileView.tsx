@@ -2,8 +2,8 @@ import React, { ChangeEvent, useState } from 'react';
 import Image from 'next/image';
 import { TeacherProfileType } from '@/interfaces';
 import { ContentPlaceholder } from '@/components/ContentPlaceholder';
-import { arrayValuesCombiner } from '@/static/helper';
-import constants from '@/static/constants';
+import { arrayValuesCombiner } from '@/shared/helper';
+import constants from '@/shared/constants';
 import { Dialog } from '@/components/Dialog';
 
 interface ProfileViewProps {

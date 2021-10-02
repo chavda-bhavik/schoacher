@@ -1,8 +1,8 @@
 import React from 'react';
-import { Icon } from '@/static/Icons';
+import { Icon } from '@/shared/Icons';
 import { RequirementType } from '@/interfaces';
 import dayjs from 'dayjs';
-import constants from '@/static/constants';
+import constants from '@/shared/constants';
 
 interface RequirementProps {
     onClick: (data: RequirementType) => void;

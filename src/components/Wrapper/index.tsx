@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { Loader } from '../Loader';
 import { Button } from '../Button';
-import { isProduction } from '@/static/helper';
+import { isProduction } from '@/shared/helper';
 
 interface WrapperProps {
     loading?: Boolean;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '@/static/Icons';
+import { Icon } from '@/shared/Icons';
 import { MaterialType } from '@/interfaces';
 
 interface MaterialItemProps {
