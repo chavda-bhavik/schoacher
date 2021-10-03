@@ -2,32 +2,62 @@ import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useForm, Controller } from 'react-hook-form';
 import classNames from 'classnames';
+import { useMutation, useLazyQuery, useQuery } from '@apollo/client';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
 import { ExperienceFormType, SubjectFormType } from '@/interfaces';
-import Card from '@/components/Card';
 import { IconButton } from '@/components/IconButton';
+import Card from '@/components/Card';
 import constants from '@/shared/constants';
+import toast from '@/shared/toast';
+
+import {
+    addExperience,
+    addExperienceVariables,
+    ADD_EXPERIENCE,
+    deleteExperience,
+    deleteExperienceVariables,
+    DELETE_EXPERIENCE,
+    updateExperience,
+    updateExperienceVariables,
+    UPDATE_EXPERIENCE,
+} from '@/graphql/teacher/mutation';
+import {
+    getExperience,
+    getExperienceVariables,
+    GET_EXPERIENCE,
+    GET_ALL_EXPERIENCES,
+} from '@/graphql/teacher/query';
 
 interface ExperienceFormProps {
-    serverErrors?: FieldError[];
-    onSubmit: (data: ExperienceFormType) => void;
     onClose?: () => void;
-    onExperienceDelete?: () => void;
-    loading?: boolean;
-    selectedExperience?: ExperienceFormType;
+    experienceId?: number;
 }
 
-export const ExperienceForm: React.FC<ExperienceFormProps> = ({
-    onSubmit,
-    selectedExperience,
-    onExperienceDelete,
-    onClose,
-    loading,
-    serverErrors,
-}) => {
+export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experienceId }) => {
+    const { loading: experienceLoading, data: experience } = useQuery<
+        getExperience,
+        getExperienceVariables
+    >(GET_EXPERIENCE, {
+        skip: !experienceId,
+        variables: {
+            experienceId,
+            teacherId: 2,
+        },
+    });
+    const [updateExperience] = useMutation<updateExperience, updateExperienceVariables>(
+        UPDATE_EXPERIENCE,
+        { refetchQueries: [GET_ALL_EXPERIENCES] }
+    );
+    const [addExperience] = useMutation<addExperience, addExperienceVariables>(ADD_EXPERIENCE, {
+        refetchQueries: [GET_ALL_EXPERIENCES]
+    });
+    const [deleteExperience] = useMutation<deleteExperience, deleteExperienceVariables>(
+        DELETE_EXPERIENCE,
+        { refetchQueries: [GET_ALL_EXPERIENCES] }
+    );
     const {
         register,
         handleSubmit,
@@ -49,29 +79,30 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
     }, [currentlyWorkingWatcher, setValue]);
 
     useEffect(() => {
-        if (Array.isArray(serverErrors) && serverErrors.length > 0) {
-            serverErrors.forEach((err) => {
-                setError(err.field, { type: 'manual', message: err.message });
-            });
-        }
-    }, [serverErrors, setError]);
-
-    useEffect(() => {
-        if (selectedExperience) {
-            let experience = { ...selectedExperience };
-            delete experience.subjects;
-            reset(experience);
+        if (!experienceLoading && experience) {
+            let data = { ...experience.getExperience };
+            delete data.__typename;
+            delete data.id;
+            let experienceData = { ...data };
+            delete experienceData.subjects;
+            reset(experienceData);
             setExperienceSubjects(
-                selectedExperience.subjects.map((subj) => ({
+                data.subjects.map((subj) => ({
                     boardId: subj.boardId,
                     standardId: subj.standardId,
                     subjectId: subj.subjectId,
                 }))
             );
         }
-    }, [reset, selectedExperience]);
+    }, [experience, experienceLoading, reset]);
 
-    const handleSubmitData = (data: ExperienceFormType) => {
+    const setServerErrors = (errors) => {
+        errors.forEach((err) => {
+            setError(err.field, { type: 'manual', message: err.message });
+        });
+    };
+
+    const handleSubmitData = async (data: ExperienceFormType) => {
         if (!experienceSubjects || experienceSubjects.length === 0) {
             setSubjectsError('Subjects are required');
             return;
@@ -82,16 +113,55 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
             start: new Date(data.start).toISOString(),
             end: new Date(data.end).toISOString(),
         };
-        if (subjectsModified) experience.subjects = experienceSubjects;
-        onSubmit(experience);
+
+        let success = false;
+        delete experience.id;
+        if (experienceId) {
+            let variables: updateExperienceVariables = {
+                data: experience,
+                experienceId,
+            };
+            if (subjectsModified) variables.subjects = experienceSubjects;
+            // calling API
+            let { data } = await updateExperience({ variables });
+            if (data.updateExperience.entity) {
+                success = true;
+                toast.info('Experience Updated');
+            } else if (data.updateExperience.errors) setServerErrors(data.updateExperience.errors);
+        } else {
+            let variables: addExperienceVariables = { data: experience, teacherId: 2 };
+            if (subjectsModified) variables.subjects = experienceSubjects;
+            // calling API
+            let { data } = await addExperience({ variables });
+            if (data.addExperience.entity) {
+                success = true;
+                toast.success('Experience Added');
+            } else if (data.addExperience.errors) setServerErrors(data.addExperience.errors);
+        }
+        if (success) {
+            onClose();
+        }
+    };
+
+    const onExperienceDelete = async () => {
+        let experience = await deleteExperience({
+            variables: {
+                teacherId: 2,
+                experienceId,
+            },
+        });
+        if (experience.data.deleteExperience) {
+            onClose();
+            toast.success('Experience Deleted');
+        }
     };
 
     return (
         <Card>
             <Card.Header>
                 <div className="flex flex-row justify-between items-center">
-                    <p className="title">{selectedExperience ? 'Update' : 'Add'} Experience</p>
-                    <IconButton icon="close" onClick={onClose} disabled={loading} />
+                    <p className="title">{experienceId ? 'Update' : 'Add'} Experience</p>
+                    <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>
             <form onSubmit={handleSubmit(handleSubmitData)}>
@@ -208,24 +278,12 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({
                 </Card.Body>
                 <Card.Footer>
                     <div className="flex justify-end space-x-2">
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            disabled={loading}
-                            onClick={onClose}
-                        >
+                        <Button type="button" variant="secondary" onClick={onClose}>
                             Cancel
                         </Button>
-                        <Button type="submit" loading={loading}>
-                            Submit
-                        </Button>
-                        {selectedExperience && (
-                            <Button
-                                type="button"
-                                variant="danger"
-                                disabled={loading}
-                                onClick={onExperienceDelete}
-                            >
+                        <Button type="submit">Submit</Button>
+                        {experienceId && (
+                            <Button type="button" variant="danger" onClick={onExperienceDelete}>
                                 Delete
                             </Button>
                         )}

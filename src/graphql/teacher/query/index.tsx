@@ -6,9 +6,15 @@ export { GET_MATERIAL } from './material';
 export { GET_ALL_MATERIALS } from './materials';
 
 // types
-export type { getExperience } from './__generated__/getExperience';
-export type { getAllExperiences } from './__generated__/getAllExperiences';
-export type { getQualifications } from './__generated__/getQualifications';
-export type { getTeacherInfo } from './__generated__/getTeacherInfo';
+export type { getExperience, getExperienceVariables } from './__generated__/getExperience';
+export type {
+    getAllExperiences,
+    getAllExperiencesVariables,
+} from './__generated__/getAllExperiences';
+export type {
+    getQualifications,
+    getQualificationsVariables,
+} from './__generated__/getQualifications';
+export type { getTeacherInfo, getTeacherInfoVariables } from './__generated__/getTeacherInfo';
 export type { getAllMaterials, getAllMaterialsVariables } from './__generated__/getAllMaterials';
 export type { getMaterial, getMaterialVariables } from './__generated__/getMaterial';

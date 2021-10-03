@@ -84,10 +84,10 @@ export interface Subject {
 }
 
 export interface SubjectFormType {
-    id?: number | string;
-    boardId: number | string;
-    standardId: number | string;
-    subjectId: number | string;
+    id?: number;
+    boardId: number;
+    standardId: number;
+    subjectId: number;
 }
 
 export interface Address {
