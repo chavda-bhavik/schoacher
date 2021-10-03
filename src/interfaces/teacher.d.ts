@@ -15,7 +15,7 @@ export interface TeacherProfileType {
 }
 
 export interface QualificationType {
-    id: string | number;
+    id: number;
     degree: string;
     college: string;
     description?: string;

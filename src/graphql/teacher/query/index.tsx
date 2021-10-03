@@ -1,4 +1,5 @@
 export { GET_ALL_QUALIFICATIONS } from './qualifications';
+export { GET_QUALIFICATION } from './qualification';
 export { GET_ALL_EXPERIENCES } from './experiences';
 export { GET_EXPERIENCE } from './experience';
 export { GET_TEACHER_INFO } from './teacherInfo';
@@ -15,6 +16,7 @@ export type {
     getQualifications,
     getQualificationsVariables,
 } from './__generated__/getQualifications';
+export type { getQualification, getQualificationVariables } from './__generated__/getQualification';
 export type { getTeacherInfo, getTeacherInfoVariables } from './__generated__/getTeacherInfo';
 export type { getAllMaterials, getAllMaterialsVariables } from './__generated__/getAllMaterials';
 export type { getMaterial, getMaterialVariables } from './__generated__/getMaterial';

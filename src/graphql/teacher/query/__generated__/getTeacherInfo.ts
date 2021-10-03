@@ -14,7 +14,7 @@ export interface getTeacherInfo_teacher {
   firstName: string;
   gender: number;
   lastName: string;
-  about: string;
+  about: string | null;
   headline: string | null;
   mobile1: string | null;
   mobile2: string | null;

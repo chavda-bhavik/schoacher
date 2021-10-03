@@ -20,7 +20,7 @@ export interface updateTeacherInfo_updateTeacherInfo_entity {
   mobile1: string | null;
   mobile2: string | null;
   photoUrl: string;
-  about: string;
+  about: string | null;
 }
 
 export interface updateTeacherInfo_updateTeacherInfo_errors {

@@ -1,31 +1,53 @@
 import React, { useEffect } from 'react';
-import DatePicker from 'react-datepicker';
 import { useForm, Controller } from 'react-hook-form';
+import { useMutation, useQuery } from '@apollo/client';
+import DatePicker from 'react-datepicker';
 import classNames from 'classnames';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { QualificationType } from '@/interfaces';
-import Card from '@/components/Card';
 import { IconButton } from '@/components/IconButton';
+import Card from '@/components/Card';
+import Toast from '@/shared/toast';
+
+// graphql
+import {
+    GET_QUALIFICATION,
+    getQualification,
+    getQualificationVariables,
+} from '@/graphql/teacher/query';
+import {
+    UPDATE_QUALIFICATION,
+    updateQualification,
+    addQualification,
+    ADD_QUALIFICATION,
+    deleteQualification,
+    DELETE_QUALIFICATION,
+} from '@/graphql/teacher/mutation';
 
 interface QualificationFormProps {
-    selectedQualification?: QualificationType;
-    onQualificationSubmit?: (data: QualificationType) => void;
-    onQualificationDelete?: () => void;
     onClose?: () => void;
-    loading?: boolean;
-    serverErrors?: FieldError[];
+    qualificationId?: number;
 }
 
 export const QualificationForm: React.FC<QualificationFormProps> = ({
     onClose,
-    selectedQualification,
-    onQualificationSubmit,
-    onQualificationDelete,
-    loading,
-    serverErrors,
+    qualificationId,
 }) => {
+    const { loading: qualificationLoading, data: qualification } = useQuery<
+        getQualification,
+        getQualificationVariables
+    >(GET_QUALIFICATION, {
+        skip: !qualificationId,
+        variables: {
+            qualificationId,
+            teacherId: 2,
+        },
+    });
+    const [updateQualification] = useMutation<updateQualification>(UPDATE_QUALIFICATION);
+    const [addQualification] = useMutation<addQualification>(ADD_QUALIFICATION);
+    const [deleteQualification] = useMutation<deleteQualification>(DELETE_QUALIFICATION);
     const {
         register,
         handleSubmit,
@@ -33,33 +55,76 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
         formState: { errors },
         control,
         setError,
-        unregister,
     } = useForm<QualificationType>({
         shouldUnregister: false,
     });
 
     useEffect(() => {
-        if (selectedQualification) {
-            reset(selectedQualification);
+        if (!qualificationLoading && qualification) {
+            let data = { ...qualification.getQualifications };
+            delete data.__typename;
+            let qualificationData = { ...data };
+            reset(qualificationData);
         }
-        return () => unregister();
-    }, [reset, selectedQualification, serverErrors, unregister]);
+    }, [qualification, qualificationLoading, reset]);
 
-    useEffect(() => {
-        if (Array.isArray(serverErrors) && serverErrors.length > 0) {
-            serverErrors.forEach((err) => {
-                setError(err.field, { type: 'manual', message: err.message });
+    const setServerErrors = (errors) => {
+        errors.forEach((err) => {
+            setError(err.field, { type: 'manual', message: err.message });
+        });
+    };
+
+    const onQualificationSubmit = async (formData: QualificationType) => {
+        let success = false;
+        if (qualificationId) {
+            // edit
+            let { data } = await updateQualification({
+                variables: {
+                    updateQualificationData: formData,
+                    updateQualificationQualificationId: qualificationId,
+                },
             });
+            if (data.updateQualification.entity) {
+                Toast.info('Qualification Updated');
+                success = true;
+            } else if (data.updateQualification.errors)
+                setServerErrors(data.updateQualification.errors);
+        } else {
+            // add
+            let { data } = await addQualification({
+                variables: {
+                    data: formData,
+                    teacherId: 2,
+                },
+            });
+            if (data.addQualification.entity) {
+                Toast.success('Qualification Added');
+                success = true;
+            } else if (data.addQualification.errors) setServerErrors(data.addQualification.errors);
         }
-    }, [serverErrors, setError]);
+        if (success) {
+            onClose();
+        }
+    };
+
+    const onQualificationDelete = async () => {
+        let qualification = await deleteQualification({
+            variables: {
+                teacherId: 2,
+                qualificationId: qualificationId,
+            },
+        });
+        if (qualification.data.deleteQualification) {
+            Toast.success('Qualification Deleted');
+            onClose();
+        }
+    };
 
     return (
         <Card>
             <Card.Header>
                 <div className="flex flex-row justify-between items-center">
-                    <p className="title">
-                        {selectedQualification ? 'Update' : 'Add'} Qualification
-                    </p>
+                    <p className="title">{qualificationId ? 'Update' : 'Add'} Qualification</p>
                     <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>
@@ -164,24 +229,12 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                 </Card.Body>
                 <Card.Footer>
                     <div className="flex justify-end space-x-2">
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            disabled={loading}
-                            onClick={onClose}
-                        >
+                        <Button type="button" variant="secondary" onClick={onClose}>
                             Cancel
                         </Button>
-                        <Button type="submit" loading={loading}>
-                            Submit
-                        </Button>
-                        {selectedQualification && (
-                            <Button
-                                type="button"
-                                variant="danger"
-                                disabled={loading}
-                                onClick={onQualificationDelete}
-                            >
+                        <Button type="submit">Submit</Button>
+                        {qualificationId && (
+                            <Button type="button" variant="danger" onClick={onQualificationDelete}>
                                 Delete
                             </Button>
                         )}
