@@ -1,16 +1,26 @@
 import { Address, Subject } from '@/..';
 
-export interface EmployerProfileType {
-    id: number | string;
-    since?: number;
+export interface EmployerProfileBase {
     name: string;
     address?: Address;
-    mobile1?: string | number;
-    mobile2?: string | number;
+    mobile1?: string;
+    mobile2?: string;
     email?: string;
     subjects?: Subject[];
     about?: string;
-    profileImageUrl?: string;
+    photoUrl?: string;
+}
+export interface EmployerProfileType {
+    name?: string;
+    address?: Address;
+    mobile1?: string;
+    mobile2?: string;
+    email?: string;
+    subjects?: Subject[];
+    about?: string;
+    photo?: any;
+    photoUrl?: string;
+    subjects?: Partial<Subject>[];
 }
 
 export interface RequirementType {

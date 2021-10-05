@@ -22,6 +22,14 @@ export interface AddMaterialType {
   document?: any | null;
 }
 
+export interface AddressType {
+  street1: string;
+  street2: string;
+  city: string;
+  state: string;
+  pincode: number;
+}
+
 export interface ExperienceType {
   start?: string | null;
   end?: string | null;
@@ -45,6 +53,16 @@ export interface SubStdBoardType {
   boardId: number;
   subjectId: number;
   standardId: number;
+}
+
+export interface UpdateEmployerType {
+  name?: string | null;
+  mobile1?: string | null;
+  mobile2?: string | null;
+  about?: string | null;
+  type?: EmployerTypeEnum | null;
+  photo?: any | null;
+  address?: AddressType | null;
 }
 
 export interface UpdateMaterialType {

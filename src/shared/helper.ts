@@ -1,7 +1,7 @@
 import { Address } from '@/interfaces';
 type stringNumber = string | number;
 
-export const isProduction = process.env.NODE_ENV === "production";
+export const isProduction = process.env.NODE_ENV === 'production';
 
 export const toggleBodyOverflowHidden = (add: boolean) => {
     let body = document.getElementsByTagName('body')[0];
@@ -75,4 +75,14 @@ export const downloadFile = (fileUrl: string, name: string) => {
         });
 };
 
-export const generateUniqueString = () => Math.random().toString(36).substr(2,);
+export const generateUniqueString = () => Math.random().toString(36).substr(2);
+
+export const pick = (obj, ...keys) =>
+    Object.fromEntries(keys.filter((key) => key in obj).map((key) => [key, obj[key]]));
+
+// let inclusivePick = (obj, ...keys) => Object.fromEntries(
+// keys.map(key => [key, obj[key]])
+// );
+
+export const omit = (obj, ...keys) =>
+    Object.fromEntries(Object.entries(obj).filter(([key]) => !keys.includes(key)));
