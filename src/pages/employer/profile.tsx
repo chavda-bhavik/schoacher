@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { EmployerProfile } from '@/components/employer/profile';
-import { Requirements } from '@/components/employer/requirements';
+import { Requirement } from '@/components/employer/requirements';
 import { EmployerTopbar } from '@/components/Topbar';
 
 interface ProfileProps {}
@@ -12,7 +12,7 @@ const Profile: React.FC<ProfileProps> = ({}) => {
             <EmployerTopbar />
 
             <EmployerProfile />
-            <Requirements />
+            <Requirement />
         </div>
     );
 };

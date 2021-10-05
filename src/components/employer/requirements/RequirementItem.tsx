@@ -19,18 +19,20 @@ export const Requirement: React.FC<RequirementProps> = ({ onClick, requirement }
             <div className="flex-grow">
                 <p className="mb-0 text-xl font-medium">{requirement.title}</p>
                 <div className="divide-x-2 divide-primary-dark space-x-1 text-gray-800">
-                    <span>Full Time</span>
-                    <span className="pl-1">{`${dayjs(requirement.time.startTime).format(
-                        constants.teacherProfile.dateFormat
-                    )} - ${dayjs(requirement.time.endTime).format(
-                        constants.teacherProfile.dateFormat
-                    )}`}</span>
+                    <span>{requirement.type}</span>
+                    {requirement.startTime && requirement.endTime && (
+                        <span className="pl-1">{`${dayjs(requirement.startTime).format(
+                            constants.teacherProfile.dateFormat
+                        )} - ${dayjs(requirement.endTime).format(
+                            constants.teacherProfile.dateFormat
+                        )}`}</span>
+                    )}
                     <span className="pl-1">{requirement.qualification}</span>
                 </div>
                 <ul className="list-disc list-inside">
                     {requirement.subjects.map((subject) => (
                         <li className="leading-tight" key={subject.id}>
-                            {subject.board} {subject.standard} {subject.subject}
+                            {subject.board.value} {subject.standard.value} {subject.subject.value}
                         </li>
                     ))}
                 </ul>

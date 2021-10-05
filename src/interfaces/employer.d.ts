@@ -1,4 +1,4 @@
-import { Address, Subject } from '@/..';
+import { Address, Subject } from './index';
 
 export interface EmployerProfileBase {
     name: string;
@@ -24,18 +24,15 @@ export interface EmployerProfileType {
 }
 
 export interface RequirementType {
-    id: string | number;
+    id: number;
     title: string;
-    subjects: Subject[];
+    subjects: Partial<Subject>[];
     description?: string;
-    type: number;
+    type: string;
     qualification?: string;
-    time?: {
-        startTime: Date;
-        endTime: Date;
-    };
-    salaryRange?: {
-        start?: number;
-        end?: number;
-    };
+    startTime?: string;
+    endTime?: string;
+    salaryFrom?: number;
+    salaryUpTo?: number;
+    subjects: Partial<Subject>[];
 }

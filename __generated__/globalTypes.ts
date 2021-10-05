@@ -16,6 +16,14 @@ export enum EmployerTypeEnum {
   Tution = "Tution",
 }
 
+/**
+ * Enum describing Requirement Type
+ */
+export enum RequirementTypeEnum {
+  FULL_TIME = "FULL_TIME",
+  PART_TIME = "PART_TIME",
+}
+
 export interface AddMaterialType {
   title?: string | null;
   description?: string | null;
@@ -47,6 +55,17 @@ export interface QualificationType {
   degree?: string | null;
   description?: string | null;
   grade?: string | null;
+}
+
+export interface RequirementType {
+  title?: string | null;
+  type?: RequirementTypeEnum | null;
+  qualification?: string | null;
+  startTime?: string | null;
+  endTime?: string | null;
+  salaryFrom?: number | null;
+  salaryUpTo?: number | null;
+  description?: string | null;
 }
 
 export interface SubStdBoardType {
