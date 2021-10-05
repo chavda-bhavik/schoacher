@@ -4,20 +4,23 @@ import { Backdrop } from '@/components/Backdrop';
 import { IconButton } from '@/components/IconButton';
 import { RequirementForm } from './RequirementForm';
 import { Requirements } from './Requirements';
-import { RequirementType } from '@/interfaces';
 
 interface RequirementsProps {}
 
 export const Requirement: React.FC<RequirementsProps> = ({}) => {
     const [showRequirementForm, setShowRequirementForm] = useState<boolean>();
-    const [selectedRequirement, setSelectedRequirement] = useState<RequirementType>(null);
+    const [requirementId, setRequirementId] = useState<number>();
 
     const onRequirementClose = () => {
+        setRequirementId(null);
         setShowRequirementForm(false);
-        setSelectedRequirement(null);
     };
     const onNewRequirementClick = () => {
-        setSelectedRequirement(null);
+        setRequirementId(null);
+        setShowRequirementForm(true);
+    };
+    const onRequirementClick = (id: number) => {
+        setRequirementId(id);
         setShowRequirementForm(true);
     };
 
@@ -29,15 +32,11 @@ export const Requirement: React.FC<RequirementsProps> = ({}) => {
                     <IconButton icon="plus" onClick={onNewRequirementClick} />
                 </div>
                 <div className="section-body">
-                    <Requirements />
+                    <Requirements onClick={onRequirementClick} />
                 </div>
             </div>
             <Backdrop show={showRequirementForm} onClose={onRequirementClose}>
-                <RequirementForm
-                    selectedRequirement={selectedRequirement}
-                    onClose={onRequirementClose}
-                    onSubmit={() => {}}
-                />
+                <RequirementForm onClose={onRequirementClose} requirementId={requirementId} />
             </Backdrop>
         </>
     );

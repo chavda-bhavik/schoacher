@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useForm, Controller } from 'react-hook-form';
 import classNames from 'classnames';
-import { useMutation, useLazyQuery, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
@@ -30,6 +30,7 @@ import {
     GET_EXPERIENCE,
     GET_ALL_EXPERIENCES,
 } from '@/graphql/teacher/query';
+import { setServerErrors } from '@/shared/helper';
 
 interface ExperienceFormProps {
     onClose?: () => void;
@@ -52,7 +53,7 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
         { refetchQueries: [GET_ALL_EXPERIENCES] }
     );
     const [addExperience] = useMutation<addExperience, addExperienceVariables>(ADD_EXPERIENCE, {
-        refetchQueries: [GET_ALL_EXPERIENCES]
+        refetchQueries: [GET_ALL_EXPERIENCES],
     });
     const [deleteExperience] = useMutation<deleteExperience, deleteExperienceVariables>(
         DELETE_EXPERIENCE,
@@ -96,12 +97,6 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
         }
     }, [experience, experienceLoading, reset]);
 
-    const setServerErrors = (errors) => {
-        errors.forEach((err) => {
-            setError(err.field, { type: 'manual', message: err.message });
-        });
-    };
-
     const handleSubmitData = async (data: ExperienceFormType) => {
         if (!experienceSubjects || experienceSubjects.length === 0) {
             setSubjectsError('Subjects are required');
@@ -127,7 +122,8 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
             if (data.updateExperience.entity) {
                 success = true;
                 toast.info('Experience Updated');
-            } else if (data.updateExperience.errors) setServerErrors(data.updateExperience.errors);
+            } else if (data.updateExperience.errors)
+                setServerErrors(data.updateExperience.errors, setError);
         } else {
             let variables: addExperienceVariables = { data: experience, teacherId: 2 };
             if (subjectsModified) variables.subjects = experienceSubjects;
@@ -136,7 +132,8 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
             if (data.addExperience.entity) {
                 success = true;
                 toast.success('Experience Added');
-            } else if (data.addExperience.errors) setServerErrors(data.addExperience.errors);
+            } else if (data.addExperience.errors)
+                setServerErrors(data.addExperience.errors, setError);
         }
         if (success) {
             onClose();

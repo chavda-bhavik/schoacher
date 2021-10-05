@@ -77,6 +77,12 @@ export const downloadFile = (fileUrl: string, name: string) => {
 
 export const generateUniqueString = () => Math.random().toString(36).substr(2);
 
+export const setServerErrors = (errors, setError) => {
+    errors.forEach((err) => {
+        setError(err.field, { type: 'manual', message: err.message });
+    });
+};
+
 export const pick = (obj, ...keys) =>
     Object.fromEntries(keys.filter((key) => key in obj).map((key) => [key, obj[key]]));
 

@@ -1,64 +1,161 @@
 import React, { useEffect, useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 import { useForm, Controller } from 'react-hook-form';
 import { DefaultEditor } from 'react-simple-wysiwyg';
 import DatePicker from 'react-datepicker';
 
-import { Button } from '@/components/Button';
 import Card from '@/components/Card';
+import toast from '@/shared/toast';
+import constants from '@/shared/constants';
+import { Button } from '@/components/Button';
 import { IconButton } from '@/components/IconButton';
 import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
-import { Subject } from '@/interfaces';
-import { RequirementType } from '@/interfaces';
+import { SubjectFormType } from '@/interfaces';
+import { RequirementFormType } from '@/interfaces/employer';
+import { setServerErrors } from '@/shared/helper';
+
+// graphql
+import {
+    getRequirement,
+    getRequirementVariables,
+    GET_REQUIREMENT,
+    GET_ALL_REQUIREMENTS,
+} from '@/graphql/employer/query';
+import {
+    ADD_REQUIREMENT,
+    addRequirement,
+    addRequirementVariables,
+    UPDATE_REQUIREMENT,
+    updateRequirement,
+    DELETE_REQUIREMENT,
+    deleteRequirement,
+    deleteRequirementVariables,
+    updateRequirementVariables,
+} from '@/graphql/employer/mutation';
 
 interface RequirementFormProps {
     onClose: () => void;
-    onSubmit: (data: RequirementType) => void;
-    selectedRequirement?: RequirementType;
+    requirementId?: number;
 }
 
-export const RequirementForm: React.FC<RequirementFormProps> = ({
-    onClose,
-    onSubmit,
-    selectedRequirement,
-}) => {
+export const RequirementForm: React.FC<RequirementFormProps> = ({ onClose, requirementId }) => {
+    const { loading, data } = useQuery<getRequirement, getRequirementVariables>(GET_REQUIREMENT, {
+        variables: {
+            employerId: 1,
+            requirementId,
+        },
+        skip: !requirementId,
+    });
+    const [addRequirement] = useMutation<addRequirement, addRequirementVariables>(ADD_REQUIREMENT, {
+        refetchQueries: [GET_ALL_REQUIREMENTS],
+    });
+    const [updateRequirement] = useMutation<updateRequirement, updateRequirementVariables>(
+        UPDATE_REQUIREMENT,
+        { refetchQueries: [GET_ALL_REQUIREMENTS] }
+    );
+    const [deleteRequirement] = useMutation<deleteRequirement, deleteRequirementVariables>(
+        DELETE_REQUIREMENT,
+        { refetchQueries: [GET_ALL_REQUIREMENTS] }
+    );
     const {
         register,
         handleSubmit,
         control,
         reset,
+        setError,
         formState: { errors },
-    } = useForm<RequirementType>({
+    } = useForm<RequirementFormType>({
         defaultValues: {
             description: null,
         },
     });
-    const [subjects, setSubjects] = useState<Subject[]>([]);
+    const [requirementSubjects, setRequirementSubjects] = useState<SubjectFormType[]>([]);
+    const [subjectsModified, setSubjectsModified] = useState(false);
+    const [subjectsError, setSubjectsError] = useState<string>();
 
     useEffect(() => {
-        if (selectedRequirement) {
+        if (!loading && data) {
             let requirement = {
-                ...selectedRequirement,
+                ...data.getRequirement,
             };
+            delete requirement.__typename;
             delete requirement.subjects;
             reset(requirement);
-            setSubjects(selectedRequirement.subjects);
+            setRequirementSubjects(
+                data.getRequirement.subjects.map((subject) => ({
+                    boardId: subject.boardId,
+                    standardId: subject.standardId,
+                    subjectId: subject.subjectId,
+                }))
+            );
         }
-    }, [reset, selectedRequirement]);
+    }, [reset, loading, data]);
 
-    const onFormSubmit = (data: RequirementType) => {
-        console.log(data.description, subjects);
-        onSubmit({
+    const onFormSubmit = async (data: RequirementFormType) => {
+        if (!requirementSubjects || requirementSubjects.length === 0) {
+            setSubjectsError('Subjects are required');
+            return;
+        }
+        setSubjectsError(null);
+
+        let requirement: RequirementFormType = {
             ...data,
-            subjects: subjects,
+            salaryFrom: data.salaryFrom ? Number(data.salaryFrom) : null,
+            salaryUpTo: data.salaryUpTo ? Number(data.salaryUpTo) : null,
+            startTime: data.startTime ? new Date(Number(data.startTime)).toISOString() : null,
+            endTime: data.endTime ? new Date(Number(data.endTime)).toISOString() : null,
+        };
+
+        let success = false;
+        if (requirementId) {
+            let variables: updateRequirementVariables = {
+                data: requirement,
+                requirementId,
+            };
+            if (subjectsModified) variables.subjects = requirementSubjects;
+            // calling API
+            let { data } = await updateRequirement({ variables });
+            if (data.updateRequirement.entity) {
+                success = true;
+                toast.info('Requirement Updated');
+            } else if (data.updateRequirement.errors)
+                setServerErrors(data.updateRequirement.errors, setError);
+        } else {
+            let variables: addRequirementVariables = {
+                data: requirement,
+                employerId: 1,
+            };
+            if (subjectsModified) variables.subjects = requirementSubjects;
+            // calling API
+            let { data } = await addRequirement({ variables });
+            if (data.addRequirement.entity) {
+                success = true;
+                toast.success('Requirement Added');
+            } else if (data.addRequirement.errors)
+                setServerErrors(data.addRequirement.errors, setError);
+        }
+        if (success) onClose();
+    };
+
+    const onRequirementDelete = async () => {
+        let requirement = await deleteRequirement({
+            variables: {
+                employerId: 1,
+                requirementId,
+            },
         });
+        if (requirement.data.deleteRequirement) {
+            onClose();
+            toast.success('Requirement Deleted');
+        }
     };
 
     return (
         <Card>
             <Card.Header>
                 <div className="flex flex-row justify-between items-center">
-                    <p className="title">Edit/Add Requirement</p>
+                    <p className="title">{requirementId ? 'Edit' : 'Add'} Requirement</p>
                     <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>
@@ -84,8 +181,11 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({
                         register={register('type')}
                         label="Requirement Type"
                     >
-                        <option value={1}>Full Time</option>
-                        <option value={2}>Part Time</option>
+                        {constants.requirementTypes.map((type, i) => (
+                            <option key={i} value={type.value}>
+                                {type.label}
+                            </option>
+                        ))}
                     </Input>
                     <Input
                         type="text"
@@ -99,12 +199,12 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({
                         <div>
                             <label className="label">Start Time</label>
                             <Controller
-                                name="time.startTime"
+                                name="startTime"
                                 control={control}
                                 render={({ field: { value, onChange } }) => (
                                     <DatePicker
-                                        selected={value ? new Date(value) : null}
-                                        onChange={(date) => onChange(date.toString())}
+                                        selected={value ? new Date(Number(value)) : null}
+                                        onChange={(date) => onChange(date)}
                                         showTimeSelect
                                         showTimeSelectOnly
                                         timeIntervals={15}
@@ -119,12 +219,12 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({
                         <div>
                             <label className="label">End Time</label>
                             <Controller
-                                name="time.endTime"
+                                name="endTime"
                                 control={control}
                                 render={({ field: { value, onChange } }) => (
                                     <DatePicker
-                                        selected={value ? new Date(value) : null}
-                                        onChange={(date) => onChange(date.toString())}
+                                        selected={value ? new Date(Number(value)) : null}
+                                        onChange={(date) => onChange(date)}
                                         showTimeSelect
                                         showTimeSelectOnly
                                         timeIntervals={15}
@@ -143,7 +243,7 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({
                             type="number"
                             id="start"
                             name="start"
-                            register={register('salaryRange.start')}
+                            register={register('salaryFrom')}
                             label="From"
                             placeholder="XXX,XXX"
                         />
@@ -151,13 +251,18 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({
                             type="number"
                             id="end"
                             name="end"
-                            register={register('salaryRange.end')}
+                            register={register('salaryUpTo')}
                             label="Upto"
                             placeholder="XXX,XXX"
                         />
                     </div>
 
-                    <Subjects subjects={subjects} setSubjects={setSubjects} />
+                    <Subjects
+                        subjects={requirementSubjects}
+                        setSubjects={setRequirementSubjects}
+                        setSubjectsModified={setSubjectsModified}
+                    />
+                    {subjectsError && <p className="input-error">{subjectsError}</p>}
 
                     <label className="label">Description</label>
                     <Controller
@@ -180,6 +285,11 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({
                     <Button type="submit" variant="success">
                         Submit
                     </Button>
+                    {requirementId && (
+                        <Button type="button" variant="danger" onClick={onRequirementDelete}>
+                            Delete
+                        </Button>
+                    )}
                 </Card.Footer>
             </form>
         </Card>

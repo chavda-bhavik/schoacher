@@ -21,10 +21,10 @@ export const Requirement: React.FC<RequirementProps> = ({ onClick, requirement }
                 <div className="divide-x-2 divide-primary-dark space-x-1 text-gray-800">
                     <span>{requirement.type}</span>
                     {requirement.startTime && requirement.endTime && (
-                        <span className="pl-1">{`${dayjs(requirement.startTime).format(
-                            constants.teacherProfile.dateFormat
-                        )} - ${dayjs(requirement.endTime).format(
-                            constants.teacherProfile.dateFormat
+                        <span className="pl-1">{`${dayjs(Number(requirement.startTime)).format(
+                            constants.requirementTimeFormat
+                        )} - ${dayjs(Number(requirement.endTime)).format(
+                            constants.requirementTimeFormat
                         )}`}</span>
                     )}
                     <span className="pl-1">{requirement.qualification}</span>

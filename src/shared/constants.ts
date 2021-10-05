@@ -8,9 +8,14 @@ const constants = {
     teacherProfile: {
         dateFormat: 'MMMM YYYY',
     },
+    requirementTimeFormat: 'hh:mm A',
     timeFormat: 'hh:mm A',
     acceptPDF: 'application/pdf',
     acceptImage: 'image/jpeg,image/jpg,image/png',
+    requirementTypes: [
+        { label: 'Part Time', value: 'PART_TIME' },
+        { label: 'Full Time', value: 'FULL_TIME' },
+    ],
     experienceRequirementType: [
         { label: 'School', value: 'School' },
         { label: 'Tution', value: 'Tution' },

@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { RequirementTypeEnum } from "./../../../../../__generated__/globalTypes";
+
 // ====================================================
 // GraphQL query operation: getAllRequirements
 // ====================================================
@@ -33,7 +35,7 @@ export interface getAllRequirements_getAllRequirements_subjects {
 export interface getAllRequirements_getAllRequirements {
   __typename: "Requirement";
   title: string;
-  type: string;
+  type: RequirementTypeEnum;
   startTime: string | null;
   endTime: string | null;
   qualification: string | null;
