@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { Subjects } from '@/components/Input/Subjects';
 import { TeacherRequirementFilterType, Subject } from '@/interfaces';
 import { removeEmptyUndefiendValues } from '@/shared/helper';
 import constants from '@/shared/constants';
@@ -23,7 +22,6 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
             type: '',
         },
     });
-    const [filterSubjects, setFilterSubjects] = useState<Subject[]>();
 
     useEffect(() => {
         if (filters) {
@@ -32,8 +30,6 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
             };
             delete filterData.subjects;
             reset(filterData);
-            if (filters.subjects && filters.subjects.length > 0)
-                setFilterSubjects(filters.subjects);
         }
     }, [filters, reset]);
 
@@ -41,12 +37,10 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
         reset({
             type: '',
         });
-        setFilterSubjects([]);
     };
 
     const applyFilters = (filtersData) => {
         let finalData: TeacherRequirementFilterType = removeEmptyUndefiendValues(filtersData);
-        if (filterSubjects && filterSubjects.length > 0) finalData.subjects = filterSubjects;
         setFilters(finalData);
     };
 
@@ -102,12 +96,6 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
                             </option>
                         ))}
                     </Input>
-                    <Subjects
-                        limit={1}
-                        subjects={filterSubjects}
-                        setSubjects={setFilterSubjects}
-                        title="Subject"
-                    />
                 </Card.Body>
                 <Card.Footer className="flex flex-row items-end space-x-2">
                     <Button variant="primary" size="sm" type="reset" onClick={clearFilters}>

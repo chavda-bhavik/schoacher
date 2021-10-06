@@ -91,12 +91,12 @@ export interface SubjectFormType {
 }
 
 export interface Address {
-    id?: string | number;
-    street1?: string;
-    street2?: string;
-    city?: string;
-    state?: string;
-    pincode?: string | number;
+    id?: number;
+    street1: string;
+    street2: string;
+    city: string;
+    state: string;
+    pincode: number;
 }
 
 export interface ToastVariantType {

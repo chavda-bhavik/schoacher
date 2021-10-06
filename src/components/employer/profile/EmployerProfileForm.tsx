@@ -42,13 +42,14 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
             // @ts-ignore
             delete data.__typename;
             delete data.subjects;
-            data.address = omit(data.address, '__typename');
+            // @ts-ignore
+            if (data.address) data.address = omit(data.address, '__typename');
             reset(data);
             setSubjects(
                 profileData.subjects.map((sub) => ({
-                    boardId: sub.boardId,
-                    subjectId: sub.subjectId,
-                    standardId: sub.standardId,
+                    boardId: sub.board.id,
+                    subjectId: sub.subject.id,
+                    standardId: sub.standard.id,
                 }))
             );
         }

@@ -15,7 +15,7 @@ export const toggleBodyOverflowHidden = (add: boolean) => {
 export const combineAddress = (address: Address): string => {
     if (!address) return '';
     let addressValuesArr = Object.keys(address).reduce((arr, key) => {
-        if (address[key]) arr.push(address[key]);
+        if (address[key] && key !== '__typename' && key !== 'id') arr.push(address[key]);
         return arr;
     }, []);
     return addressValuesArr.join(', ');

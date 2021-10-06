@@ -8,6 +8,7 @@ const constants = {
     teacherProfile: {
         dateFormat: 'MMMM YYYY',
     },
+    employerId: 2,
     requirementTimeFormat: 'hh:mm A',
     timeFormat: 'hh:mm A',
     acceptPDF: 'application/pdf',

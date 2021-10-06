@@ -38,18 +38,6 @@ const Jobs: React.FC<JobsProps> = ({}) => {
                     text={arrayValuesCombiner(filters.city, filters.state, filters.pincode)}
                 />
             );
-        if (filters.subjects && filters.subjects.length > 0)
-            filtersContent.push(
-                <Filter
-                    key="subject"
-                    title="Subject"
-                    text={arrayValuesCombiner(
-                        filters.subjects[0].board,
-                        filters.subjects[0].standard,
-                        filters.subjects[0].subject
-                    )}
-                />
-            );
         if (filters.type)
             filtersContent.push(<Filter key="type" title="Type" text={filters.type} />);
         if (filters.expectedSalary)
