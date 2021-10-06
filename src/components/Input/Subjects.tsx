@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from '@apollo/client';
 
-import { Subject } from '@/interfaces';
+import { SubjectFormType } from '@/interfaces';
 import { useForm } from 'react-hook-form';
 import { IconButton } from '@/components/IconButton';
 import { Input } from '@/components/Input';
-import { Icon } from '@/static/Icons';
+import { Icon } from '@/shared/Icons';
 import { Button } from '../Button';
-import constants from '@/static/constants';
+
+// graphql
+import { getSubStdBoards } from '@/graphql/shared/query/__generated__/getSubStdBoards';
+import { GET_SUB_STD_BOARDS } from '@/graphql/shared/query/SubStdBoards';
+import { convertArrayToObj } from '@/shared/helper';
+
 interface SubjectsProps {
     title?: string;
-    subjects: Subject[];
-    setSubjects: (subjects: Subject[]) => void;
+    subjects: SubjectFormType[];
+    setSubjects: (subjects: SubjectFormType[]) => void;
     limit?: number;
+    setSubjectsModified?: (status: boolean) => void;
 }
 
 export const Subjects: React.FC<SubjectsProps> = ({
@@ -19,19 +26,40 @@ export const Subjects: React.FC<SubjectsProps> = ({
     subjects,
     setSubjects,
     limit,
+    setSubjectsModified,
 }) => {
+    const { loading, data } = useQuery<getSubStdBoards>(GET_SUB_STD_BOARDS);
     const [activeSubjectKey, setActiveSubjectKey] = useState<number>(null);
     const [error, setError] = useState<string>(null);
+    const [subStdBoardObj, setSubStdBoardObj] = useState<SubStdBoardState>({
+        boards: [],
+        standards: [],
+        subjects: [],
+    });
+
+    useEffect(() => {
+        if (!loading && data) {
+            let newSubStdBoards: SubStdBoardState = {
+                subjects: {},
+                boards: {},
+                standards: {},
+            };
+            newSubStdBoards.subjects = convertArrayToObj(data.subjects, 'id', 'value');
+            newSubStdBoards.boards = convertArrayToObj(data.boards, 'id', 'value');
+            newSubStdBoards.standards = convertArrayToObj(data.standards, 'id', 'value');
+            setSubStdBoardObj(newSubStdBoards);
+        }
+    }, [data, loading]);
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<Subject>({
+    } = useForm<SubjectFormType>({
         defaultValues: {
-            board: '',
-            subject: '',
-            standard: '',
+            boardId: '',
+            subjectId: '',
+            standardId: '',
         },
     });
 
@@ -43,8 +71,19 @@ export const Subjects: React.FC<SubjectsProps> = ({
             );
             if (subject) setError('Subject of same type is already added.');
             else {
-                if (newSubjects.length + 1 === activeSubjectKey) newSubjects.push(data);
-                else newSubjects[activeSubjectKey] = data;
+                if (setSubjectsModified) setSubjectsModified(true);
+                if (newSubjects.length + 1 === activeSubjectKey)
+                    newSubjects.push({
+                        boardId: Number(data.boardId),
+                        subjectId: Number(data.subjectId),
+                        standardId: Number(data.standardId),
+                    });
+                else
+                    newSubjects[activeSubjectKey] = {
+                        boardId: Number(data.boardId),
+                        subjectId: Number(data.subjectId),
+                        standardId: Number(data.standardId),
+                    };
                 setSubjects(newSubjects);
                 setActiveSubjectKey(null);
                 setError(null);
@@ -58,6 +97,7 @@ export const Subjects: React.FC<SubjectsProps> = ({
             setError(null);
             return;
         }
+        if (setSubjectsModified) setSubjectsModified(true);
         let newSubjects = [...subjects];
         newSubjects = newSubjects.filter((_, i) => i !== activeSubjectKey);
         setSubjects(newSubjects);
@@ -67,66 +107,69 @@ export const Subjects: React.FC<SubjectsProps> = ({
 
     let SubjectFormContent = () => (
         <>
-            <div className="flex flex-col md:flex-row gap-2">
+            <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
                 <Input
                     type="select"
                     row={true}
                     className="overflow-ellipsis overflow-hidden"
-                    id="board"
-                    name="board"
-                    register={register('board', {
+                    id="boardId"
+                    name="boardId"
+                    register={register('boardId', {
                         required: 'Please select Board',
                     })}
-                    isInvalid={!!errors.board}
-                    error={errors.board?.message}
+                    isInvalid={!!errors.boardId}
+                    error={errors.boardId?.message}
                 >
                     <option disabled value=""></option>
-                    {constants.boards.map((board, i) => (
-                        <option key={i} value={board.value}>
-                            {board.label}
-                        </option>
-                    ))}
+                    {!loading &&
+                        data.boards.map((board, i) => (
+                            <option key={i} value={board.id}>
+                                {board.label}
+                            </option>
+                        ))}
                 </Input>
-                <div className="flex flex-row gap-2 py-1">
+                <div className="flex flex-row space-x-2">
                     <Input
                         row={true}
                         type="select"
-                        id="standard"
-                        name="standard"
+                        id="standardId"
+                        name="standardId"
                         className="overflow-ellipsis overflow-hidden"
-                        register={register('standard', {
+                        register={register('standardId', {
                             required: 'Please select standardd',
                         })}
-                        isInvalid={!!errors.standard}
-                        error={errors.standard?.message}
+                        isInvalid={!!errors.standardId}
+                        error={errors.standardId?.message}
                     >
                         <option disabled value=""></option>
-                        {constants.standards.map((std, i) => (
-                            <option key={i} value={std.value}>
-                                {std.label}
-                            </option>
-                        ))}
+                        {!loading &&
+                            data.standards.map((standard, i) => (
+                                <option key={i} value={standard.id}>
+                                    {standard.label}
+                                </option>
+                            ))}
                     </Input>
                     <Input
                         row={true}
                         type="select"
-                        id="subject"
-                        name="subject"
+                        id="subjectId"
+                        name="subjectId"
                         className="overflow-ellipsis flex-grow overflow-hidden"
-                        register={register('subject', {
+                        register={register('subjectId', {
                             required: 'Please select subject',
                         })}
-                        isInvalid={!!errors.subject}
-                        error={errors.subject?.message}
+                        isInvalid={!!errors.subjectId}
+                        error={errors.subjectId?.message}
                     >
                         <option disabled value=""></option>
-                        {constants.subjets.map((sbj, i) => (
-                            <option key={i} value={sbj.value}>
-                                {sbj.label}
-                            </option>
-                        ))}
+                        {!loading &&
+                            data.subjects.map((subject, i) => (
+                                <option key={i} value={subject.id}>
+                                    {subject.label}
+                                </option>
+                            ))}
                     </Input>
-                    <div className="flex flex-row gap-1 items-center">
+                    <div className="flex flex-row space-x-1 items-center">
                         <IconButton variant="primary" icon="check" onClick={addSubject} />
                         <IconButton variant="danger" icon="trash" onClick={deleteSubject} />
                     </div>
@@ -163,7 +206,9 @@ export const Subjects: React.FC<SubjectsProps> = ({
                                 onClick={() => setActiveSubjectKey(i)}
                             >
                                 <span>
-                                    {sub.board} {sub.standard} {sub.subject}
+                                    {subStdBoardObj.boards[Number(sub.boardId)]}{' '}
+                                    {subStdBoardObj.standards[Number(sub.standardId)]}{' '}
+                                    {subStdBoardObj.subjects[Number(sub.subjectId)]}
                                 </span>
                                 <Icon icon="pencil" size="xs" />
                             </li>

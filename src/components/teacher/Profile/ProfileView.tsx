@@ -2,26 +2,27 @@ import React, { ChangeEvent, useState } from 'react';
 import Image from 'next/image';
 import { TeacherProfileType } from '@/interfaces';
 import { ContentPlaceholder } from '@/components/ContentPlaceholder';
-import { arrayValuesCombiner } from '@/static/helper';
-import constants from '@/static/constants';
+import { arrayValuesCombiner } from '@/shared/helper';
+import constants from '@/shared/constants';
 import { Dialog } from '@/components/Dialog';
 
 interface ProfileViewProps {
     profileData: TeacherProfileType;
+    onPhotoSelect?: (photo: File) => void;
+    onRemovePhoto: () => void;
+    profileImageUrl?: string;
 }
 
-export const ProfileView: React.FC<ProfileViewProps> = ({ profileData }) => {
+export const ProfileView: React.FC<ProfileViewProps> = ({
+    profileData,
+    profileImageUrl,
+    onPhotoSelect,
+    onRemovePhoto,
+}) => {
     const [showDeleteImageDialog, setShowDeleteImageDialog] = useState<boolean>(false);
 
     const onProfileImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.files[0]);
-        // upload image & update profile data to reflact
-    };
-
-    const onProfileImageRemove = () => {
-        console.log('remove profile image');
-        setShowDeleteImageDialog(true);
-        // remove uploaded image and set default school image
+        onPhotoSelect(e.target.files[0]);
     };
 
     return (
@@ -33,19 +34,11 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ profileData }) => {
                         <figure className="pt-0 md:pt-16 flex-grow">
                             {profileData?.headline ? (
                                 <h1 className="font-sans font-medium text-2xl">{`${profileData?.headline}`}</h1>
-                            ) : (
-                                <ContentPlaceholder className="w-1/3" />
-                            )}
+                            ) : null}
                             {profileData?.firstName && profileData.lastName ? (
                                 <h2 className="font-sans font-normal text-xl">{`${profileData?.firstName} ${profileData?.lastName}`}</h2>
-                            ) : (
-                                <ContentPlaceholder className="w-1/3" />
-                            )}
-                            {profileData?.address ? (
-                                <p>{`${profileData?.address}`}</p>
-                            ) : (
-                                <ContentPlaceholder className="w-1/5 mt-1" />
-                            )}
+                            ) : null}
+                            {profileData?.address ? <p>{`${profileData?.address}`}</p> : null}
                             {profileData?.mobile1 ? (
                                 <p>
                                     {arrayValuesCombiner(
@@ -53,18 +46,16 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ profileData }) => {
                                         profileData?.mobile2
                                     )}
                                 </p>
-                            ) : (
-                                <ContentPlaceholder className="w-1/5 mt-1" />
-                            )}
+                            ) : null}
                         </figure>
                         <figure className="text-center flex flex-col justify-between items-center py-3 md:py-0">
                             <div className="relative inline-flex w-36 h-36 rounded-full border-4 border-primary-dark float-none md:float-right">
                                 <label htmlFor="image" className="cursor-pointer">
-                                    {profileData?.photoUrl ? (
+                                    {profileImageUrl ? (
                                         <Image
-                                            src={profileData?.photoUrl}
+                                            src={profileImageUrl}
                                             alt="image"
-                                            className="rounded-full mx-auto"
+                                            className="rounded-full mx-auto object-cover"
                                             height={144}
                                             width={144}
                                         />
@@ -85,7 +76,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ profileData }) => {
                                 * Click on the image to change <i>or</i>{' '}
                                 <u
                                     className="text-red-500 not-italic cursor-pointer"
-                                    onClick={onProfileImageRemove}
+                                    onClick={onRemovePhoto}
                                 >
                                     remove image
                                 </u>

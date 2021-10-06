@@ -6,27 +6,46 @@ import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { TeacherProfileType } from '@/interfaces';
-import { regularExpressions } from '@/static/constants';
+import { regularExpressions } from '@/shared/constants';
 import { IconButton } from '@/components/IconButton';
 
 interface ProfileFormProps {
     profileData: TeacherProfileType;
     onDataSubmit?: (data: TeacherProfileType) => void;
     onClose?: () => void;
+    serverErrors?: FieldError[];
 }
 
-export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onDataSubmit, onClose }) => {
+export const ProfileForm: React.FC<ProfileFormProps> = ({
+    profileData,
+    onDataSubmit,
+    onClose,
+    serverErrors,
+}) => {
     const {
         register,
         reset,
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<TeacherProfileType>();
+        setError,
+        unregister,
+    } = useForm<TeacherProfileType>({
+        shouldUnregister: false,
+    });
 
     useEffect(() => {
         reset(profileData);
-    }, [reset, profileData]);
+        return () => unregister();
+    }, [reset, profileData, unregister]);
+
+    useEffect(() => {
+        if (Array.isArray(serverErrors) && serverErrors.length > 0) {
+            serverErrors.forEach((err) => {
+                setError(err.field, { type: 'manual', message: err.message });
+            });
+        }
+    }, [serverErrors, setError]);
 
     const onFormSubmit = (data) => {
         onDataSubmit(data);
@@ -85,17 +104,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onDataSub
                         register={register('address')}
                     />
                     <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        label="Email"
-                        register={register('email', {
-                            validate: (v) => regularExpressions.email.test(v),
-                        })}
-                        isInvalid={!!errors.email}
-                        error="Email is not valid"
-                    />
-                    <Input
                         id="mobile1"
                         name="mobile1"
                         type="tel"
@@ -134,9 +142,12 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onDataSub
                     </div>
                 </Card.Body>
                 <Card.Footer>
-                    <Button block type="submit">
-                        Update
-                    </Button>
+                    <div className="flex justify-end space-x-2">
+                        <Button type="button" variant="secondary" onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button type="submit">Update</Button>
+                    </div>
                 </Card.Footer>
             </form>
         </Card>

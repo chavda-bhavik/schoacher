@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
 import Logo from '@/static/images/Icon.svg';
-import { Icon } from '@/static/Icons';
-import { Teacher } from '@/static/SVGs';
+import { Icon } from '@/shared/Icons';
+import { Teacher } from '@/shared/SVGs';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { SchoolRegisterFieldTypes } from '@/interfaces';
-import { regularExpressions } from '@/static/constants';
+import { regularExpressions } from '@/shared/constants';
 
 interface indexProps {}
 

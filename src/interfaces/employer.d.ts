@@ -1,31 +1,44 @@
-import { Address, Subject } from '@/..';
+import { RequirementTypeEnum } from '@/../__generated__/globalTypes';
+import { Address, Subject, SubjectFormType } from './index';
 
-export interface EmployerProfileType {
-    id: number | string;
-    since?: number;
+export interface EmployerProfileBase {
     name: string;
     address?: Address;
-    mobile1?: string | number;
-    mobile2?: string | number;
+    mobile1?: string;
+    mobile2?: string;
     email?: string;
     subjects?: Subject[];
     about?: string;
-    profileImageUrl?: string;
+    photoUrl?: string;
+}
+export interface EmployerProfileType {
+    name?: string;
+    address?: Address;
+    mobile1?: string;
+    mobile2?: string;
+    email?: string;
+    subjects?: Subject[];
+    about?: string;
+    photo?: any;
+    photoUrl?: string;
+    subjects?: Partial<Subject>[];
 }
 
-export interface RequirementType {
-    id: string | number;
+export interface RequirementBaseType {
+    id: number;
     title: string;
-    subjects: Subject[];
+    subjects: Partial<Subject>[];
     description?: string;
-    type: number;
+    type: RequirementTypeEnum;
     qualification?: string;
-    time?: {
-        startTime: Date;
-        endTime: Date;
-    };
-    salaryRange?: {
-        start?: number;
-        end?: number;
-    };
+    startTime?: string;
+    endTime?: string;
+    salaryFrom?: number;
+    salaryUpTo?: number;
+}
+export interface RequirementType extends RequirementBaseType {
+    subjects: Partial<Subject>[];
+}
+export interface RequirementFormType extends RequirementBaseType {
+    subjects: SubjectFormType[];
 }

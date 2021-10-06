@@ -7,7 +7,7 @@ import { IconButton } from '@/components/IconButton';
 import { Backdrop } from '@/components/Backdrop';
 import { TeacherRequirementFilterType } from '@/interfaces';
 import { RequirementsFiltersForm } from '@/components/teacher/Requirement/RequirementsFiltersForm';
-import { arrayValuesCombiner } from '@/static/helper';
+import { arrayValuesCombiner } from '@/shared/helper';
 
 interface JobsProps {}
 

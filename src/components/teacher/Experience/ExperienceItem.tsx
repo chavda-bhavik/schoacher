@@ -2,8 +2,8 @@ import React from 'react';
 import dayjs from 'dayjs';
 
 import { ExperienceType } from '@/interfaces';
-import { Icon } from '@/static/Icons';
-import constants from '@/static/constants';
+import { Icon } from '@/shared/Icons';
+import constants from '@/shared/constants';
 
 interface ExperienceItemProps {
     experience: ExperienceType;
@@ -30,14 +30,13 @@ export const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience, onCl
                     </span>
                 </div>
                 <ul className="list-disc list-inside">
-                    {experience.subjects.map((subject) => (
-                        <li className="leading-tight" key={subject.id}>
-                            {subject.board} {subject.standard} {subject.subject}
+                    {experience.subjects.map((subject, i) => (
+                        <li className="leading-tight" key={i}>
+                            {subject.board.value} {subject.standard.value} {subject.subject.value}
                         </li>
                     ))}
                 </ul>
             </div>
-            {/* <Icon icon="pencil" className="action-icon mx-5" /> */}
         </div>
     );
 };

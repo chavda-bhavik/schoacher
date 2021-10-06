@@ -1,51 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { MaterialType } from '@/interfaces';
 import { Backdrop } from '@/components/Backdrop';
 import { IconButton } from '@/components/IconButton';
 import { MaterialForm } from './MaterialForm';
-import { MaterialItem } from './MaterialItem';
-import JsonData from '@/static/teacher-profile-data.json';
+
+import { Qualifications } from '../Qualification/Qualifications';
 
 interface MaterialProps {}
 
 export const Material: React.FC<MaterialProps> = ({}) => {
-    const [selectedMaterial, setSelectedMaterial] = useState<MaterialType>(null);
-    const [materialData, setMaterialData] = useState<MaterialType[]>(null);
+    const [materialId, setMaterialId] = useState<number>();
     const [showMaterial, setShowMaterial] = useState(false);
 
-    useEffect(() => {
-        // @ts-ignore
-        setMaterialData(JsonData.material);
-    }, []);
-
+    const onMaterialClick = (id) => {
+        setMaterialId(id);
+        setShowMaterial(true);
+    };
     const onNewMaterialClick = () => {
-        setSelectedMaterial(null);
+        setMaterialId(null);
         setShowMaterial(true);
-    };
-    const onMaterialItemClick = (data: MaterialType) => {
-        setSelectedMaterial(data);
-        setShowMaterial(true);
-    };
-    const onMaterialSubmit = (data: MaterialType) => {
-        let newMaterials = [...materialData];
-        if (selectedMaterial) {
-            // edit
-            newMaterials = newMaterials.map((material) => {
-                if (material.id === selectedMaterial.id) return { ...data };
-                else return { ...material };
-            });
-        } else {
-            newMaterials.push({ ...data, id: newMaterials.length + 5 });
-        }
-        setMaterialData([...newMaterials]);
-        setShowMaterial(false);
-        setSelectedMaterial(null);
     };
     const onMaterialClose = () => {
+        setMaterialId(null);
         setShowMaterial(false);
-        setSelectedMaterial(null);
     };
+
     return (
         <>
             <section className="section">
@@ -54,22 +33,11 @@ export const Material: React.FC<MaterialProps> = ({}) => {
                     <IconButton onClick={onNewMaterialClick} icon="plusCircle" size="md" />
                 </div>
                 <div className="divide-y-2 section-body">
-                    {materialData &&
-                        materialData.map((material) => (
-                            <MaterialItem
-                                material={material}
-                                key={material.id}
-                                onClick={onMaterialItemClick}
-                            />
-                        ))}
+                    <Qualifications onQualificationSelect={onMaterialClick} />
                 </div>
             </section>
             <Backdrop show={showMaterial} onClose={onMaterialClose}>
-                <MaterialForm
-                    onSubmit={onMaterialSubmit}
-                    selectedMaterial={selectedMaterial}
-                    onClose={onMaterialClose}
-                />
+                <MaterialForm materialId={materialId} onClose={onMaterialClose} />
             </Backdrop>
         </>
     );

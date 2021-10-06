@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
 import dayjs from 'dayjs';
-import constants from '@/static/constants';
+import constants from '@/shared/constants';
 
 import List from '@/components/List';
 import { EmployerTopbar } from '@/components/Topbar';
-import { arrayValuesCombiner } from '@/static/helper';
+import { arrayValuesCombiner } from '@/shared/helper';
 import TeacherProfileData from '../../../static/teacher-profile-data.json';
 
 interface JobProfileProps {}

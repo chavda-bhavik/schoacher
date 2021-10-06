@@ -6,8 +6,8 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
 import { TeacherRequirementFilterType, Subject } from '@/interfaces';
-import { removeEmptyUndefiendValues } from '@/static/helper';
-import constants from '@/static/constants';
+import { removeEmptyUndefiendValues } from '@/shared/helper';
+import constants from '@/shared/constants';
 
 interface RequirementsFiltersFormProps {
     filters: TeacherRequirementFilterType;

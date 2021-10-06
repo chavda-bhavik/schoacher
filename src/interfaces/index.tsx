@@ -1,6 +1,8 @@
 export type {
     ExperienceType,
+    ExperienceFormType,
     MaterialType,
+    MaterialFormType,
     QualificationType,
     TeacherProfileType,
     TeacherRequirementFilterType,
@@ -41,7 +43,8 @@ export type IconsType =
     | 'trash'
     | 'danger'
     | 'info'
-    | 'filter';
+    | 'filter'
+    | 'msgAlt';
 
 export type IconsSizesType = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -67,11 +70,24 @@ export type SchoolRegisterFieldTypes = {
     confirmPassword: string;
 };
 
+interface SubjectStandardBoard {
+    id: number;
+    label: string;
+    value: string;
+}
+
 export interface Subject {
     id: number | string;
-    board: string;
-    standard: string;
-    subject: string;
+    board: Partial<SubjectStandardBoard>;
+    standard: Partial<SubjectStandardBoard>;
+    subject: Partial<SubjectStandardBoard>;
+}
+
+export interface SubjectFormType {
+    id?: number;
+    boardId: number;
+    standardId: number;
+    subjectId: number;
 }
 
 export interface Address {
@@ -81,4 +97,11 @@ export interface Address {
     city?: string;
     state?: string;
     pincode?: string | number;
+}
+
+export interface ToastVariantType {
+    base: string;
+    iconstyle: string;
+    icon: IconsType;
+    name: string;
 }

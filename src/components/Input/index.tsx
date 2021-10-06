@@ -41,6 +41,7 @@ export const Input: React.FC<InputProps> = ({
     row = false,
     onChange,
     accept,
+    required,
 }) => {
     const inputContents = () => {
         let content = null;
@@ -146,6 +147,7 @@ export const Input: React.FC<InputProps> = ({
             {label && (
                 <label className="label" htmlFor={id}>
                     {label}
+                    {required && <span className="text-red-500"> *</span>}
                 </label>
             )}
             {inputContents()}

@@ -1,17 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useForm, Controller, useFormState } from 'react-hook-form';
+import { DefaultEditor } from 'react-simple-wysiwyg';
 
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { EmployerProfileType } from '@/interfaces';
-import { useForm } from 'react-hook-form';
-import { regularExpressions } from '@/static/constants';
+import { EmployerProfileType, SubjectFormType } from '@/interfaces';
+import { regularExpressions } from '@/shared/constants';
 import { IconButton } from '@/components/IconButton';
-import { useState } from 'react';
+import { Subjects } from '@/components/Input/Subjects';
+import { omit } from '@/shared/helper';
 
 interface EmployerProfileFormProps {
     profileData: EmployerProfileType;
-    onDataSubmit?: (data: EmployerProfileType) => void;
+    onDataSubmit?: (data: EmployerProfileType, subjects?: SubjectFormType[]) => void;
     onClose?: () => void;
 }
 
@@ -24,20 +26,41 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
         register,
         reset,
         handleSubmit,
+        control,
         formState: { errors },
     } = useForm<EmployerProfileType>();
-    const [loading, setLoading] = useState<boolean>();
+    const { dirtyFields } = useFormState({
+        control,
+    });
+    const [subjects, setSubjects] = useState<SubjectFormType[]>();
+    const [subjectsModified, setSubjectsModified] = useState(false);
 
     useEffect(() => {
-        reset(profileData);
+        if (profileData) {
+            let data = Object.assign({}, profileData);
+            delete data.photoUrl;
+            // @ts-ignore
+            delete data.__typename;
+            delete data.subjects;
+            data.address = omit(data.address, '__typename');
+            reset(data);
+            setSubjects(
+                profileData.subjects.map((sub) => ({
+                    boardId: sub.boardId,
+                    subjectId: sub.subjectId,
+                    standardId: sub.standardId,
+                }))
+            );
+        }
     }, [reset, profileData]);
 
-    const onFormSubmit = async (data) => {
-        setLoading(true);
-        setTimeout(() => {
-            onDataSubmit(data);
-            setLoading(false);
-        }, 500);
+    const onFormSubmit = async (data: EmployerProfileType) => {
+        let addressModified = false;
+        if (dirtyFields && dirtyFields.address) {
+            addressModified = Object.values(dirtyFields.address).some((val) => val);
+        }
+        if (!addressModified) delete data.address;
+        onDataSubmit(data, subjectsModified ? subjects : null);
     };
 
     return (
@@ -55,11 +78,11 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                         name="name"
                         type="text"
                         register={register('name', {
-                            required: 'School Name is required',
+                            required: 'Name is required',
                         })}
                         isInvalid={!!errors.name}
                         error={errors.name?.message}
-                        label="School Name"
+                        label="Name"
                     />
                     <Input
                         id="street1"
@@ -116,33 +139,14 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                             isInvalid={!!errors.address?.state?.message}
                             error={errors.address?.state?.message}
                         />
-                        <Input
-                            id="since"
-                            name="since"
-                            type="number"
-                            label="Since (Establishment Year)"
-                            register={register('since')}
-                        />
                     </div>
-                    <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        label="Email"
-                        register={register('email', {
-                            validate: (v) => regularExpressions.email.test(v),
-                        })}
-                        isInvalid={!!errors.email}
-                        error="Email is not valid"
-                    />
                     <Input
                         id="mobile1"
                         name="mobile1"
                         type="tel"
                         label="Mobile No. 1"
                         register={register('mobile1', {
-                            validate: (v) =>
-                                regularExpressions.mobile.test(v.toString()) || v === '',
+                            validate: (v) => regularExpressions.mobile.test(v.toString()) || !!v,
                         })}
                         isInvalid={!!errors.mobile1}
                         error="Mobile Number is not valid"
@@ -154,14 +158,33 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                         label="Mobile No. 2"
                         isInvalid={!!errors.mobile2}
                         register={register('mobile2', {
-                            validate: (v) =>
-                                regularExpressions.mobile.test(v.toString()) || v === '',
+                            validate: (v) => regularExpressions.mobile.test(v.toString()) || !!v,
                         })}
                         error="Mobile Number is not valid"
                     />
+                    <Subjects
+                        setSubjects={setSubjects}
+                        subjects={subjects}
+                        setSubjectsModified={setSubjectsModified}
+                    />
+                    <div className="mt-3">
+                        <span className="label">About</span>
+                        <Controller
+                            name="about"
+                            control={control}
+                            render={({ field }) => (
+                                <DefaultEditor
+                                    value={field.value}
+                                    placeholder="Write about your school/tution here..."
+                                    onChange={field.onChange}
+                                    className="unreset"
+                                />
+                            )}
+                        />
+                    </div>
                 </Card.Body>
                 <Card.Footer>
-                    <Button block loading={loading} type="submit">
+                    <Button block type="submit">
                         Update
                     </Button>
                 </Card.Footer>

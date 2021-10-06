@@ -1,66 +1,126 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
+import { useForm } from 'react-hook-form';
 
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
-import { Subject, MaterialType } from '@/interfaces';
-import { useForm } from 'react-hook-form';
+import { SubjectFormType, MaterialFormType } from '@/interfaces';
 import { IconButton } from '@/components/IconButton';
 
+import { getMaterial, getMaterialVariables, GET_MATERIAL } from '@/graphql/teacher/query';
+import {
+    addMaterial,
+    addMaterialVariables,
+    ADD_MATERIAL,
+    updateMaterial,
+    updateMaterialVariables,
+    UPDATE_MATERIAL,
+} from '@/graphql/teacher/mutation';
+import toast from '@/shared/toast';
+
 interface MaterialFormProps {
-    selectedMaterial?: MaterialType;
-    onSubmit: (data: MaterialType) => void;
+    materialId?: number;
     onClose?: () => void;
 }
 
-export const MaterialForm: React.FC<MaterialFormProps> = ({
-    onSubmit,
-    selectedMaterial,
-    onClose,
-}) => {
-    const [materialSubjects, setMaterialSubjects] = useState<Subject[]>(null);
+export const MaterialForm: React.FC<MaterialFormProps> = ({ onClose, materialId }) => {
+    const { loading: materialLoading, data: materialData } = useQuery<
+        getMaterial,
+        getMaterialVariables
+    >(GET_MATERIAL, {
+        skip: !materialId,
+        variables: {
+            materialId,
+            teacherId: 2,
+        },
+    });
+    const [addMaterial] = useMutation<addMaterial, addMaterialVariables>(ADD_MATERIAL);
+    const [updateMaterial] = useMutation<updateMaterial, updateMaterialVariables>(UPDATE_MATERIAL);
+    const [materialSubjects, setMaterialSubjects] = useState<SubjectFormType[]>(null);
     const {
         register,
         handleSubmit,
         setValue,
         reset,
         getValues,
+        setError,
         formState: { errors, isSubmitted },
-    } = useForm<MaterialType>();
-    const [error, setError] = useState<string>();
+    } = useForm<MaterialFormType>();
+    const [subjectsError, setSubjectsError] = useState<string>();
+    const [subjectsModified, setSubjectsModified] = useState(false);
 
     useEffect(() => {
-        if (selectedMaterial) {
-            let material = { ...selectedMaterial };
+        if (!materialLoading && materialData) {
+            let data = { ...materialData.getMaterial };
+            delete data.__typename;
+            delete data.id;
+            let material = { ...data };
             delete material.subjects;
             reset(material);
-            setMaterialSubjects(selectedMaterial.subjects);
+            setMaterialSubjects(
+                data.subjects.map((subj) => ({
+                    boardId: subj.boardId,
+                    standardId: subj.standardId,
+                    subjectId: subj.subjectId,
+                }))
+            );
         }
-    }, [reset, selectedMaterial]);
+    }, [materialData, materialLoading, reset]);
 
-    const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue('mediaObj', e.target.files[0]);
+    const setServerErrors = (errors) => {
+        errors.forEach((err) => {
+            setError(err.field, { type: 'manual', message: err.message });
+        });
     };
 
-    const onMaterialFormSubmit = (data) => {
+    const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setValue('document', e.target.files[0]);
+    };
+
+    const onMaterialFormSubmit = async (formData) => {
         if (!materialSubjects || materialSubjects.length === 0) {
-            setError('Subjects are required');
+            setSubjectsError('Subjects are required');
             return;
-        } else setError(undefined);
-        if (!selectedMaterial && !getValues('mediaObj')) return;
-        let material: MaterialType = {
-            ...data,
-            subjects: materialSubjects,
-        };
-        onSubmit(material);
+        } else setSubjectsError(undefined);
+        if (!materialId && !getValues('document')) return;
+
+        let success = false;
+        if (materialId) {
+            // edit
+            let variables: updateMaterialVariables = {
+                data: formData,
+                materialId,
+            };
+            if (subjectsModified) variables.subjects = materialSubjects;
+            let { data } = await updateMaterial({ variables });
+            if (data.updateMaterial.entity) {
+                success = true;
+                toast.success('Material Updated');
+            } else if (data.updateMaterial.errors) setServerErrors(data.updateMaterial.errors);
+        } else {
+            let variables: addMaterialVariables = {
+                data: formData,
+                teacherId: 2,
+            };
+            if (subjectsModified) variables.subjects = materialSubjects;
+            let { data } = await addMaterial({ variables });
+            if (data.addMaterial.entity) {
+                success = true;
+                toast.success('Material Added');
+            } else if (data.addMaterial.errors) setServerErrors(data.addMaterial.errors);
+        }
+        if (success) {
+            onClose();
+        }
     };
 
     return (
         <Card>
             <Card.Header>
                 <div className="flex flex-row justify-between items-center">
-                    <p className="title">{selectedMaterial ? 'Update' : 'Add'} Material</p>
+                    <p className="title">{materialId ? 'Update' : 'Add'} Material</p>
                     <IconButton icon="close" onClick={onClose} />
                 </div>
             </Card.Header>
@@ -89,7 +149,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                         name="file"
                         accept="application/pdf"
                         onChange={onFileChange}
-                        isInvalid={isSubmitted && !selectedMaterial && !getValues('mediaObj')}
+                        isInvalid={isSubmitted && !materialId && !getValues('document')}
                         error="File is required"
                         note="Only pdf files are allowed"
                         label="Material PDF"
@@ -98,13 +158,12 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({
                         title="Subjects"
                         subjects={materialSubjects}
                         setSubjects={(subjects) => setMaterialSubjects(subjects)}
+                        setSubjectsModified={setSubjectsModified}
                     />
-                    {error && <p className="input-error">{error}</p>}
+                    {subjectsError && <p className="input-error">{subjectsError}</p>}
                 </Card.Body>
                 <Card.Footer>
-                    <Button block type="submit">
-                        Submit
-                    </Button>
+                    <Button type="submit">Submit</Button>
                 </Card.Footer>
             </form>
         </Card>
