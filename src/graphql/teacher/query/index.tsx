@@ -5,6 +5,8 @@ export { GET_EXPERIENCE } from './experience';
 export { GET_TEACHER_INFO } from './teacherInfo';
 export { GET_MATERIAL } from './material';
 export { GET_ALL_MATERIALS } from './materials';
+export { SEARCH_REQUIREMENTS } from './searchRequirements';
+export { GET_REQUIREMENT_INFO } from './requirementInfo';
 
 // types
 export type { getExperience, getExperienceVariables } from './__generated__/getExperience';
@@ -20,3 +22,11 @@ export type { getQualification, getQualificationVariables } from './__generated_
 export type { getTeacherInfo, getTeacherInfoVariables } from './__generated__/getTeacherInfo';
 export type { getAllMaterials, getAllMaterialsVariables } from './__generated__/getAllMaterials';
 export type { getMaterial, getMaterialVariables } from './__generated__/getMaterial';
+export type {
+    searchRequirements,
+    searchRequirementsVariables,
+} from './__generated__/searchRequirements';
+export type {
+    getRequirementInfo,
+    getRequirementInfoVariables,
+} from './__generated__/getRequirementInfo';

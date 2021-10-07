@@ -12,12 +12,14 @@ export const toggleBodyOverflowHidden = (add: boolean) => {
     }
 };
 
-export const combineAddress = (address: Address): string => {
+export const combineAddress = (address: Address | Partial<Address>): string => {
     if (!address) return '';
-    let addressValuesArr = Object.keys(address).reduce((arr, key) => {
-        if (address[key]) arr.push(address[key]);
-        return arr;
-    }, []);
+    let addressValuesArr = [];
+    if (address.street1) addressValuesArr.push(address.street1);
+    if (address.street2) addressValuesArr.push(address.street2);
+    if (address.city) addressValuesArr.push(address.city);
+    if (address.state) addressValuesArr.push(address.state);
+    if (address.pincode) addressValuesArr.push(address.pincode);
     return addressValuesArr.join(', ');
 };
 
@@ -82,6 +84,12 @@ export const setServerErrors = (errors, setError) => {
         setError(err.field, { type: 'manual', message: err.message });
     });
 };
+
+export function kFormatter(num: number) {
+    return Math.abs(num) > 999
+        ? (Math.sign(num) * Math.round(Math.abs(num) / 100)) / 10 + 'k'
+        : Math.sign(num) * Math.abs(num);
+}
 
 export const pick = (obj, ...keys) =>
     Object.fromEntries(keys.filter((key) => key in obj).map((key) => [key, obj[key]]));

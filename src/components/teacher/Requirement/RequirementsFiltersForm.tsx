@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { Subjects } from '@/components/Input/Subjects';
-import { TeacherRequirementFilterType, Subject } from '@/interfaces';
+import { TeacherRequirementFilterType } from '@/interfaces';
 import { removeEmptyUndefiendValues } from '@/shared/helper';
 import constants from '@/shared/constants';
 
@@ -19,34 +18,24 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
     setFilters,
 }) => {
     const { register, reset, handleSubmit } = useForm<TeacherRequirementFilterType>({
-        defaultValues: {
-            type: '',
-        },
+        defaultValues: {},
     });
-    const [filterSubjects, setFilterSubjects] = useState<Subject[]>();
 
     useEffect(() => {
         if (filters) {
             let filterData = {
                 ...filters,
             };
-            delete filterData.subjects;
             reset(filterData);
-            if (filters.subjects && filters.subjects.length > 0)
-                setFilterSubjects(filters.subjects);
         }
     }, [filters, reset]);
 
     const clearFilters = () => {
-        reset({
-            type: '',
-        });
-        setFilterSubjects([]);
+        reset();
     };
 
     const applyFilters = (filtersData) => {
         let finalData: TeacherRequirementFilterType = removeEmptyUndefiendValues(filtersData);
-        if (filterSubjects && filterSubjects.length > 0) finalData.subjects = filterSubjects;
         setFilters(finalData);
     };
 
@@ -60,19 +49,33 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
                     <Input
                         id="city"
                         name="city"
-                        type="text"
+                        type="select"
                         row
                         label="City"
                         register={register('city')}
-                    />
+                    >
+                        <option value={null}></option>
+                        {constants.cities.map((city, i) => (
+                            <option value={city} key={i}>
+                                {city}
+                            </option>
+                        ))}
+                    </Input>
                     <Input
                         id="state"
                         name="state"
-                        type="text"
+                        type="select"
                         row
                         label="State"
                         register={register('state')}
-                    />
+                    >
+                        <option value={null}></option>
+                        {constants.states.map((state, i) => (
+                            <option value={state} key={i}>
+                                {state}
+                            </option>
+                        ))}
+                    </Input>
                     <Input
                         id="pincode"
                         name="pincode"
@@ -89,25 +92,19 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
                         register={register('expectedSalary')}
                     />
                     <Input
+                        type="select"
                         id="type"
                         name="type"
-                        type="select"
-                        label="Type"
                         register={register('type')}
+                        label="Requirement Type"
                     >
-                        <option value=""></option>
-                        {constants.experienceRequirementType.map((type, i) => (
+                        <option value={null}></option>
+                        {constants.requirementTypes.map((type, i) => (
                             <option key={i} value={type.value}>
                                 {type.label}
                             </option>
                         ))}
                     </Input>
-                    <Subjects
-                        limit={1}
-                        subjects={filterSubjects}
-                        setSubjects={setFilterSubjects}
-                        title="Subject"
-                    />
                 </Card.Body>
                 <Card.Footer className="flex flex-row items-end space-x-2">
                     <Button variant="primary" size="sm" type="reset" onClick={clearFilters}>

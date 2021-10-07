@@ -3,22 +3,26 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 interface RequirementProps {
+    id: number;
     imageUrl: string;
     title: string;
     employerName: string;
     type: string;
     location: string;
+    salaryRange?: string;
 }
 
 export const Requirement: React.FC<RequirementProps> = ({
+    id,
     imageUrl,
     title,
     employerName,
     type,
     location,
+    salaryRange,
 }) => {
     return (
-        <Link href="/teacher/jobs/1">
+        <Link href={`/teacher/jobs/${id}`}>
             <a className="flex flex-row items-center p-1 group cursor-pointer hover:bg-gray-200 group transition-all duration-150 py-3 self-center">
                 <div className="w-24 md:w-20 flex items-center justify-center">
                     <Image
@@ -38,7 +42,7 @@ export const Requirement: React.FC<RequirementProps> = ({
                     <div className="divide-x-2 divide-primary-dark text-sm font-normal space-x-1">
                         <span>{type}</span>
                         <span className="pl-1">{location}</span>
-                        <span className="pl-1">20K - 40K</span>
+                        {salaryRange && <span className="pl-1">{salaryRange}</span>}
                     </div>
                 </div>
             </a>

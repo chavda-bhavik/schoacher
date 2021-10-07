@@ -42,7 +42,7 @@ interface RequirementFormProps {
 export const RequirementForm: React.FC<RequirementFormProps> = ({ onClose, requirementId }) => {
     const { loading, data } = useQuery<getRequirement, getRequirementVariables>(GET_REQUIREMENT, {
         variables: {
-            employerId: 1,
+            employerId: constants.employerId,
             requirementId,
         },
         skip: !requirementId,
@@ -124,7 +124,7 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({ onClose, requi
         } else {
             let variables: addRequirementVariables = {
                 data: requirement,
-                employerId: 1,
+                employerId: constants.employerId,
             };
             if (subjectsModified) variables.subjects = requirementSubjects;
             // calling API
@@ -141,7 +141,7 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({ onClose, requi
     const onRequirementDelete = async () => {
         let requirement = await deleteRequirement({
             variables: {
-                employerId: 1,
+                employerId: constants.employerId,
                 requirementId,
             },
         });

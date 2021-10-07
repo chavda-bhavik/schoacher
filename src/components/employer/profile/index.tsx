@@ -14,13 +14,14 @@ import {
     updateEmployerInfo,
     updateEmployerInfoVariables,
 } from '@/graphql/employer/mutation';
+import constants from '@/shared/constants';
 
 interface EmployerProfileProps {}
 
 export const EmployerProfile: React.FC<EmployerProfileProps> = ({}) => {
     const { loading, data } = useQuery<getInfo, getInfoVariables>(GET_INFO, {
         variables: {
-            employerId: 1,
+            employerId: constants.employerId,
         },
     });
     const [updateInfo] = useMutation<updateEmployerInfo, updateEmployerInfoVariables>(UPDATE_INFO, {
@@ -40,7 +41,7 @@ export const EmployerProfile: React.FC<EmployerProfileProps> = ({}) => {
 
     const onDataSubmit = (formData: EmployerProfileType, subjects?: SubjectFormType[]) => {
         let variables: updateEmployerInfoVariables = {
-            employerId: 1,
+            employerId: constants.employerId,
             data: formData,
         };
         if (subjects) variables.subjects = subjects;

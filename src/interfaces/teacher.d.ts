@@ -1,4 +1,4 @@
-import { EmployerTypeEnum } from '@/../__generated__/globalTypes';
+import { EmployerTypeEnum, RequirementTypeEnum } from '@/../__generated__/globalTypes';
 import { Subject, SubjectFormType } from '.';
 export interface TeacherProfileType {
     firstName: string;
@@ -60,7 +60,6 @@ export interface TeacherRequirementFilterType {
     expectedSalary?: number;
     city?: string;
     state?: string;
-    type?: string;
+    type?: RequirementTypeEnum;
     pincode?: number;
-    subjects?: Subject[];
 }

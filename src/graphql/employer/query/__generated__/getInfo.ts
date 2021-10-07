@@ -53,7 +53,7 @@ export interface getInfo_employer {
   name: string;
   photoUrl: string | null;
   type: string;
-  address: getInfo_employer_address;
+  address: getInfo_employer_address | null;
   subjects: getInfo_employer_subjects[];
 }
 

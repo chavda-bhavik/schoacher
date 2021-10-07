@@ -15,6 +15,8 @@ export { DELETE_EXPERIENCE } from './deleteExperience';
 export { ADD_MATERIAL } from './addMaterial';
 export { UPDATE_MATERIAL } from './updateMaterial';
 
+export { TOGGLE_APPLICATION } from './toggleApplication';
+
 // ## types
 // qualification
 export type { updateQualification } from './__generated__/updateQualification';
@@ -32,3 +34,8 @@ export type { deleteExperience, deleteExperienceVariables } from './__generated_
 // material
 export type { addMaterial, addMaterialVariables } from './__generated__/addMaterial';
 export type { updateMaterial, updateMaterialVariables } from './__generated__/updateMaterial';
+
+export type {
+    toggleApplicaiton,
+    toggleApplicaitonVariables,
+} from './__generated__/toggleApplicaiton';

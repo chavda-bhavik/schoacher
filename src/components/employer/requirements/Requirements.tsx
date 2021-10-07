@@ -11,6 +11,7 @@ import {
     getAllRequirementsVariables,
 } from '@/graphql/employer/query';
 import { Wrapper } from '@/components/Wrapper';
+import constants from '@/shared/constants';
 
 interface RequirementsProps {
     onClick: (id: number) => void;
@@ -22,7 +23,7 @@ export const Requirements: React.FC<RequirementsProps> = React.memo(
             GET_ALL_REQUIREMENTS,
             {
                 variables: {
-                    employerId: 1,
+                    employerId: constants.employerId,
                 },
             }
         );

@@ -6,7 +6,7 @@ import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { EmployerProfileType, SubjectFormType } from '@/interfaces';
-import { regularExpressions } from '@/shared/constants';
+import constants, { regularExpressions } from '@/shared/constants';
 import { IconButton } from '@/components/IconButton';
 import { Subjects } from '@/components/Input/Subjects';
 import { omit } from '@/shared/helper';
@@ -42,13 +42,14 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
             // @ts-ignore
             delete data.__typename;
             delete data.subjects;
-            data.address = omit(data.address, '__typename');
+            // @ts-ignore
+            if (data.address) data.address = omit(data.address, '__typename');
             reset(data);
             setSubjects(
                 profileData.subjects.map((sub) => ({
-                    boardId: sub.boardId,
-                    subjectId: sub.subjectId,
-                    standardId: sub.standardId,
+                    boardId: sub.board.id,
+                    subjectId: sub.subject.id,
+                    standardId: sub.standard.id,
                 }))
             );
         }
@@ -106,14 +107,20 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                         <Input
                             id="city"
                             name="city"
-                            type="text"
+                            type="select"
                             register={register('address.city', {
                                 required: 'City is required',
                             })}
                             isInvalid={!!errors.address?.city?.message}
                             error={errors.address?.city?.message}
                             label="City"
-                        />
+                        >
+                            {constants.cities.map((city, i) => (
+                                <option value={city} key={i}>
+                                    {city}
+                                </option>
+                            ))}
+                        </Input>
                         <Input
                             id="pincode"
                             name="pincode"
@@ -127,19 +134,23 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                             label="Pincode"
                         />
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
-                        <Input
-                            id="state"
-                            name="state"
-                            type="text"
-                            label="State"
-                            register={register('address.state', {
-                                required: 'State is required',
-                            })}
-                            isInvalid={!!errors.address?.state?.message}
-                            error={errors.address?.state?.message}
-                        />
-                    </div>
+                    <Input
+                        id="state"
+                        name="state"
+                        type="select"
+                        label="State"
+                        register={register('address.state', {
+                            required: 'State is required',
+                        })}
+                        isInvalid={!!errors.address?.state?.message}
+                        error={errors.address?.state?.message}
+                    >
+                        {constants.states.map((state, i) => (
+                            <option value={state} key={i}>
+                                {state}
+                            </option>
+                        ))}
+                    </Input>
                     <Input
                         id="mobile1"
                         name="mobile1"

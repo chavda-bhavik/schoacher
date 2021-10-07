@@ -13,7 +13,7 @@ export interface EmployerProfileBase {
 }
 export interface EmployerProfileType {
     name?: string;
-    address?: Address;
+    address?: Partial<Address>;
     mobile1?: string;
     mobile2?: string;
     email?: string;
@@ -29,16 +29,18 @@ export interface RequirementBaseType {
     title: string;
     subjects: Partial<Subject>[];
     description?: string;
-    type: RequirementTypeEnum;
+    type?: RequirementTypeEnum;
     qualification?: string;
     startTime?: string;
     endTime?: string;
     salaryFrom?: number;
     salaryUpTo?: number;
+    applied?: boolean;
+    employer?: Partial<EmployerProfileType>;
 }
 export interface RequirementType extends RequirementBaseType {
-    subjects: Partial<Subject>[];
+    subjects?: Partial<Subject>[];
 }
 export interface RequirementFormType extends RequirementBaseType {
-    subjects: SubjectFormType[];
+    subjects?: SubjectFormType[];
 }
