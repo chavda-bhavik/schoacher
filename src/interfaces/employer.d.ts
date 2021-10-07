@@ -35,6 +35,7 @@ export interface RequirementBaseType {
     endTime?: string;
     salaryFrom?: number;
     salaryUpTo?: number;
+    applied?: boolean;
     employer?: Partial<EmployerProfileType>;
 }
 export interface RequirementType extends RequirementBaseType {

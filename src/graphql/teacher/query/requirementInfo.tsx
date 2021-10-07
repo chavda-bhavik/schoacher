@@ -12,6 +12,7 @@ export const GET_REQUIREMENT_INFO = gql`
             salaryUpTo
             title
             type
+            applied
             subjects {
                 id
                 board {

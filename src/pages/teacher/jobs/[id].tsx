@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import client from '@/apollo-client';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { useMutation } from '@apollo/client';
 
 import { TeacherTopbar } from '@/components/Topbar';
 import { arrayValuesCombiner, combineAddress, kFormatter } from '@/shared/helper';
 import { RequirementType } from '@/interfaces';
+import { Button } from '@/components/Button';
 import List from '@/components/List';
 import constants from '@/shared/constants';
 
@@ -16,14 +18,43 @@ import {
     getRequirementInfoVariables,
     GET_REQUIREMENT_INFO,
 } from '@/graphql/teacher/query';
-import { Button } from '@/components/Button';
+import {
+    TOGGLE_APPLICATION,
+    toggleApplicaiton,
+    toggleApplicaitonVariables,
+} from '@/graphql/teacher/mutation';
+import toast from '@/shared/toast';
 
 interface JobProfileProps {
     requirement: RequirementType;
 }
 
 const JobProfile: React.FC<JobProfileProps> = ({ requirement }) => {
+    const [toggleApplicationMutation, { data, loading }] = useMutation<
+        toggleApplicaiton,
+        toggleApplicaitonVariables
+    >(TOGGLE_APPLICATION);
+    const [applied, setApplied] = useState(false);
     let employer = requirement.employer;
+
+    useEffect(() => {
+        setApplied(requirement.applied);
+    }, [requirement.applied]);
+
+    useEffect(() => {
+        if (!loading && data) setApplied(data.toggleApplication);
+    }, [loading, data]);
+
+    const toggleApplication = () => {
+        toggleApplicationMutation({
+            variables: {
+                requirementId: requirement.id,
+                teacherId: constants.teacherId,
+            },
+        });
+        if (applied) toast.info('Application discarded');
+        else toast.success('Applied to requirement');
+    };
 
     return (
         <section className="teacher-section">
@@ -82,8 +113,14 @@ const JobProfile: React.FC<JobProfileProps> = ({ requirement }) => {
                             </List.Item>
                         )}
 
-                        <List.Item title="Interested?">
-                            <Button variant="success">Apply</Button>
+                        <List.Item title={'Interested?'}>
+                            <Button
+                                variant={applied ? 'primary' : 'success'}
+                                onClick={toggleApplication}
+                                loading={loading}
+                            >
+                                {applied ? 'Discard Application' : 'Apply'}
+                            </Button>
                         </List.Item>
                     </List>
                 </div>
@@ -138,7 +175,6 @@ export async function getServerSideProps(
     context: GetServerSidePropsContext
 ): Promise<GetServerSidePropsResult<JobProfileProps>> {
     try {
-        console.log(context.query);
         let { data, error } = await client.query<getRequirementInfo, getRequirementInfoVariables>({
             query: GET_REQUIREMENT_INFO,
             variables: {

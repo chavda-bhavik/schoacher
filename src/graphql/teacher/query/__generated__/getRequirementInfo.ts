@@ -64,6 +64,7 @@ export interface getRequirementInfo_getRequirement {
   salaryUpTo: number | null;
   title: string;
   type: RequirementTypeEnum;
+  applied: boolean;
   subjects: getRequirementInfo_getRequirement_subjects[];
   employer: getRequirementInfo_getRequirement_employer;
 }
