@@ -83,6 +83,12 @@ export const setServerErrors = (errors, setError) => {
     });
 };
 
+export function kFormatter(num: number) {
+    return Math.abs(num) > 999
+        ? (Math.sign(num) * Math.round(Math.abs(num) / 100)) / 10 + 'k'
+        : Math.sign(num) * Math.abs(num);
+}
+
 export const pick = (obj, ...keys) =>
     Object.fromEntries(keys.filter((key) => key in obj).map((key) => [key, obj[key]]));
 

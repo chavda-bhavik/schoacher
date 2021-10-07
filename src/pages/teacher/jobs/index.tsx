@@ -1,19 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLazyQuery } from '@apollo/client';
 
 import { Filter } from '@/components/teacher/Filter';
 import { TeacherTopbar } from '@/components/Topbar';
 import { Requirement } from '@/components/teacher/Requirement/index';
 import { IconButton } from '@/components/IconButton';
 import { Backdrop } from '@/components/Backdrop';
-import { TeacherRequirementFilterType } from '@/interfaces';
+import { RequirementType, TeacherRequirementFilterType } from '@/interfaces';
 import { RequirementsFiltersForm } from '@/components/teacher/Requirement/RequirementsFiltersForm';
-import { arrayValuesCombiner } from '@/shared/helper';
+import { arrayValuesCombiner, kFormatter } from '@/shared/helper';
+import { Wrapper } from '@/components/Wrapper';
+
+import {
+    SEARCH_REQUIREMENTS,
+    searchRequirements,
+    searchRequirementsVariables,
+} from '@/graphql/teacher/query';
 
 interface JobsProps {}
 
 const Jobs: React.FC<JobsProps> = ({}) => {
+    const [searchRequirements, { loading, data }] = useLazyQuery<
+        searchRequirements,
+        searchRequirementsVariables
+    >(SEARCH_REQUIREMENTS);
+    const [requirements, setRequirements] = useState<RequirementType[]>();
     const [showFiltersModal, setShowFiltersModal] = useState(false);
     const [filters, setFilters] = useState<TeacherRequirementFilterType>();
+
+    useEffect(() => {
+        if (!loading && data) {
+            setRequirements(data.search);
+        }
+    }, [loading, data]);
 
     const onFiltersModalClose = () => {
         setShowFiltersModal(false);
@@ -24,6 +43,9 @@ const Jobs: React.FC<JobsProps> = ({}) => {
     };
 
     const onFiltersSubmit = (filtersData: TeacherRequirementFilterType) => {
+        searchRequirements({
+            variables: filtersData,
+        });
         setFilters(filtersData);
         setShowFiltersModal(false);
     };
@@ -66,83 +88,29 @@ const Jobs: React.FC<JobsProps> = ({}) => {
                         </div>
                     </div>
                     <div className="section-body divide-y-2">
-                        <Requirement
-                            imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            location="Surat, Gujarat, India"
-                            employerName="Mauni Ankur School of Science"
-                            title="English Teacher Needed for standard 11 &amp; 12"
-                            type="Full Time"
-                        />
-                        <Requirement
-                            imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            location="Surat, Gujarat, India"
-                            employerName="Mauni Ankur School of Science"
-                            title="English Teacher Needed for standard 11 &amp; 12"
-                            type="Full Time"
-                        />
-                        <Requirement
-                            imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            location="Surat, Gujarat, India"
-                            employerName="Mauni Ankur School of Science"
-                            title="English Teacher Needed for standard 11 &amp; 12"
-                            type="Full Time"
-                        />
-                        <Requirement
-                            imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            location="Surat, Gujarat, India"
-                            employerName="Mauni Ankur School of Science"
-                            title="English Teacher Needed for standard 11 &amp; 12"
-                            type="Full Time"
-                        />
-                        <Requirement
-                            imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            location="Surat, Gujarat, India"
-                            employerName="Mauni Ankur School of Science"
-                            title="English Teacher Needed for standard 11 &amp; 12"
-                            type="Full Time"
-                        />
-                        <Requirement
-                            imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            location="Surat, Gujarat, India"
-                            employerName="Mauni Ankur School of Science"
-                            title="English Teacher Needed for standard 11 &amp; 12"
-                            type="Full Time"
-                        />
-                        <Requirement
-                            imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            location="Surat, Gujarat, India"
-                            employerName="Mauni Ankur School of Science"
-                            title="English Teacher Needed for standard 11 &amp; 12"
-                            type="Full Time"
-                        />
-                        <Requirement
-                            imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            location="Surat, Gujarat, India"
-                            employerName="Mauni Ankur School of Science"
-                            title="English Teacher Needed for standard 11 &amp; 12"
-                            type="Full Time"
-                        />
-                        <Requirement
-                            imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            location="Surat, Gujarat, India"
-                            employerName="Mauni Ankur School of Science"
-                            title="English Teacher Needed for standard 11 &amp; 12"
-                            type="Full Time"
-                        />
-                        <Requirement
-                            imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            location="Surat, Gujarat, India"
-                            employerName="Mauni Ankur School of Science"
-                            title="English Teacher Needed for standard 11 &amp; 12"
-                            type="Full Time"
-                        />
-                        <Requirement
-                            imageUrl="https://source.unsplash.com/umhyDLYKfLM/350x250"
-                            location="Surat, Gujarat, India"
-                            employerName="Mauni Ankur School of Science"
-                            title="English Teacher Needed for standard 11 &amp; 12"
-                            type="Full Time"
-                        />
+                        <Wrapper loading={loading}>
+                            {requirements &&
+                                requirements.map((req) => (
+                                    <Requirement
+                                        key={req.id}
+                                        imageUrl={req.employer?.photoUrl}
+                                        location={arrayValuesCombiner(
+                                            req.employer?.address?.city,
+                                            req.employer?.address?.state
+                                        )}
+                                        employerName={req.employer.name}
+                                        title={req.title}
+                                        type={req.type}
+                                        salaryRange={
+                                            req.salaryFrom && req.salaryUpTo
+                                                ? `${kFormatter(req.salaryFrom)}-${kFormatter(
+                                                      req.salaryUpTo
+                                                  )}`
+                                                : null
+                                        }
+                                    />
+                                ))}
+                        </Wrapper>
                     </div>
                 </section>
             </section>

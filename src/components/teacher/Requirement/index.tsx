@@ -8,6 +8,7 @@ interface RequirementProps {
     employerName: string;
     type: string;
     location: string;
+    salaryRange?: string;
 }
 
 export const Requirement: React.FC<RequirementProps> = ({
@@ -16,6 +17,7 @@ export const Requirement: React.FC<RequirementProps> = ({
     employerName,
     type,
     location,
+    salaryRange,
 }) => {
     return (
         <Link href="/teacher/jobs/1">
@@ -38,7 +40,7 @@ export const Requirement: React.FC<RequirementProps> = ({
                     <div className="divide-x-2 divide-primary-dark text-sm font-normal space-x-1">
                         <span>{type}</span>
                         <span className="pl-1">{location}</span>
-                        <span className="pl-1">20K - 40K</span>
+                        {salaryRange && <span className="pl-1">{salaryRange}</span>}
                     </div>
                 </div>
             </a>

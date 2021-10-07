@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { TeacherRequirementFilterType, Subject } from '@/interfaces';
+import { TeacherRequirementFilterType } from '@/interfaces';
 import { removeEmptyUndefiendValues } from '@/shared/helper';
 import constants from '@/shared/constants';
 
@@ -18,9 +18,7 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
     setFilters,
 }) => {
     const { register, reset, handleSubmit } = useForm<TeacherRequirementFilterType>({
-        defaultValues: {
-            type: '',
-        },
+        defaultValues: {},
     });
 
     useEffect(() => {
@@ -28,15 +26,12 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
             let filterData = {
                 ...filters,
             };
-            delete filterData.subjects;
             reset(filterData);
         }
     }, [filters, reset]);
 
     const clearFilters = () => {
-        reset({
-            type: '',
-        });
+        reset();
     };
 
     const applyFilters = (filtersData) => {
@@ -83,14 +78,13 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
                         register={register('expectedSalary')}
                     />
                     <Input
+                        type="select"
                         id="type"
                         name="type"
-                        type="select"
-                        label="Type"
                         register={register('type')}
+                        label="Requirement Type"
                     >
-                        <option value=""></option>
-                        {constants.experienceRequirementType.map((type, i) => (
+                        {constants.requirementTypes.map((type, i) => (
                             <option key={i} value={type.value}>
                                 {type.label}
                             </option>
