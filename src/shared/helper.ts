@@ -12,12 +12,14 @@ export const toggleBodyOverflowHidden = (add: boolean) => {
     }
 };
 
-export const combineAddress = (address: Address): string => {
+export const combineAddress = (address: Address | Partial<Address>): string => {
     if (!address) return '';
-    let addressValuesArr = Object.keys(address).reduce((arr, key) => {
-        if (address[key] && key !== '__typename' && key !== 'id') arr.push(address[key]);
-        return arr;
-    }, []);
+    let addressValuesArr = [];
+    if (address.street1) addressValuesArr.push(address.street1);
+    if (address.street2) addressValuesArr.push(address.street2);
+    if (address.city) addressValuesArr.push(address.city);
+    if (address.state) addressValuesArr.push(address.state);
+    if (address.pincode) addressValuesArr.push(address.pincode);
     return addressValuesArr.join(', ');
 };
 

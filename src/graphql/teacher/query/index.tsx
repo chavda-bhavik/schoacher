@@ -6,6 +6,7 @@ export { GET_TEACHER_INFO } from './teacherInfo';
 export { GET_MATERIAL } from './material';
 export { GET_ALL_MATERIALS } from './materials';
 export { SEARCH_REQUIREMENTS } from './searchRequirements';
+export { GET_REQUIREMENT_INFO } from './requirementInfo';
 
 // types
 export type { getExperience, getExperienceVariables } from './__generated__/getExperience';
@@ -25,3 +26,7 @@ export type {
     searchRequirements,
     searchRequirementsVariables,
 } from './__generated__/searchRequirements';
+export type {
+    getRequirementInfo,
+    getRequirementInfoVariables,
+} from './__generated__/getRequirementInfo';

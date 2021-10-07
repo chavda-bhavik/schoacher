@@ -96,6 +96,7 @@ const Jobs: React.FC<JobsProps> = ({}) => {
                             {requirements &&
                                 requirements.map((req) => (
                                     <Requirement
+                                        id={req.id}
                                         key={req.id}
                                         imageUrl={req.employer?.photoUrl}
                                         location={arrayValuesCombiner(
