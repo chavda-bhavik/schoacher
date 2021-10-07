@@ -49,19 +49,33 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
                     <Input
                         id="city"
                         name="city"
-                        type="text"
+                        type="select"
                         row
                         label="City"
                         register={register('city')}
-                    />
+                    >
+                        <option value={null}></option>
+                        {constants.cities.map((city, i) => (
+                            <option value={city} key={i}>
+                                {city}
+                            </option>
+                        ))}
+                    </Input>
                     <Input
                         id="state"
                         name="state"
-                        type="text"
+                        type="select"
                         row
                         label="State"
                         register={register('state')}
-                    />
+                    >
+                        <option value={null}></option>
+                        {constants.states.map((state, i) => (
+                            <option value={state} key={i}>
+                                {state}
+                            </option>
+                        ))}
+                    </Input>
                     <Input
                         id="pincode"
                         name="pincode"
@@ -84,6 +98,7 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
                         register={register('type')}
                         label="Requirement Type"
                     >
+                        <option value={null}></option>
                         {constants.requirementTypes.map((type, i) => (
                             <option key={i} value={type.value}>
                                 {type.label}

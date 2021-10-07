@@ -29,6 +29,10 @@ const Jobs: React.FC<JobsProps> = ({}) => {
     const [filters, setFilters] = useState<TeacherRequirementFilterType>();
 
     useEffect(() => {
+        searchRequirements();
+    }, [searchRequirements]);
+
+    useEffect(() => {
         if (!loading && data) {
             setRequirements(data.search);
         }
