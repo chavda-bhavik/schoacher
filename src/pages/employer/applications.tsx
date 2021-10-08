@@ -80,8 +80,8 @@ const Applications: React.FC<ApplicationsProps> = ({ requirements }) => {
     return (
         <div className="employer-section">
             <EmployerTopbar />
-            <section className="section">
-                <div className="section-header sticky top-0 z-50 bg-dustWhite">
+            <section className="section bg-gray-100">
+                <div className="section-header rounded-t-md sticky top-0 z-50 bg-dustWhite">
                     <div className="flex flex-row w-full space-x-2">
                         <IconButton
                             icon="filter"
@@ -96,7 +96,7 @@ const Applications: React.FC<ApplicationsProps> = ({ requirements }) => {
                     </div>
                 </div>
                 <div className="border-t border-gray-200">
-                    <div className="grid grid-cols-4 gap-2 p-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-4">
                         <Wrapper loading={loading}>
                             {applications &&
                                 applications.map((application) => (
