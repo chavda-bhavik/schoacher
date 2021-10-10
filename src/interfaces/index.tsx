@@ -1,3 +1,6 @@
+import { RequirementType } from './employer';
+import { TeacherProfileType } from './teacher';
+
 export type {
     ExperienceType,
     ExperienceFormType,
@@ -6,9 +9,18 @@ export type {
     QualificationType,
     TeacherProfileType,
     TeacherRequirementFilterType,
+    ExperienceBase,
+    MaterialBase,
 } from './teacher';
 
-export type { EmployerProfileType, RequirementType } from './employer';
+export type {
+    EmployerProfileType,
+    RequirementType,
+    EmployerProfileBase,
+    RequirementBaseType,
+    RequirementFormType,
+    ApplicationsFilterType,
+} from './employer';
 
 export type IconsType =
     | 'check'
@@ -104,4 +116,10 @@ export interface ToastVariantType {
     iconstyle: string;
     icon: IconsType;
     name: string;
+}
+
+export interface Application {
+    id: number;
+    requirement?: Partial<RequirementType>;
+    teacher?: Partial<TeacherProfileType>;
 }

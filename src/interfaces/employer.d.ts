@@ -44,3 +44,7 @@ export interface RequirementType extends RequirementBaseType {
 export interface RequirementFormType extends RequirementBaseType {
     subjects?: SubjectFormType[];
 }
+
+export interface ApplicationsFilterType {
+    requirementId?: number;
+}

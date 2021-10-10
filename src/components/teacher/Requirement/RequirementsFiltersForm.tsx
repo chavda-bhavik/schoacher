@@ -6,16 +6,19 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { TeacherRequirementFilterType } from '@/interfaces';
 import { removeEmptyUndefiendValues } from '@/shared/helper';
+import { IconButton } from '@/components/IconButton';
 import constants from '@/shared/constants';
 
 interface RequirementsFiltersFormProps {
     filters: TeacherRequirementFilterType;
+    onClose: () => void;
     setFilters: (data: TeacherRequirementFilterType) => void;
 }
 
 export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = ({
     filters,
     setFilters,
+    onClose,
 }) => {
     const { register, reset, handleSubmit } = useForm<TeacherRequirementFilterType>({
         defaultValues: {},
@@ -42,7 +45,10 @@ export const RequirementsFiltersForm: React.FC<RequirementsFiltersFormProps> = (
     return (
         <Card asModal>
             <Card.Header>
-                <p className="title">Apply Filters</p>
+                <div className="flex flex-row justify-between items-center">
+                    <p className="title">Apply Filters</p>
+                    <IconButton icon="close" onClick={onClose} />
+                </div>
             </Card.Header>
             <form onSubmit={handleSubmit(applyFilters)}>
                 <Card.Body>
