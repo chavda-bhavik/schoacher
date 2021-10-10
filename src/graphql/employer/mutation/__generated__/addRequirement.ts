@@ -32,6 +32,5 @@ export interface addRequirement {
 
 export interface addRequirementVariables {
   data: RequirementType;
-  employerId: number;
   subjects?: SubStdBoardType[] | null;
 }

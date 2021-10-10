@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/dist/client/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '@/static/images/Icon.svg';
+import { useRouter } from 'next/dist/client/router';
+import { useMutation } from '@apollo/client';
+import { useForm } from 'react-hook-form';
+
 import { Icon } from '@/shared/Icons';
 import { SignUp } from '@/shared/SVGs';
-import { useForm } from 'react-hook-form';
 import { Input } from '@/components/Input';
 import { regularExpressions } from '@/shared/constants';
 import { Button } from '@/components/Button';
-import { useMutation } from '@apollo/client';
 
 // graphql
 import { LOGIN, login, loginVariables } from '@/graphql/shared/mutation';
@@ -33,9 +34,16 @@ const Login: React.FC<indexProps> = ({}) => {
                 setLoginError(data.login.error);
                 reset();
             } else {
+                // setting localstorage
+                let localStorageItem: LocalStorageDecoded = {
+                    type: data.login.type,
+                    loggedIn: true,
+                };
+                localStorage.setItem('user', JSON.stringify(localStorageItem));
+                // redirecting user based on type
                 if (data.login.type === 'teacher')
-                    router.push('/teacher/profile', undefined, { shallow: true });
-                else router.push('/employer/profile');
+                    router.push('/teacher', undefined, { shallow: true });
+                else router.push('/employer');
             }
         }
     }, [loading, data, router, reset]);

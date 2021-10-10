@@ -7,6 +7,7 @@ export const GET_ALL_MATERIALS = gql`
             id
             title
             subjects {
+                id
                 board {
                     value
                 }

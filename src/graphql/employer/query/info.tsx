@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_INFO = gql`
-    query getInfo($employerId: Float!) {
-        employer(employerId: $employerId) {
+    query getInfo {
+        employer {
             about
             mobile1
             mobile2

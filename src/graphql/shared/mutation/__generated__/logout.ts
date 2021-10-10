@@ -4,13 +4,9 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: toggleApplicaiton
+// GraphQL mutation operation: logout
 // ====================================================
 
-export interface toggleApplicaiton {
-  toggleApplication: boolean;
-}
-
-export interface toggleApplicaitonVariables {
-  requirementId: number;
+export interface logout {
+  logout: boolean;
 }

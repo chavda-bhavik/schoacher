@@ -16,6 +16,11 @@ export enum EmployerTypeEnum {
   Tution = "Tution",
 }
 
+export enum LoginResponseTypeEnum {
+  employer = "employer",
+  teacher = "teacher",
+}
+
 /**
  * Enum describing Requirement Type
  */

@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_ALL_REQUIREMENTS = gql`
-    query getAllRequirements($employerId: Float!) {
-        getAllRequirements(employerId: $employerId) {
+    query getAllRequirements {
+        getAllRequirements {
             title
             type
             startTime

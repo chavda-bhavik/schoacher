@@ -1,7 +1,7 @@
+import React from 'react';
+import classNames from 'classnames';
 import { ButtonVariants, IconsSizesType, IconsType } from '@/interfaces';
 import { Icon } from '@/shared/Icons';
-import classNames from 'classnames';
-import React from 'react';
 
 interface IconButtonProps {
     variant?: ButtonVariants;
@@ -43,7 +43,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
             onClick={onClick}
             disabled={disabled || loading}
         >
-            <Icon icon={icon} size={size} />
+            <Icon icon={loading ? 'loader' : icon} size={size} />
         </button>
     );
 };

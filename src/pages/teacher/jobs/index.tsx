@@ -19,7 +19,7 @@ import {
 
 interface JobsProps {}
 
-const Jobs: React.FC<JobsProps> = ({}) => {
+const Jobs: FunctionComponent<JobsProps> = ({}) => {
     const [searchRequirements, { loading, data }] = useLazyQuery<
         searchRequirements,
         searchRequirementsVariables
@@ -125,5 +125,8 @@ const Jobs: React.FC<JobsProps> = ({}) => {
         </>
     );
 };
+
+Jobs.authFor = 'teacher';
+Jobs.requireAuth = true;
 
 export default Jobs;

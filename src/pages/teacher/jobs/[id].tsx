@@ -29,7 +29,7 @@ interface JobProfileProps {
     requirement: RequirementType;
 }
 
-const JobProfile: React.FC<JobProfileProps> = ({ requirement }) => {
+const JobProfile: FunctionComponent<JobProfileProps> = ({ requirement }) => {
     const [toggleApplicationMutation, { data, loading }] = useMutation<
         toggleApplicaiton,
         toggleApplicaitonVariables
@@ -49,7 +49,6 @@ const JobProfile: React.FC<JobProfileProps> = ({ requirement }) => {
         toggleApplicationMutation({
             variables: {
                 requirementId: requirement.id,
-                teacherId: constants.teacherId,
             },
         });
         if (applied) toast.info('Application discarded');
@@ -178,7 +177,6 @@ export async function getServerSideProps(
         let { data, error } = await client.query<getRequirementInfo, getRequirementInfoVariables>({
             query: GET_REQUIREMENT_INFO,
             variables: {
-                employerId: constants.employerId,
                 // @ts-ignore
                 requirementId: Number(context.query.id),
             },
@@ -199,5 +197,8 @@ export async function getServerSideProps(
         };
     }
 }
+
+JobProfile.requireAuth = true;
+JobProfile.authFor = 'teacher';
 
 export default JobProfile;

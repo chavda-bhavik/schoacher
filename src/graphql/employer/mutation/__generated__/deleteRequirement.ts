@@ -18,5 +18,4 @@ export interface deleteRequirement {
 
 export interface deleteRequirementVariables {
   requirementId: number;
-  employerId: number;
 }

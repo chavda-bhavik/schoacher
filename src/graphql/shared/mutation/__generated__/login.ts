@@ -3,13 +3,15 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { LoginResponseTypeEnum } from "./../../../../../__generated__/globalTypes";
+
 // ====================================================
 // GraphQL mutation operation: login
 // ====================================================
 
 export interface login_login {
   __typename: "LoginResponse";
-  type: string | null;
+  type: LoginResponseTypeEnum | null;
   error: string | null;
 }
 
