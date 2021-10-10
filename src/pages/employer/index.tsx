@@ -10,7 +10,6 @@ const Profile: React.FC<ProfileProps> = ({}) => {
     return (
         <div className="employer-section">
             <EmployerTopbar />
-
             <EmployerProfile />
             <Requirement />
         </div>

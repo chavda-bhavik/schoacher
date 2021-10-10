@@ -75,5 +75,4 @@ export interface getRequirementInfo {
 
 export interface getRequirementInfoVariables {
   requirementId: number;
-  employerId: number;
 }

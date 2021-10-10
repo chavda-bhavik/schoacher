@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { Backdrop } from '@/components/Backdrop';
 import { IconButton } from '@/components/IconButton';
 import { MaterialForm } from './MaterialForm';
-
-import { Qualifications } from '../Qualification/Qualifications';
+import { Materials } from './Materials';
 
 interface MaterialProps {}
 
@@ -33,7 +32,7 @@ export const Material: React.FC<MaterialProps> = ({}) => {
                     <IconButton onClick={onNewMaterialClick} icon="plusCircle" size="md" />
                 </div>
                 <div className="divide-y-2 section-body">
-                    <Qualifications onQualificationSelect={onMaterialClick} />
+                    <Materials onMaterialSelect={onMaterialClick} />
                 </div>
             </section>
             <Backdrop show={showMaterial} onClose={onMaterialClose}>

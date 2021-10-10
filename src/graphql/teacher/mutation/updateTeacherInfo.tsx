@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const UPDATE_TEACHER_INFO = gql`
-    mutation updateTeacherInfo($data: UpdateTeacherType!, $teacherId: Float!) {
-        updateTeacherInfo(data: $data, id: $teacherId) {
+    mutation updateTeacherInfo($data: UpdateTeacherType!) {
+        updateTeacherInfo(data: $data) {
             entity {
                 address
                 email

@@ -1,6 +1,7 @@
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import { onError } from "@apollo/client/link/error";
+import toast from './shared/toast';
 
 // Log any GraphQL errors or network error that occurred
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -17,7 +18,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const client = new ApolloClient({
     link: ApolloLink.from([
         errorLink,
-        createUploadLink({ uri: 'http://localhost:4000/graphql' }),
+        createUploadLink({
+            uri: 'https://foolish-monkey-33.loca.lt/graphql',
+            credentials: 'include',
+        }),
     ]),
     cache: new InMemoryCache(),
     connectToDevTools: true,

@@ -13,7 +13,7 @@ import { regularExpressions } from '@/shared/constants';
 
 interface indexProps {}
 
-const Index: React.FC<indexProps> = ({}) => {
+const TeacherRegistration: React.FC<indexProps> = ({}) => {
     const {
         register,
         formState: { errors },
@@ -150,4 +150,4 @@ const Index: React.FC<indexProps> = ({}) => {
         </div>
     );
 };
-export default Index;
+export default TeacherRegistration;

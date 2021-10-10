@@ -8,8 +8,15 @@ import { Input } from '@/components/Input';
 import { Subjects } from '@/components/Input/Subjects';
 import { SubjectFormType, MaterialFormType } from '@/interfaces';
 import { IconButton } from '@/components/IconButton';
+import toast from '@/shared/toast';
 
-import { getMaterial, getMaterialVariables, GET_MATERIAL } from '@/graphql/teacher/query';
+// graphql
+import {
+    getMaterial,
+    getMaterialVariables,
+    GET_MATERIAL,
+    GET_ALL_MATERIALS,
+} from '@/graphql/teacher/query';
 import {
     addMaterial,
     addMaterialVariables,
@@ -17,8 +24,10 @@ import {
     updateMaterial,
     updateMaterialVariables,
     UPDATE_MATERIAL,
+    deleteMaterial,
+    deleteMaterialVariables,
+    DELETE_MATERIAL,
 } from '@/graphql/teacher/mutation';
-import toast from '@/shared/toast';
 
 interface MaterialFormProps {
     materialId?: number;
@@ -33,11 +42,17 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({ onClose, materialId 
         skip: !materialId,
         variables: {
             materialId,
-            teacherId: 2,
         },
     });
-    const [addMaterial] = useMutation<addMaterial, addMaterialVariables>(ADD_MATERIAL);
-    const [updateMaterial] = useMutation<updateMaterial, updateMaterialVariables>(UPDATE_MATERIAL);
+    const [addMaterial] = useMutation<addMaterial, addMaterialVariables>(ADD_MATERIAL, {
+        refetchQueries: [GET_ALL_MATERIALS],
+    });
+    const [updateMaterial] = useMutation<updateMaterial, updateMaterialVariables>(UPDATE_MATERIAL, {
+        refetchQueries: [GET_ALL_MATERIALS],
+    });
+    const [deleteMaterial] = useMutation<deleteMaterial, deleteMaterialVariables>(DELETE_MATERIAL, {
+        refetchQueries: [GET_ALL_MATERIALS],
+    });
     const [materialSubjects, setMaterialSubjects] = useState<SubjectFormType[]>(null);
     const {
         register,
@@ -102,7 +117,6 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({ onClose, materialId 
         } else {
             let variables: addMaterialVariables = {
                 data: formData,
-                teacherId: 2,
             };
             if (subjectsModified) variables.subjects = materialSubjects;
             let { data } = await addMaterial({ variables });
@@ -112,6 +126,18 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({ onClose, materialId 
             } else if (data.addMaterial.errors) setServerErrors(data.addMaterial.errors);
         }
         if (success) {
+            onClose();
+        }
+    };
+
+    const onMaterialDelete = async () => {
+        let material = await deleteMaterial({
+            variables: {
+                materialId: materialId,
+            },
+        });
+        if (material.data.deleteMaterial) {
+            toast.success('Material Deleted');
             onClose();
         }
     };
@@ -131,6 +157,8 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({ onClose, materialId 
                         name="title"
                         type="text"
                         label="Title"
+                        row
+                        required
                         register={register('title', { required: 'Title is required' })}
                         isInvalid={!!errors.title}
                         error={errors.title?.message}
@@ -147,6 +175,7 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({ onClose, materialId 
                         type="file"
                         id="file"
                         name="file"
+                        required
                         accept="application/pdf"
                         onChange={onFileChange}
                         isInvalid={isSubmitted && !materialId && !getValues('document')}
@@ -163,7 +192,17 @@ export const MaterialForm: React.FC<MaterialFormProps> = ({ onClose, materialId 
                     {subjectsError && <p className="input-error">{subjectsError}</p>}
                 </Card.Body>
                 <Card.Footer>
-                    <Button type="submit">Submit</Button>
+                    <div className="flex justify-end space-x-2">
+                        <Button type="button" variant="secondary" onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button type="submit">Submit</Button>
+                        {materialId && (
+                            <Button type="button" variant="danger" onClick={onMaterialDelete}>
+                                Delete
+                            </Button>
+                        )}
+                    </div>
                 </Card.Footer>
             </form>
         </Card>

@@ -32,6 +32,5 @@ export interface updateEmployerInfo {
 
 export interface updateEmployerInfoVariables {
   data: UpdateEmployerType;
-  employerId: number;
   subjects?: SubStdBoardType[] | null;
 }

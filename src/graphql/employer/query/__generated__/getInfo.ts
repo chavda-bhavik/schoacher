@@ -60,7 +60,3 @@ export interface getInfo_employer {
 export interface getInfo {
   employer: getInfo_employer;
 }
-
-export interface getInfoVariables {
-  employerId: number;
-}

@@ -1,12 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const ADD_EXPERIENCE = gql`
-    mutation addExperience(
-        $data: ExperienceType!
-        $teacherId: Float!
-        $subjects: [SubStdBoardType!]
-    ) {
-        addExperience(data: $data, teacherId: $teacherId, subjects: $subjects) {
+    mutation addExperience($data: ExperienceType!, $subjects: [SubStdBoardType!]) {
+        addExperience(data: $data, subjects: $subjects) {
             entity {
                 id
             }

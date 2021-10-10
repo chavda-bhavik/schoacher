@@ -46,7 +46,3 @@ export interface getAllRequirements_getAllRequirements {
 export interface getAllRequirements {
   getAllRequirements: getAllRequirements_getAllRequirements[];
 }
-
-export interface getAllRequirementsVariables {
-  employerId: number;
-}

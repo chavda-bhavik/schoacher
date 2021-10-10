@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_REQUIREMENT_INFO = gql`
-    query getRequirementInfo($requirementId: Float!, $employerId: Float!) {
-        getRequirement(requirementId: $requirementId, employerId: $employerId) {
+    query getRequirementInfo($requirementId: Float!) {
+        getRequirement(requirementId: $requirementId) {
             id
             description
             endTime

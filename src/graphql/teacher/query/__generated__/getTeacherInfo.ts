@@ -24,7 +24,3 @@ export interface getTeacherInfo_teacher {
 export interface getTeacherInfo {
   teacher: getTeacherInfo_teacher;
 }
-
-export interface getTeacherInfoVariables {
-  teacherId: number;
-}

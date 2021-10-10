@@ -1,13 +1,22 @@
-import React from 'react';
-import Image from 'next/image';
-import Logo from '@/static/images/Icon.svg';
+import React, { FormEvent, useRef } from 'react';
 import Link from 'next/link';
-import { Icon } from '@/shared/Icons';
-import { SignUp, Teacher } from '@/shared/SVGs';
+import { LogoShort, SignUp } from '@/shared/SVGs';
+import { Button } from '@/components/Button';
+import { useRouter } from 'next/router';
 
 interface indexProps {}
 
-const index: React.FC<indexProps> = ({}) => {
+const Register: React.FC<indexProps> = ({}) => {
+    const router = useRouter();
+    const teacherRadioRef = useRef<HTMLInputElement>();
+    const employerRadioRef = useRef<HTMLInputElement>();
+
+    const onFormSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        if (teacherRadioRef.current.checked) router.push('/register/teacher');
+        else router.push('/register/employer');
+    };
+
     return (
         <div className="auth-container">
             <div className="auth-wrapper">
@@ -15,21 +24,15 @@ const index: React.FC<indexProps> = ({}) => {
                 <div className="auth-main">
                     {/* LogoLink */}
                     <div className="w-full flex flex-row justify-center md:content-start">
-                        <Image
-                            src={Logo}
-                            alt="Logo"
-                            width={60}
-                            height={60}
-                            className="h-12 mx-auto rounded-md shadow-lg"
-                        />
+                        <LogoShort className="w-12 mx-auto" />
                     </div>
                     {/* Main Content */}
-                    <div className="mt-6">
+                    <div className="mt-4">
                         {/* Heading */}
                         <h1 className="heading">Sign Up</h1>
                         {/* FormContainer */}
                         <div className="w-full flex-1 mt-5">
-                            <form className="mx-auto max-w-md">
+                            <form className="mx-auto max-w-md" onSubmit={onFormSubmit}>
                                 <label htmlFor="selection" className="leading-8 text-base">
                                     What best describes you?
                                 </label>
@@ -41,6 +44,7 @@ const index: React.FC<indexProps> = ({}) => {
                                         className="hidden"
                                         name="selection"
                                         value="teacher"
+                                        ref={teacherRadioRef}
                                     />
                                     <label htmlFor="teacher" className="option">
                                         Teacher
@@ -51,14 +55,15 @@ const index: React.FC<indexProps> = ({}) => {
                                         className="hidden"
                                         name="selection"
                                         value="school"
+                                        ref={employerRadioRef}
                                     />
                                     <label htmlFor="school" className="option">
                                         School
                                     </label>
                                 </div>
-                                <button type="button" className="btn btn-primary">
+                                <Button type="submit" variant="success" block>
                                     Let&apos;s Go
-                                </button>
+                                </Button>
                                 <p className="mt-8 text-sm text-gray-600 text-center">
                                     Already have an account?{' '}
                                     <Link href="/login">
@@ -84,4 +89,4 @@ const index: React.FC<indexProps> = ({}) => {
         </div>
     );
 };
-export default index;
+export default Register;

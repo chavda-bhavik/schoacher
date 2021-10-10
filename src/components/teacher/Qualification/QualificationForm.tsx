@@ -14,15 +14,19 @@ import Toast from '@/shared/toast';
 // graphql
 import {
     GET_QUALIFICATION,
+    GET_ALL_QUALIFICATIONS,
     getQualification,
     getQualificationVariables,
 } from '@/graphql/teacher/query';
 import {
     UPDATE_QUALIFICATION,
     updateQualification,
+    updateQualificationVariables,
     addQualification,
+    addQualificationVariables,
     ADD_QUALIFICATION,
     deleteQualification,
+    deleteQualificationVariables,
     DELETE_QUALIFICATION,
 } from '@/graphql/teacher/mutation';
 
@@ -42,12 +46,26 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
         skip: !qualificationId,
         variables: {
             qualificationId,
-            teacherId: 2,
         },
     });
-    const [updateQualification] = useMutation<updateQualification>(UPDATE_QUALIFICATION);
-    const [addQualification] = useMutation<addQualification>(ADD_QUALIFICATION);
-    const [deleteQualification] = useMutation<deleteQualification>(DELETE_QUALIFICATION);
+    const [updateQualification] = useMutation<updateQualification, updateQualificationVariables>(
+        UPDATE_QUALIFICATION,
+        {
+            refetchQueries: [GET_ALL_QUALIFICATIONS],
+        }
+    );
+    const [addQualification] = useMutation<addQualification, addQualificationVariables>(
+        ADD_QUALIFICATION,
+        {
+            refetchQueries: [GET_ALL_QUALIFICATIONS],
+        }
+    );
+    const [deleteQualification] = useMutation<deleteQualification, deleteQualificationVariables>(
+        DELETE_QUALIFICATION,
+        {
+            refetchQueries: [GET_ALL_QUALIFICATIONS],
+        }
+    );
     const {
         register,
         handleSubmit,
@@ -61,7 +79,7 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
 
     useEffect(() => {
         if (!qualificationLoading && qualification) {
-            let data = { ...qualification.getQualifications };
+            let data = { ...qualification.getQualification };
             delete data.__typename;
             let qualificationData = { ...data };
             reset(qualificationData);
@@ -94,7 +112,6 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
             let { data } = await addQualification({
                 variables: {
                     data: formData,
-                    teacherId: 2,
                 },
             });
             if (data.addQualification.entity) {
@@ -110,7 +127,6 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
     const onQualificationDelete = async () => {
         let qualification = await deleteQualification({
             variables: {
-                teacherId: 2,
                 qualificationId: qualificationId,
             },
         });
@@ -140,6 +156,7 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                         })}
                         required
                         row={true}
+                        placeholder="Bechlor of Commerce"
                         isInvalid={!!errors.degree}
                         error={errors.degree?.message}
                     />
@@ -152,6 +169,7 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                         register={register('college', {
                             required: 'College is required',
                         })}
+                        placeholder="XYZ University"
                         isInvalid={!!errors.college}
                         error={errors.college?.message}
                     />
@@ -215,7 +233,8 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                         id="grade"
                         name="grade"
                         type="text"
-                        label="Grade"
+                        placeholder="A+"
+                        label="Grade / Percentage"
                         register={register('grade')}
                     />
                     <Input
@@ -223,6 +242,7 @@ export const QualificationForm: React.FC<QualificationFormProps> = ({
                         label="Description"
                         id="description"
                         name="description"
+                        placeholder="Learned about Accounting, Finance, and Business communication. Achived gold madal for first rank."
                         rows={3}
                         register={register('description')}
                     />

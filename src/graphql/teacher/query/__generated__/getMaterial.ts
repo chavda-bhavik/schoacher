@@ -28,5 +28,4 @@ export interface getMaterial {
 
 export interface getMaterialVariables {
   materialId: number;
-  teacherId: number;
 }

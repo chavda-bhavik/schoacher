@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client';
 
 export const GET_APPLICATIONS = gql`
-    query getApplications($employerId: Float!, $requirementId: Float) {
-        applications(employerId: $employerId, requirementId: $requirementId) {
+    query getApplications($requirementId: Float) {
+        applications(requirementId: $requirementId) {
             id
             teacher {
                 headline
-                lastName
+                firstName
                 lastName
                 about
                 photoUrl

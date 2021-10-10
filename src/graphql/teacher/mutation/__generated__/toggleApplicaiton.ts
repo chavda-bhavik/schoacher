@@ -13,5 +13,4 @@ export interface toggleApplicaiton {
 
 export interface toggleApplicaitonVariables {
   requirementId: number;
-  teacherId: number;
 }

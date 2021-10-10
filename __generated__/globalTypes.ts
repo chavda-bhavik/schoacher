@@ -16,6 +16,11 @@ export enum EmployerTypeEnum {
   Tution = "Tution",
 }
 
+export enum LoginResponseTypeEnum {
+  employer = "employer",
+  teacher = "teacher",
+}
+
 /**
  * Enum describing Requirement Type
  */
@@ -55,6 +60,20 @@ export interface QualificationType {
   degree?: string | null;
   description?: string | null;
   grade?: string | null;
+}
+
+export interface RegisterEmployerType {
+  name: string;
+  email: string;
+  password: string;
+  type?: EmployerTypeEnum | null;
+}
+
+export interface RegisterTeacherType {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
 }
 
 export interface RequirementType {

@@ -6,13 +6,14 @@ import { Material } from '@/components/teacher/Material';
 import { Experience } from '@/components/teacher/Experience';
 import { TeacherTopbar } from '@/components/Topbar';
 
-interface profileProps {}
+interface profileProps {
+    requireAuth: boolean;
+}
 
-const TeacherProfile: React.FC<profileProps> = ({}) => {
+const TeacherProfile: FunctionComponent<profileProps> = ({}) => {
     return (
-        <div className="teacher-section">
+        <div className="teacher-section asdf">
             <TeacherTopbar />
-
             <Profile />
             <Qualification />
             <Experience />
@@ -20,5 +21,8 @@ const TeacherProfile: React.FC<profileProps> = ({}) => {
         </div>
     );
 };
+
+TeacherProfile.requireAuth = true;
+TeacherProfile.authFor = 'teacher';
 
 export default TeacherProfile;

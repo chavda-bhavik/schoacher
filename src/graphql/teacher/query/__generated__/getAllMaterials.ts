@@ -24,6 +24,7 @@ export interface getAllMaterials_getAllMaterials_subjects_standard {
 
 export interface getAllMaterials_getAllMaterials_subjects {
   __typename: "SubStdBoard";
+  id: number;
   board: getAllMaterials_getAllMaterials_subjects_board;
   subject: getAllMaterials_getAllMaterials_subjects_subject;
   standard: getAllMaterials_getAllMaterials_subjects_standard;
@@ -39,8 +40,4 @@ export interface getAllMaterials_getAllMaterials {
 
 export interface getAllMaterials {
   getAllMaterials: getAllMaterials_getAllMaterials[];
-}
-
-export interface getAllMaterialsVariables {
-  teacherId: number;
 }

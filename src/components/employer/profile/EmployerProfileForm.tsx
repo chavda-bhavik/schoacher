@@ -84,11 +84,13 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                         isInvalid={!!errors.name}
                         error={errors.name?.message}
                         label="Name"
+                        disabled={true}
                     />
                     <Input
                         id="street1"
                         name="street1"
                         type="text"
+                        required
                         register={register('address.street1', {
                             required: 'Address Street  is required',
                         })}
@@ -108,6 +110,7 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                             id="city"
                             name="city"
                             type="select"
+                            required
                             register={register('address.city', {
                                 required: 'City is required',
                             })}
@@ -125,6 +128,7 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                             id="pincode"
                             name="pincode"
                             type="number"
+                            required
                             register={register('address.pincode', {
                                 required: 'Pincode is required',
                                 valueAsNumber: true,
@@ -139,6 +143,7 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                         name="state"
                         type="select"
                         label="State"
+                        required
                         register={register('address.state', {
                             required: 'State is required',
                         })}
@@ -157,10 +162,12 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                         type="tel"
                         label="Mobile No. 1"
                         register={register('mobile1', {
-                            validate: (v) => regularExpressions.mobile.test(v.toString()) || !!v,
+                            required: 'Mobile Number is required',
+                            validate: (v) =>
+                                v ? regularExpressions.mobile.test(v.toString()) : false,
                         })}
                         isInvalid={!!errors.mobile1}
-                        error="Mobile Number is not valid"
+                        error={errors.mobile1?.message || 'Mobile Number is not valid'}
                     />
                     <Input
                         id="mobile1"
@@ -169,7 +176,8 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                         label="Mobile No. 2"
                         isInvalid={!!errors.mobile2}
                         register={register('mobile2', {
-                            validate: (v) => regularExpressions.mobile.test(v.toString()) || !!v,
+                            validate: (v) =>
+                                v ? regularExpressions.mobile.test(v.toString()) : true,
                         })}
                         error="Mobile Number is not valid"
                     />

@@ -21,11 +21,7 @@ export const Profile: React.FC<ProfileProps> = ({}) => {
         loading: profileLoading,
         refetch,
         error: profileError,
-    } = useQuery<getTeacherInfo>(GET_TEACHER_INFO, {
-        variables: {
-            teacherId: 2,
-        },
-    });
+    } = useQuery<getTeacherInfo>(GET_TEACHER_INFO);
     const [updateTeacher] = useMutation<updateTeacherInfo>(UPDATE_TEACHER_INFO);
     const [serverErrors, setServerErrors] = useState<FieldError[]>();
     const [showEditProfile, setShowEditProfile] = useState(false);

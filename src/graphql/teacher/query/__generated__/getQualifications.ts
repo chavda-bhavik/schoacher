@@ -21,7 +21,3 @@ export interface getQualifications_getAllQualifications {
 export interface getQualifications {
   getAllQualifications: getQualifications_getAllQualifications[];
 }
-
-export interface getQualificationsVariables {
-  getAllQualificationsTeacherId: number;
-}
