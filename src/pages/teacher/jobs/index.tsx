@@ -120,7 +120,11 @@ const Jobs: React.FC<JobsProps> = ({}) => {
                 </section>
             </section>
             <Backdrop show={showFiltersModal} onClose={onFiltersModalClose}>
-                <RequirementsFiltersForm filters={filters} setFilters={onFiltersSubmit} />
+                <RequirementsFiltersForm
+                    onClose={onFiltersModalClose}
+                    filters={filters}
+                    setFilters={onFiltersSubmit}
+                />
             </Backdrop>
         </>
     );
