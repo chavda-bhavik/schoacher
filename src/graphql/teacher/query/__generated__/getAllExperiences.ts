@@ -45,7 +45,3 @@ export interface getAllExperiences_getAllExperiences {
 export interface getAllExperiences {
   getAllExperiences: getAllExperiences_getAllExperiences[];
 }
-
-export interface getAllExperiencesVariables {
-  teacherId: number;
-}

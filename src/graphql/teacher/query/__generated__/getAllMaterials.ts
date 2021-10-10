@@ -40,7 +40,3 @@ export interface getAllMaterials_getAllMaterials {
 export interface getAllMaterials {
   getAllMaterials: getAllMaterials_getAllMaterials[];
 }
-
-export interface getAllMaterialsVariables {
-  teacherId: number;
-}

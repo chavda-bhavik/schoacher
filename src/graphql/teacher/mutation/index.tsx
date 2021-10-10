@@ -14,14 +14,21 @@ export { DELETE_EXPERIENCE } from './deleteExperience';
 // material
 export { ADD_MATERIAL } from './addMaterial';
 export { UPDATE_MATERIAL } from './updateMaterial';
+export { DELETE_MATERIAL } from './deleteMaterial';
 
 export { TOGGLE_APPLICATION } from './toggleApplication';
 
 // ## types
 // qualification
-export type { updateQualification } from './__generated__/updateQualification';
-export type { addQualification } from './__generated__/addQualification';
-export type { deleteQualification } from './__generated__/deleteQualification';
+export type {
+    updateQualification,
+    updateQualificationVariables,
+} from './__generated__/updateQualification';
+export type { addQualification, addQualificationVariables } from './__generated__/addQualification';
+export type {
+    deleteQualification,
+    deleteQualificationVariables,
+} from './__generated__/deleteQualification';
 
 // profile
 export type { updateTeacherInfo } from './__generated__/updateTeacherInfo';
@@ -34,6 +41,7 @@ export type { deleteExperience, deleteExperienceVariables } from './__generated_
 // material
 export type { addMaterial, addMaterialVariables } from './__generated__/addMaterial';
 export type { updateMaterial, updateMaterialVariables } from './__generated__/updateMaterial';
+export type { deleteMaterial, deleteMaterialVariables } from './__generated__/deleteMaterial';
 
 export type {
     toggleApplicaiton,

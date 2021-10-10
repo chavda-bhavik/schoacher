@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_ALL_MATERIALS = gql`
-    query getAllMaterials($teacherId: Float!) {
-        getAllMaterials(teacherId: $teacherId) {
+    query getAllMaterials {
+        getAllMaterials {
             fileUrl
             id
             title

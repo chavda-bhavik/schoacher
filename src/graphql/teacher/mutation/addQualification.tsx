@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const ADD_QUALIFICATION = gql`
-    mutation addQualification($data: QualificationType!, $teacherId: Float!) {
-        addQualification(data: $data, teacherId: $teacherId) {
+    mutation addQualification($data: QualificationType!) {
+        addQualification(data: $data) {
             entity {
                 id
                 college

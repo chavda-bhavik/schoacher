@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_TEACHER_INFO = gql`
-    query getTeacherInfo($teacherId: Float!) {
-        teacher(id: $teacherId) {
+    query getTeacherInfo {
+        teacher {
             address
             email
             firstName

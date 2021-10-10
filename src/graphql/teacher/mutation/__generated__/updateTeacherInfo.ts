@@ -41,5 +41,4 @@ export interface updateTeacherInfo {
 
 export interface updateTeacherInfoVariables {
   data: UpdateTeacherType;
-  teacherId: number;
 }

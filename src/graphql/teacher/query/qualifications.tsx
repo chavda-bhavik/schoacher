@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_ALL_QUALIFICATIONS = gql`
-    query getQualifications($getAllQualificationsTeacherId: Float!) {
-        getAllQualifications(teacherId: $getAllQualificationsTeacherId) {
+    query getQualifications {
+        getAllQualifications {
             id
             degree
             college

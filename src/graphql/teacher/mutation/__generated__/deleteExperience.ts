@@ -18,5 +18,4 @@ export interface deleteExperience {
 
 export interface deleteExperienceVariables {
   experienceId: number;
-  teacherId: number;
 }

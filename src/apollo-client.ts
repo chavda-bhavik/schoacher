@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import { onError } from "@apollo/client/link/error";
 
@@ -17,7 +17,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const client = new ApolloClient({
     link: ApolloLink.from([
         errorLink,
-        createUploadLink({ uri: 'http://localhost:4000/graphql' }),
+        createUploadLink({
+            uri: 'https://ancient-dog-56.loca.lt/graphql',
+            credentials: 'include',
+        }),
     ]),
     cache: new InMemoryCache(),
     connectToDevTools: true,

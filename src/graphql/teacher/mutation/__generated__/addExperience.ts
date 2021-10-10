@@ -32,6 +32,5 @@ export interface addExperience {
 
 export interface addExperienceVariables {
   data: ExperienceType;
-  teacherId: number;
   subjects?: SubStdBoardType[] | null;
 }

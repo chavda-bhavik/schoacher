@@ -45,7 +45,6 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
         skip: !experienceId,
         variables: {
             experienceId,
-            teacherId: 2,
         },
     });
     const [updateExperience] = useMutation<updateExperience, updateExperienceVariables>(
@@ -125,7 +124,7 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
             } else if (data.updateExperience.errors)
                 setServerErrors(data.updateExperience.errors, setError);
         } else {
-            let variables: addExperienceVariables = { data: experience, teacherId: 2 };
+            let variables: addExperienceVariables = { data: experience };
             if (subjectsModified) variables.subjects = experienceSubjects;
             // calling API
             let { data } = await addExperience({ variables });
@@ -143,7 +142,6 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
     const onExperienceDelete = async () => {
         let experience = await deleteExperience({
             variables: {
-                teacherId: 2,
                 experienceId,
             },
         });
@@ -168,6 +166,8 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
                         name="title"
                         type="text"
                         label="Title"
+                        required
+                        placeholder="English Teacher at XYZ School"
                         register={register('title', {
                             required: 'Title is required',
                         })}
@@ -192,6 +192,8 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
                         name="employerName"
                         type="text"
                         label="Employer Name"
+                        required
+                        placeholder="XYZ School"
                         register={register('employerName', {
                             required: 'Employer Name is required',
                         })}
@@ -201,7 +203,7 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
                     <div className="grid grid-cols-2 gap-2 mt-3">
                         <div>
                             <label className="label" htmlFor="estart">
-                                Start
+                                Start <span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 control={control}
@@ -226,7 +228,7 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
                         </div>
                         <div>
                             <label className="label" htmlFor="end">
-                                End
+                                End <span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 control={control}
@@ -263,6 +265,7 @@ export const ExperienceForm: React.FC<ExperienceFormProps> = ({ onClose, experie
                         id="description"
                         name="description"
                         register={register('description')}
+                        placeholder="Taught students english from class 8 to 10."
                         rows={3}
                     />
                     <Subjects

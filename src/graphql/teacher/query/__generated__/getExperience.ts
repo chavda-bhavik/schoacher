@@ -36,5 +36,4 @@ export interface getExperience {
 
 export interface getExperienceVariables {
   experienceId: number;
-  teacherId: number;
 }

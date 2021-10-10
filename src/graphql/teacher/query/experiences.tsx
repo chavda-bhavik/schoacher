@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_ALL_EXPERIENCES = gql`
-    query getAllExperiences($teacherId: Float!) {
-        getAllExperiences(teacherId: $teacherId) {
+    query getAllExperiences {
+        getAllExperiences {
             currentlyWorking
             end
             id

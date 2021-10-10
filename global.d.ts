@@ -13,3 +13,8 @@ interface ToastType {
     message: string,
     duration?: number,
 }
+
+interface LoginFormType {
+    email: string;
+    password: string;
+}

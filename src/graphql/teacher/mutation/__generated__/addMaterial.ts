@@ -32,6 +32,5 @@ export interface addMaterial {
 
 export interface addMaterialVariables {
   data: AddMaterialType;
-  teacherId: number;
   subjects?: SubStdBoardType[] | null;
 }

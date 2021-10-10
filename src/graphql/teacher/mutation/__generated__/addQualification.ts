@@ -38,5 +38,4 @@ export interface addQualification {
 
 export interface addQualificationVariables {
   data: QualificationType;
-  teacherId: number;
 }

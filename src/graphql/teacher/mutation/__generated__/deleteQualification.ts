@@ -18,5 +18,4 @@ export interface deleteQualification {
 
 export interface deleteQualificationVariables {
   qualificationId: number;
-  teacherId: number;
 }

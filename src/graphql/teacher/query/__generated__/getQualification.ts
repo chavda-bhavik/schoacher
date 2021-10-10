@@ -7,7 +7,7 @@
 // GraphQL query operation: getQualification
 // ====================================================
 
-export interface getQualification_getQualifications {
+export interface getQualification_getQualification {
   __typename: "Qualification";
   college: string;
   degree: string;
@@ -18,10 +18,9 @@ export interface getQualification_getQualifications {
 }
 
 export interface getQualification {
-  getQualifications: getQualification_getQualifications;
+  getQualification: getQualification_getQualification;
 }
 
 export interface getQualificationVariables {
   qualificationId: number;
-  teacherId: number;
 }

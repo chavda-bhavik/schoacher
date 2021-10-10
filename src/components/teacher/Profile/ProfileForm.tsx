@@ -70,6 +70,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                         })}
                         isInvalid={!!errors.headline}
                         error={errors.headline?.message}
+                        placeholder="English Teacher at XYZ School"
                         label="Headline"
                     />
                     <div className="grid grid-cols-2 gap-2">
@@ -82,6 +83,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                             })}
                             isInvalid={!!errors.firstName}
                             error={errors.firstName?.message}
+                            placeholder="John"
                             label="First Name"
                         />
                         <Input
@@ -91,6 +93,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                             register={register('lastName', {
                                 required: 'Last Name is required',
                             })}
+                            placeholder="Doe"
                             isInvalid={!!errors.lastName}
                             error={errors.lastName?.message}
                             label="Last Name"
@@ -101,6 +104,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                         name="address"
                         type="text"
                         label="Address"
+                        placeholder="100, XYZ Soc., Rampura, NY"
                         register={register('address')}
                     />
                     <Input
@@ -112,6 +116,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                             validate: (v) => regularExpressions.mobile.test(v) || v === '',
                         })}
                         isInvalid={!!errors.mobile1}
+                        placeholder="XXXXXXXXXX"
                         error="Mobile Number is not valid"
                     />
                     <Input
@@ -123,6 +128,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                         register={register('mobile2', {
                             validate: (v) => regularExpressions.mobile.test(v) || v === '',
                         })}
+                        placeholder="XXXXXXXXXX"
                         error="Mobile Number is not valid"
                     />
                     <div className="mt-3">
@@ -132,7 +138,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                             control={control}
                             render={({ field }) => (
                                 <DefaultEditor
-                                    value={field.value}
+                                    value={field.value ? field.value : null}
                                     placeholder="Write about yourself here..."
                                     onChange={field.onChange}
                                     className="unreset"
