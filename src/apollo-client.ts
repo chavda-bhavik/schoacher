@@ -19,7 +19,7 @@ const client = new ApolloClient({
     link: ApolloLink.from([
         errorLink,
         createUploadLink({
-            uri: 'https://tidy-yak-59.loca.lt/graphql',
+            uri: 'https://foolish-monkey-33.loca.lt/graphql',
             credentials: 'include',
         }),
     ]),

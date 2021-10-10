@@ -11,10 +11,10 @@ export type {
     TeacherRequirementFilterType,
     ExperienceBase,
     MaterialBase,
+    TeacherType,
 } from './teacher';
 
 export type {
-    EmployerProfileType,
     RequirementType,
     EmployerProfileBase,
     RequirementBaseType,

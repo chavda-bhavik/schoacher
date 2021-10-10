@@ -21,12 +21,12 @@ export const ApplicantCard: React.FC<ApplicantCardProps> = ({
         <Link href={`/employer/view-profile/${id}`}>
             <a className="transform duration-500 block rounded border-2 border-gray-200">
                 <article className="relative group cursor-pointer rounded-md transition-all duration-200 hover:shadow-md border-2 border-transparent hover:border-gray-300">
-                    <div className="overflow-hidden rounded-t-md">
+                    <div className="overflow-hidden rounded-t-md bg-gray-300">
                         <Image
                             width={180}
                             height={150}
                             layout="responsive"
-                            className="w-full h-auto"
+                            className="w-full h-auto bg-gray-300"
                             src={photoUrl}
                             alt={`Photo of ${name}`}
                         />

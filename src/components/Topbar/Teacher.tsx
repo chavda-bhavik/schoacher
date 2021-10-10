@@ -15,6 +15,7 @@ export const TeacherTopbar: React.FC<TeacherTopbarProps> = ({}) => {
 
     useEffect(() => {
         if (!loading && data?.logout) {
+            localStorage.clear();
             router.push('/login');
         }
     }, [loading, data, router]);

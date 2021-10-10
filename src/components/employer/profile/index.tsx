@@ -5,31 +5,26 @@ import { IconButton } from '@/components/IconButton';
 import { Backdrop } from '@/components/Backdrop';
 import { EmployerProfileForm } from './EmployerProfileForm';
 import { ProfileView } from './ProfileView';
+import { Wrapper } from '@/components/Wrapper';
 import { EmployerProfileType, SubjectFormType } from '@/interfaces';
 
 // graphql
-import { GET_INFO, getInfo, getInfoVariables } from '@/graphql/employer/query';
+import { GET_INFO, getInfo } from '@/graphql/employer/query';
 import {
     UPDATE_INFO,
     updateEmployerInfo,
     updateEmployerInfoVariables,
 } from '@/graphql/employer/mutation';
-import constants from '@/shared/constants';
 
 interface EmployerProfileProps {}
 
 export const EmployerProfile: React.FC<EmployerProfileProps> = ({}) => {
-    const { loading, data } = useQuery<getInfo, getInfoVariables>(GET_INFO, {
-        variables: {
-            employerId: constants.employerId,
-        },
-    });
+    const { loading, data } = useQuery<getInfo>(GET_INFO);
     const [updateInfo] = useMutation<updateEmployerInfo, updateEmployerInfoVariables>(UPDATE_INFO, {
         refetchQueries: [GET_INFO],
     });
     const [profileData, setProfileData] = useState<EmployerProfileType>(null);
     const [showEditProfile, setShowEditProfile] = useState(false);
-    const [showDeleteImageDialog, setShowDeleteImageDialog] = useState<boolean>(false);
 
     useEffect(() => {
         if (!loading && data) setProfileData(data.employer);
@@ -41,7 +36,6 @@ export const EmployerProfile: React.FC<EmployerProfileProps> = ({}) => {
 
     const onDataSubmit = (formData: EmployerProfileType, subjects?: SubjectFormType[]) => {
         let variables: updateEmployerInfoVariables = {
-            employerId: constants.employerId,
             data: formData,
         };
         if (subjects) variables.subjects = subjects;
@@ -64,11 +58,13 @@ export const EmployerProfile: React.FC<EmployerProfileProps> = ({}) => {
                     <IconButton icon="pencil" onClick={() => setShowEditProfile(true)} />
                 </div>
                 <div className="p-2">
-                    <ProfileView
-                        profileData={profileData}
-                        onImageChange={onProfileImageChange}
-                        onImageRemove={onProfileImageRemove}
-                    />
+                    <Wrapper loading={loading}>
+                        <ProfileView
+                            profileData={profileData}
+                            onImageChange={onProfileImageChange}
+                            onImageRemove={onProfileImageRemove}
+                        />
+                    </Wrapper>
                 </div>
             </section>
             <Backdrop show={showEditProfile} onClose={onClose}>

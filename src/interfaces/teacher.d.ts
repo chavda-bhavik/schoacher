@@ -1,5 +1,10 @@
 import { EmployerTypeEnum, RequirementTypeEnum } from '@/../__generated__/globalTypes';
 import { Subject, SubjectFormType } from '.';
+export interface TeacherType extends TeacherProfileType {
+    qualifications: Partial<QualificationType>[];
+    experiences: Partial<ExperienceType>[];
+    materials: Partial<MaterialType>[];
+}
 export interface TeacherProfileType {
     firstName: string;
     lastName: string;

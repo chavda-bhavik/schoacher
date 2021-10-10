@@ -10,6 +10,7 @@
 export interface getApplications_applications_teacher {
   __typename: "Teacher";
   headline: string | null;
+  firstName: string;
   lastName: string;
   about: string | null;
   photoUrl: string;

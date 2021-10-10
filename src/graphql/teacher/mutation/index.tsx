@@ -17,6 +17,7 @@ export { UPDATE_MATERIAL } from './updateMaterial';
 export { DELETE_MATERIAL } from './deleteMaterial';
 
 export { TOGGLE_APPLICATION } from './toggleApplication';
+export { REGISTER_TEACHER } from './registerTeacher';
 
 // ## types
 // qualification
@@ -47,3 +48,4 @@ export type {
     toggleApplicaiton,
     toggleApplicaitonVariables,
 } from './__generated__/toggleApplicaiton';
+export type { registerTeacher, registerTeacherVariables } from './__generated__/registerTeacher';

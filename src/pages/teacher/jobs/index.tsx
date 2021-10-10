@@ -47,6 +47,8 @@ const Jobs: FunctionComponent<JobsProps> = ({}) => {
     };
 
     const onFiltersSubmit = (filtersData: TeacherRequirementFilterType) => {
+        if (filtersData.expectedSalary)
+            filtersData.expectedSalary = Number(filtersData.expectedSalary);
         searchRequirements({
             variables: filtersData,
         });

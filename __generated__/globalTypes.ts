@@ -62,6 +62,20 @@ export interface QualificationType {
   grade?: string | null;
 }
 
+export interface RegisterEmployerType {
+  name: string;
+  email: string;
+  password: string;
+  type?: EmployerTypeEnum | null;
+}
+
+export interface RegisterTeacherType {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
 export interface RequirementType {
   title?: string | null;
   type?: RequirementTypeEnum | null;

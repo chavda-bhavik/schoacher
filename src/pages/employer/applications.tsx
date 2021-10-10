@@ -14,19 +14,20 @@ import { ApplicationFilterForm } from '@/components/employer/applications/Applic
 import {
     GET_ALL_REQUIREMENTS,
     getAllRequirements,
-    getAllRequirementsVariables,
     GET_APPLICATIONS,
     getApplications,
     getApplicationsVariables,
 } from '@/graphql/employer/query';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import { Wrapper } from '@/components/Wrapper';
 
 interface ApplicationsProps {
     requirements: RequirementType[];
 }
 
-const Applications: React.FC<ApplicationsProps> = ({ requirements }) => {
+const Applications: React.FC<ApplicationsProps> = ({}) => {
+    const { loading: requirementsLoading, data: requirementsData } =
+        useQuery<getAllRequirements>(GET_ALL_REQUIREMENTS);
     const [getApplications, { loading, data }] = useLazyQuery<
         getApplications,
         getApplicationsVariables
@@ -34,13 +35,16 @@ const Applications: React.FC<ApplicationsProps> = ({ requirements }) => {
     const [showFiltersModal, setShowFiltersModal] = useState(false);
     const [filters, setFilters] = useState<ApplicationsFilterType>();
     const [applications, setApplications] = useState<Application[]>();
+    const [requirements, setRequirements] = useState<RequirementType[]>([]);
 
     useEffect(() => {
-        getApplications({
-            variables: {
-                employerId: constants.employerId,
-            },
-        });
+        if (!requirementsLoading && requirementsData) {
+            setRequirements(requirementsData.getAllRequirements);
+        }
+    }, [requirementsData, requirementsLoading]);
+
+    useEffect(() => {
+        getApplications();
     }, [getApplications]);
 
     useEffect(() => {
@@ -57,7 +61,6 @@ const Applications: React.FC<ApplicationsProps> = ({ requirements }) => {
     const onFiltersSubmit = (filtersData: ApplicationsFilterType) => {
         getApplications({
             variables: {
-                employerId: Number(constants.employerId),
                 requirementId: Number(filtersData.requirementId),
             },
         });
@@ -96,8 +99,8 @@ const Applications: React.FC<ApplicationsProps> = ({ requirements }) => {
                     </div>
                 </div>
                 <div className="border-t border-gray-200">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-4">
-                        <Wrapper loading={loading}>
+                    <Wrapper loading={loading}>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-4">
                             {applications &&
                                 applications.map((application) => (
                                     <ApplicantCard
@@ -109,8 +112,8 @@ const Applications: React.FC<ApplicationsProps> = ({ requirements }) => {
                                         photoUrl={application.teacher.photoUrl}
                                     />
                                 ))}
-                        </Wrapper>
-                    </div>
+                        </div>
+                    </Wrapper>
                 </div>
             </section>
             <Backdrop show={showFiltersModal} onClose={onFiltersModalClose}>
@@ -124,26 +127,5 @@ const Applications: React.FC<ApplicationsProps> = ({ requirements }) => {
         </div>
     );
 };
-
-export async function getServerSideProps(): Promise<GetServerSidePropsResult<ApplicationsProps>> {
-    let requirements = [];
-    try {
-        let { data, error } = await client.query<getAllRequirements, getAllRequirementsVariables>({
-            query: GET_ALL_REQUIREMENTS,
-            variables: {
-                employerId: constants.employerId,
-            },
-        });
-        if (data && !error) requirements = data.getAllRequirements;
-    } catch (e) {
-        console.log(e);
-    }
-
-    return {
-        props: {
-            requirements,
-        },
-    };
-}
 
 export default Applications;

@@ -11,17 +11,8 @@ export interface EmployerProfileBase {
     about?: string;
     photoUrl?: string;
 }
-export interface EmployerProfileType {
-    name?: string;
+export interface ListEmployerType extends EmployerProfileBase {
     address?: Partial<Address>;
-    mobile1?: string;
-    mobile2?: string;
-    email?: string;
-    subjects?: Subject[];
-    about?: string;
-    photo?: any;
-    photoUrl?: string;
-    subjects?: Partial<Subject>[];
 }
 
 export interface RequirementBaseType {
@@ -36,7 +27,7 @@ export interface RequirementBaseType {
     salaryFrom?: number;
     salaryUpTo?: number;
     applied?: boolean;
-    employer?: Partial<EmployerProfileType>;
+    employer?: Partial<ListEmployerType>;
 }
 export interface RequirementType extends RequirementBaseType {
     subjects?: Partial<Subject>[];

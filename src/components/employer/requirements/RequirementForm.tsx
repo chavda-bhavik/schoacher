@@ -42,7 +42,6 @@ interface RequirementFormProps {
 export const RequirementForm: React.FC<RequirementFormProps> = ({ onClose, requirementId }) => {
     const { loading, data } = useQuery<getRequirement, getRequirementVariables>(GET_REQUIREMENT, {
         variables: {
-            employerId: constants.employerId,
             requirementId,
         },
         skip: !requirementId,
@@ -124,7 +123,6 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({ onClose, requi
         } else {
             let variables: addRequirementVariables = {
                 data: requirement,
-                employerId: constants.employerId,
             };
             if (subjectsModified) variables.subjects = requirementSubjects;
             // calling API
@@ -141,7 +139,6 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({ onClose, requi
     const onRequirementDelete = async () => {
         let requirement = await deleteRequirement({
             variables: {
-                employerId: constants.employerId,
                 requirementId,
             },
         });
@@ -165,6 +162,7 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({ onClose, requi
                         register={register('title', {
                             required: 'Title is required',
                         })}
+                        required
                         id="title"
                         name="title"
                         type="text"
@@ -191,9 +189,13 @@ export const RequirementForm: React.FC<RequirementFormProps> = ({ onClose, requi
                         type="text"
                         id="qualification"
                         name="qualification"
-                        register={register('qualification')}
+                        register={register('qualification', {
+                            required: 'Candidate Qualification is required',
+                        })}
                         label="Qualification"
+                        required
                         placeholder="Qualification"
+                        note="Minimum required qualification for candidate"
                     />
                     <div className="grid grid-cols-2 space-x-2">
                         <div>

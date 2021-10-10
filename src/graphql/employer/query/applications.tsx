@@ -6,7 +6,7 @@ export const GET_APPLICATIONS = gql`
             id
             teacher {
                 headline
-                lastName
+                firstName
                 lastName
                 about
                 photoUrl

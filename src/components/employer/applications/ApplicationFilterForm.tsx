@@ -35,6 +35,7 @@ export const ApplicationFilterForm: React.FC<RequirementsFiltersFormProps> = ({
 
     const clearFilters = () => {
         reset();
+        setFilters({});
     };
 
     const applyFilters = (filtersData) => {
