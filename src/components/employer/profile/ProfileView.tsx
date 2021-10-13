@@ -6,10 +6,10 @@ import { IconItem } from '@/components/IconItem';
 import { arrayValuesCombiner, combineAddress } from '@/shared/helper';
 import { Icon } from '@/shared/Icons';
 import constants from '@/shared/constants';
-import { EmployerProfileType } from '@/interfaces';
+import { EmployerProfileBase } from '@/interfaces';
 
 interface ProfileViewProps {
-    profileData: EmployerProfileType;
+    profileData: EmployerProfileBase;
     onImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onImageRemove: () => void;
 }

@@ -6,7 +6,7 @@ import { Backdrop } from '@/components/Backdrop';
 import { EmployerProfileForm } from './EmployerProfileForm';
 import { ProfileView } from './ProfileView';
 import { Wrapper } from '@/components/Wrapper';
-import { EmployerProfileType, SubjectFormType } from '@/interfaces';
+import { EmployerProfileBase, SubjectFormType } from '@/interfaces';
 
 // graphql
 import { GET_INFO, getInfo } from '@/graphql/employer/query';
@@ -23,7 +23,7 @@ export const EmployerProfile: React.FC<EmployerProfileProps> = ({}) => {
     const [updateInfo] = useMutation<updateEmployerInfo, updateEmployerInfoVariables>(UPDATE_INFO, {
         refetchQueries: [GET_INFO],
     });
-    const [profileData, setProfileData] = useState<EmployerProfileType>(null);
+    const [profileData, setProfileData] = useState<EmployerProfileBase>(null);
     const [showEditProfile, setShowEditProfile] = useState(false);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export const EmployerProfile: React.FC<EmployerProfileProps> = ({}) => {
         setShowEditProfile(false);
     };
 
-    const onDataSubmit = (formData: EmployerProfileType, subjects?: SubjectFormType[]) => {
+    const onDataSubmit = (formData: EmployerProfileBase, subjects?: SubjectFormType[]) => {
         let variables: updateEmployerInfoVariables = {
             data: formData,
         };

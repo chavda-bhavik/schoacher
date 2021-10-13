@@ -6,21 +6,15 @@ import { QualificationItem } from './QualificationItem';
 import { QualificationType } from '@/interfaces';
 
 // graphql
-import {
-    GET_ALL_QUALIFICATIONS,
-    getQualifications,
-    getQualificationsVariables,
-} from '@/graphql/teacher/query';
+import { GET_ALL_QUALIFICATIONS, getQualifications } from '@/graphql/teacher/query';
 
 interface QualificationsProps {
     onQualificationSelect: (id: number) => void;
 }
 
 export const Qualifications: React.FC<QualificationsProps> = ({ onQualificationSelect }) => {
-    const { loading: qualificationsLoading, data: qualificationsData } = useQuery<
-        getQualifications,
-        getQualificationsVariables
-    >(GET_ALL_QUALIFICATIONS);
+    const { loading: qualificationsLoading, data: qualificationsData } =
+        useQuery<getQualifications>(GET_ALL_QUALIFICATIONS);
     const [qualificationData, setQualificationData] = useState<QualificationType[]>([]);
 
     useEffect(() => {
