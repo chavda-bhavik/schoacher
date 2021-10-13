@@ -5,15 +5,15 @@ import { DefaultEditor } from 'react-simple-wysiwyg';
 import Card from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { EmployerProfileType, SubjectFormType } from '@/interfaces';
+import { EmployerProfileBase, SubjectFormType } from '@/interfaces';
 import constants, { regularExpressions } from '@/shared/constants';
 import { IconButton } from '@/components/IconButton';
 import { Subjects } from '@/components/Input/Subjects';
 import { omit } from '@/shared/helper';
 
 interface EmployerProfileFormProps {
-    profileData: EmployerProfileType;
-    onDataSubmit?: (data: EmployerProfileType, subjects?: SubjectFormType[]) => void;
+    profileData: EmployerProfileBase;
+    onDataSubmit?: (data: EmployerProfileBase, subjects?: SubjectFormType[]) => void;
     onClose?: () => void;
 }
 
@@ -28,7 +28,7 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<EmployerProfileType>();
+    } = useForm<EmployerProfileBase>();
     const { dirtyFields } = useFormState({
         control,
     });
@@ -55,7 +55,7 @@ export const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
         }
     }, [reset, profileData]);
 
-    const onFormSubmit = async (data: EmployerProfileType) => {
+    const onFormSubmit = async (data: EmployerProfileBase) => {
         let addressModified = false;
         if (dirtyFields && dirtyFields.address) {
             addressModified = Object.values(dirtyFields.address).some((val) => val);

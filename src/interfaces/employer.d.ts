@@ -2,7 +2,7 @@ import { RequirementTypeEnum } from '@/../__generated__/globalTypes';
 import { Address, Subject, SubjectFormType } from './index';
 
 export interface EmployerProfileBase {
-    name: string;
+    name?: string;
     address?: Address;
     mobile1?: string;
     mobile2?: string;
@@ -10,6 +10,7 @@ export interface EmployerProfileBase {
     subjects?: Subject[];
     about?: string;
     photoUrl?: string;
+    photo?: any;
 }
 export interface ListEmployerType extends EmployerProfileBase {
     address?: Partial<Address>;

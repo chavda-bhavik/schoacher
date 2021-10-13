@@ -55,13 +55,7 @@ export const Subjects: React.FC<SubjectsProps> = ({
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<SubjectFormType>({
-        defaultValues: {
-            boardId: '',
-            subjectId: '',
-            standardId: '',
-        },
-    });
+    } = useForm<SubjectFormType>();
 
     const addSubject = () => {
         handleSubmit((data) => {
