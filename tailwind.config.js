@@ -1,13 +1,11 @@
-const plugin = require('tailwindcss/plugin');
-
 module.exports = {
-    purge: [],
     darkMode: false, // or 'media' or 'class'
     purge: ['./src/**/*.{js,ts,jsx,tsx}'],
     theme: {
         extend: {
             colors: {
                 primary: {
+                    light: '#C8FCEB',
                     green: '#34846F',
                     dark: '#364B44',
                     gray: '#98B0A8',
@@ -27,10 +25,15 @@ module.exports = {
     },
     variants: {
         extend: {
-            backgroundColor: ['disabled'],
+            backgroundColor: ['disabled', 'odd'],
+            textColor: ['disabled'],
         },
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/forms')({
+            strategy: 'class',
+        }),
+    ],
 };
 
 // https://mycolor.space/?hex=%2334846F&sub=1

@@ -1,0 +1,125 @@
+{
+    "profile": {
+        "headline": "School Teacher at Saraswati Vidhyalya",
+        "firstName": "Bhavik",
+        "lastName": "Chavda",
+        "address": "b-501, Hari Om Complex, Modi Mohallo, A.K.Road, Surat",
+        "mobile1": "9638837399",
+        "mobile2": null,
+        "photoUrl": "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        "email": "bhavik.chvda@gmail.com",
+        "emailVerified": false,
+        "about": ""
+    },
+    "qualification": [
+        {
+            "id": 1,
+            "degree": "Bechlor of Commerce",
+            "college": "Veer Narmad South Gujarat University",
+            "description": null,
+            "start": "2012-04-23T18:25:43.511Z",
+            "end": "2012-04-23T18:25:43.511Z",
+            "grade": null
+        }
+    ],
+    "experience": [
+        {
+            "id": 2,
+            "title": "Teacher for standard 1 to 5",
+            "type": "tution",
+            "schoolName": "Genuine Study Center",
+            "start": "2012-04-23T18:25:43.511Z",
+            "end": "2012-04-23T18:25:43.511Z",
+            "currentlyWorking": 0,
+            "description": null,
+            "subjects": [
+                {
+                    "id": 1,
+                    "board": "GSEB",
+                    "standard": "1",
+                    "subject": "all"
+                },
+                {
+                    "id": 2,
+                    "board": "GSEB",
+                    "standard": "2",
+                    "subject": "all"
+                },
+                {
+                    "id": 3,
+                    "board": "GSEB",
+                    "standard": "3",
+                    "subject": "all"
+                },
+                {
+                    "id": 4,
+                    "board": "GSEB",
+                    "standard": "4",
+                    "subject": "all"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "title": "School Teacher for standard 1 to 5",
+            "type": "school",
+            "schoolName": "Saraswati Vidhyala",
+            "start": "2012-04-23T18:25:43.511Z",
+            "end": null,
+            "currentlyWorking": 1,
+            "subjects": [
+                {
+                    "id": 1,
+                    "board": "GSEB",
+                    "standard": "1",
+                    "subject": "all"
+                },
+                {
+                    "id": 2,
+                    "board": "GSEB",
+                    "standard": "2",
+                    "subject": "all"
+                },
+                {
+                    "id": 3,
+                    "board": "GSEB",
+                    "standard": "3",
+                    "subject": "all"
+                },
+                {
+                    "id": 4,
+                    "board": "GSEB",
+                    "standard": "4",
+                    "subject": "all"
+                },
+                {
+                    "id": 5,
+                    "board": "GSEB",
+                    "standard": "5",
+                    "subject": "all"
+                }
+            ]
+        }
+    ],
+    "material": [
+        {
+            "id": 1,
+            "title": "ABCD for standard 1,2 & 3",
+            "subjects": [
+                {
+                    "id": 1,
+                    "board": "GSEB",
+                    "standard": "1",
+                    "subject": "all"
+                },
+                {
+                    "id": 2,
+                    "board": "GSEB",
+                    "standard": "2",
+                    "subject": "all"
+                }
+            ],
+            "mediaUrl": "www.google.com"
+        }
+    ]
+}
