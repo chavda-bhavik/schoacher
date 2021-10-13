@@ -9,6 +9,7 @@
 
 export interface getApplications_applications_teacher {
   __typename: "Teacher";
+  id: number;
   headline: string | null;
   firstName: string;
   lastName: string;

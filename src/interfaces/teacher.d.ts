@@ -6,6 +6,7 @@ export interface TeacherType extends TeacherProfileType {
     materials: Partial<MaterialType>[];
 }
 export interface TeacherProfileType {
+    id?: number;
     firstName: string;
     lastName: string;
     address?: string;

@@ -1,26 +1,28 @@
-import React, { useEffect } from 'react';
-import { Button } from '@/components/Button';
-import { Input } from '@/components/Input';
-import { Selection } from '@/components/Selection';
-import { Curls, Teaching, School, Teacher } from '@/shared/SVGs';
-import { useForm } from '@formcarry/react';
-import { Icon } from '@/shared/Icons';
+import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+
+import { Curls, Teaching, School, Teacher } from '@/shared/SVGs';
 import { SEO } from '@/components/SEO';
+import { getLoginUser } from '@/shared/helper';
 
 interface IndexProps {}
 
 const Index: React.FC<IndexProps> = ({}) => {
-    const { state, submit } = useForm({
-        id: '9biB8_ixn2-',
-    });
+    let loginUser = getLoginUser();
 
-    useEffect(() => {
-        if (state.submitted) {
-            let form = document.getElementById('join-early-form') as HTMLFormElement;
-            form.reset();
-        }
-    }, [state.submitted]);
+    let navContent = (
+        <Link href="/login">
+            <a className="font-bold text-white mx-2">Login</a>
+        </Link>
+    );
+    if (loginUser) {
+        navContent = (
+            <Link href={loginUser.type === 'employer' ? '/employer' : '/teacher'}>
+                <a className="font-bold text-white mx-2">View Profile</a>
+            </Link>
+        );
+    }
 
     return (
         <>
@@ -30,19 +32,13 @@ const Index: React.FC<IndexProps> = ({}) => {
             />
             <nav id="header" className="w-full z-30 text-white bg-primary-green">
                 <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
-                    <div className="pl-4 flex items-center">
-                        <a
-                            className="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
-                            href="#"
-                        >
-                            <Image
-                                src="/Logo-light.png"
-                                width={130}
-                                height={80}
-                                alt="schoacher logo"
-                            />
-                        </a>
-                    </div>
+                    <a
+                        className="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
+                        href="#"
+                    >
+                        <Image src="/Logo-light.png" width={130} height={80} alt="schoacher logo" />
+                    </a>
+                    {navContent}
                 </div>
                 <hr className="border-b border-gray-100 opacity-25 my-0 py-0" />
             </nav>
@@ -111,68 +107,7 @@ const Index: React.FC<IndexProps> = ({}) => {
                     </div>
                 </div>
             </section>
-            <section className="bg-primary-green">
-                <Curls className="transform -rotate-180" />
-                <div className={`container px-5 py-24 mx-auto flex flex-wrap items-center`}>
-                    <div className="w-full md:w-1/2 md:pr-16 lg:pr-6">
-                        <h2 className="font-medium text-3xl text-white">
-                            We&apos;re launching soon, but you can join early.
-                        </h2>
-                        <p className="leading-relaxed text-white text-xl">
-                            Please fill this form to get notified when we launch.
-                        </p>
-                    </div>
-                    <div className="w-full md:w-1/2 pt-5 md:pt-0">
-                        <form
-                            id="join-early-form"
-                            onSubmit={submit}
-                            className="max-w-lg mx-auto bg-dustWhite rounded-lg p-8"
-                        >
-                            <h2 className="text-2xl mb-3 font-bold">Join Early</h2>
-                            <Selection />
-                            <Input
-                                name="name"
-                                type="text"
-                                id="name"
-                                required={true}
-                                label="Full Name"
-                                placeholder="Full Name"
-                            />
-                            <Input
-                                required={true}
-                                name="number"
-                                type="tel"
-                                id="number"
-                                pattern="\+?\d[\d -]{8,12}\d"
-                                title="Please enter valid mobile number"
-                                label="Mobile No."
-                                placeholder="Mobile No."
-                            />
-                            {!state.submitted ? (
-                                <Button type="submit" variant="primary" disabled={state.submitting}>
-                                    Submit
-                                </Button>
-                            ) : (
-                                <Icon
-                                    icon="check"
-                                    size="md"
-                                    className="p-1 mt-5 mb-3 bg-primary-green text-dustWhite rounded-full"
-                                />
-                            )}
-                            {state.submitted && (
-                                <h2 className="font-medium text-xl text-primary-green">
-                                    You&apos;re in. Thanks for joining early.
-                                </h2>
-                            )}
-                            {state.error && (
-                                <p className="text-sm text-red-500 mt-1">
-                                    Some error occured. Please try again later.
-                                </p>
-                            )}
-                        </form>
-                    </div>
-                </div>
-            </section>
+
             <footer className="bg-primary-dark p-4">
                 <p className="text-white text-base font-semibold">
                     &#169; Schoacher. All rights reserved

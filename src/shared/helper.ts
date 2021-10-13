@@ -91,6 +91,13 @@ export function kFormatter(num: number) {
         : Math.sign(num) * Math.abs(num);
 }
 
+export const getLoginUser = (): LocalStorageDecoded => {
+    if (typeof window === 'undefined') return null;
+    const user = localStorage.getItem('user');
+    if (!user) return undefined;
+    else return JSON.parse(user);
+};
+
 export const pick = (obj, ...keys) =>
     Object.fromEntries(keys.filter((key) => key in obj).map((key) => [key, obj[key]]));
 

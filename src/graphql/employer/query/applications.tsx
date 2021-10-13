@@ -5,6 +5,7 @@ export const GET_APPLICATIONS = gql`
         applications(requirementId: $requirementId) {
             id
             teacher {
+                id
                 headline
                 firstName
                 lastName

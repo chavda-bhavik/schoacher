@@ -6,7 +6,7 @@ import { EmployerTopbar } from '@/components/Topbar';
 
 interface ProfileProps {}
 
-const Profile: React.FC<ProfileProps> = ({}) => {
+const Profile: FunctionComponent<ProfileProps> = ({}) => {
     return (
         <div className="employer-section">
             <EmployerTopbar />
@@ -15,5 +15,8 @@ const Profile: React.FC<ProfileProps> = ({}) => {
         </div>
     );
 };
+
+Profile.requireAuth = true;
+Profile.authFor = 'employer';
 
 export default Profile;

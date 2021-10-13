@@ -15,7 +15,6 @@
     },
     "dependencies": {
         "@apollo/client": "^3.4.12",
-        "@formcarry/react": "^1.0.3",
         "apollo-upload-client": "^16.0.0",
         "dayjs": "^1.10.6",
         "graphql": "^15.5.3",

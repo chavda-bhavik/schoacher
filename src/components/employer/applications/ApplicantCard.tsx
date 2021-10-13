@@ -3,22 +3,22 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 interface ApplicantCardProps {
-    id: number;
     photoUrl?: string;
     name?: string;
     headline?: string;
     about?: string;
+    teacherId: number;
 }
 
 export const ApplicantCard: React.FC<ApplicantCardProps> = ({
-    id,
     photoUrl,
     name,
+    teacherId,
     headline,
     about,
 }) => {
     return (
-        <Link href={`/employer/view-profile/${id}`}>
+        <Link href={`/employer/view-profile/${teacherId}`}>
             <a className="transform duration-500 block rounded border-2 border-gray-200">
                 <article className="relative group cursor-pointer rounded-md transition-all duration-200 hover:shadow-md border-2 border-transparent hover:border-gray-300">
                     <div className="overflow-hidden rounded-t-md bg-gray-300">

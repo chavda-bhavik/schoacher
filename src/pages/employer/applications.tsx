@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import client from '@/apollo-client';
-import { GetServerSidePropsResult } from 'next';
 
-import constants from '@/shared/constants';
 import { EmployerTopbar } from '@/components/Topbar';
 import { ApplicantCard } from '@/components/employer/applications/ApplicantCard';
 import { ApplicationsFilterType, RequirementType, Application } from '@/interfaces';
@@ -25,7 +22,7 @@ interface ApplicationsProps {
     requirements: RequirementType[];
 }
 
-const Applications: React.FC<ApplicationsProps> = ({}) => {
+const Applications: FunctionComponent<ApplicationsProps> = ({}) => {
     const { loading: requirementsLoading, data: requirementsData } =
         useQuery<getAllRequirements>(GET_ALL_REQUIREMENTS);
     const [getApplications, { loading, data }] = useLazyQuery<
@@ -104,7 +101,7 @@ const Applications: React.FC<ApplicationsProps> = ({}) => {
                             {applications &&
                                 applications.map((application) => (
                                     <ApplicantCard
-                                        id={application.id}
+                                        teacherId={application.teacher.id}
                                         key={application.id}
                                         about={application.teacher.about}
                                         headline={application.teacher.headline}
@@ -127,5 +124,8 @@ const Applications: React.FC<ApplicationsProps> = ({}) => {
         </div>
     );
 };
+
+Applications.requireAuth = true;
+Applications.authFor = 'employer';
 
 export default Applications;

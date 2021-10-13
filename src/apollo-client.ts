@@ -1,6 +1,6 @@
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
-import { onError } from "@apollo/client/link/error";
+import { onError } from '@apollo/client/link/error';
 import toast from './shared/toast';
 
 // Log any GraphQL errors or network error that occurred
@@ -8,18 +8,16 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
         // this will handle query/mutation errors
         graphQLErrors.forEach(({ name, message, locations, path }) =>
-            console.log(
-                `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}, Name: ${name}`
-            )
+            toast.error(`[GraphQL error]: Message: ${message}`)
         );
-    if (networkError) console.log(`[Network error]: ${networkError}`);
+    if (networkError) toast.error(`[Network error]: ${networkError}`);
 });
 
 const client = new ApolloClient({
     link: ApolloLink.from([
         errorLink,
         createUploadLink({
-            uri: 'https://foolish-monkey-33.loca.lt/graphql',
+            uri: process.env.NEXT_PUBLIC_SERVER_URL + '/graphql',
             credentials: 'include',
         }),
     ]),

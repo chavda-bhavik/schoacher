@@ -17,7 +17,7 @@ import toast from '@/shared/toast';
 
 interface JobProfileProps {}
 
-const JobProfile: React.FC<JobProfileProps> = ({}) => {
+const JobProfile: FunctionComponent<JobProfileProps> = ({}) => {
     const router = useRouter();
     const { id } = router.query;
     const { loading, data, error } = useQuery<teacherInfo, teacherInfoVariables>(GET_TEACHER, {
@@ -145,5 +145,8 @@ const JobProfile: React.FC<JobProfileProps> = ({}) => {
         </section>
     );
 };
+
+JobProfile.requireAuth = true;
+JobProfile.authFor = 'employer';
 
 export default JobProfile;
