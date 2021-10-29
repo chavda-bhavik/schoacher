@@ -1,1 +1,2 @@
-module.exports = 'test-file-stub';
+// prettier-ignore
+(module.exports = '/test-file-stub')

@@ -40,25 +40,28 @@ export class Wrapper extends React.Component<WrapperProps, WrapperState> {
                 </div>
             );
         } else if (this.state.errorOcurred || this.props.error) {
-            // if there is error ocurred or error received from parent, content includes 404 illustration
-            content = (
-                <div className="w-full h-full flex justify-center items-center flex-col pb-3">
-                    <Image
-                        src={FatelErrorImage}
-                        width={250}
-                        height={200}
-                        alt="Error Illustration"
-                    />
-                    <p className="text-primary-dark font-medium mb-2">
-                        Something went wrong! Please try again later
-                    </p>
-                    {this.props.onReset && (
-                        <Button onClick={this.props.onReset} variant="bordered" size="sm">
-                            Try Again
-                        </Button>
-                    )}
-                </div>
-            );
+            // if there is error ocurred or error received from parent, content is fallbackComponent or error-illustration
+            if (this.props.fallbackComponent) content = this.props.fallbackComponent;
+            else {
+                content = (
+                    <div className="w-full h-full flex justify-center items-center flex-col pb-3">
+                        <Image
+                            src={FatelErrorImage}
+                            width={250}
+                            height={200}
+                            alt="Error Illustration"
+                        />
+                        <p className="text-primary-dark font-medium mb-2">
+                            Something went wrong! Please try again later
+                        </p>
+                        {this.props.onReset && (
+                            <Button onClick={this.props.onReset} variant="bordered" size="sm">
+                                Try Again
+                            </Button>
+                        )}
+                    </div>
+                );
+            }
         }
         return content;
     }
