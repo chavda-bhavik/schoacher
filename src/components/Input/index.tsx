@@ -97,6 +97,7 @@ export const Input: React.FC<InputProps> = ({
                     <select
                         className={classNames('input', 'form-select', {
                             'input-invalid': isInvalid,
+                            'cursor-not-allowed': disabled,
                         })}
                         id={id}
                         name={name}
@@ -145,14 +146,27 @@ export const Input: React.FC<InputProps> = ({
     return (
         <div className={classNames(className, { 'mt-3': !row })}>
             {label && (
-                <label className="label" htmlFor={id}>
+                <label className="label" htmlFor={id} data-testid="input-label">
                     {label}
-                    {required && <span className="text-red-500"> *</span>}
+                    {required && (
+                        <span className="text-red-500" data-testid="input-label-span">
+                            {' '}
+                            *
+                        </span>
+                    )}
                 </label>
             )}
             {inputContents()}
-            {note && <p className="input-note">{note}</p>}
-            {isInvalid && <p className="input-error">{error}</p>}
+            {note && (
+                <p className="input-note" data-testid="input-note">
+                    {note}
+                </p>
+            )}
+            {isInvalid && (
+                <p className="input-error" data-testid="input-error">
+                    {error}
+                </p>
+            )}
         </div>
     );
 };
