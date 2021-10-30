@@ -29,6 +29,7 @@ export const Button: React.FC<ButtonProps> = ({
         <button
             disabled={disabled || loading}
             type={type}
+            data-testid="button"
             className={classNames(
                 'btn',
                 {
@@ -46,7 +47,9 @@ export const Button: React.FC<ButtonProps> = ({
             )}
             onClick={onClick}
         >
-            {loading && <Icon icon="loader" className="mr-1 text-white" size="sm" />}
+            {loading && (
+                <Icon icon="loader" data-testid="loader" className="mr-1 text-white" size="sm" />
+            )}
             {children}
         </button>
     );

@@ -255,10 +255,10 @@ interface IconProps {
     icon: IconsType;
     size?: IconsSizesType;
     className?: string;
-    fill?: string;
+    testId?: string;
 }
 
-export const Icon: React.FC<IconProps> = ({ icon, size = 'md', className = '', fill }) => {
+export const Icon: React.FC<IconProps> = ({ icon, size = 'md', className = '', testId }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -268,6 +268,7 @@ export const Icon: React.FC<IconProps> = ({ icon, size = 'md', className = '', f
             preserveAspectRatio="xMinYMin"
             className={classnames(className, ' text-center')}
             fill="currentColor"
+            data-testid={testId}
             role="img"
         >
             {icons[icon].path}

@@ -1,6 +1,5 @@
-import { IconsType } from '@/interfaces';
-import { Icon } from '@/shared/Icons';
 import React from 'react';
+import { Icon } from '@/shared/Icons';
 import { Backdrop } from '../Backdrop';
 import { Button } from '../Button';
 import Card from '../Card';
@@ -11,10 +10,10 @@ interface DialogButton {
 }
 
 interface DialogProps {
-    show?: boolean;
-    onClose?: () => void;
+    show: boolean;
+    onClose: () => void;
     title: string;
-    message?: string;
+    message: string;
     variant?: 'none' | 'danger' | 'success' | 'info';
     cancelButton?: DialogButton;
     successButton?: DialogButton;
@@ -38,13 +37,14 @@ export const Dialog: React.FC<DialogProps> = ({
                     icon="danger"
                     className="bg-red-500 text-white rounded-full p-1 mx-auto"
                     size="lg"
+                    testId="error-icon"
                 />
             )}
         </div>
     );
     return (
         <Backdrop bottomCenter show={show} onClose={onClose}>
-            <Card className="">
+            <Card>
                 <Card.Header>{title}</Card.Header>
                 <Card.Body className="p-4 flex flex-col justify-center">
                     {variant !== 'none' && icon}
@@ -58,7 +58,7 @@ export const Dialog: React.FC<DialogProps> = ({
                     )}
                     {successButton && (
                         <Button onClick={successButton.onClick} variant="success">
-                            {cancelButton.text}
+                            {successButton.text}
                         </Button>
                     )}
                     {dangerButton && (
