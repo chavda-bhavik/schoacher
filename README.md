@@ -53,6 +53,7 @@
 - Responsive & built using Typescript
 - Pre-commit validation with husky
 - Animations for Alert & Views
+- Unit Tests are written in `Jest`
 - Typesafe type generation with **graphql-codegen**
 - Easy to understand code and project structure
 - Linting and formatting with **eslint** and **prettier**
@@ -65,4 +66,5 @@
 - [React Transition Group](https://reactcommunity.org/react-transition-group) For Animations
 - [sweet-pubsub](https://www.npmjs.com/package/sweet-pubsub) for Notification management
 - [TailwindCSS](https://tailwindcss.com) for Styling
+- [JestJS](https://jestjs.io) for Unit tests
 ------------
