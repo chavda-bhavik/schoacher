@@ -68,3 +68,11 @@
 - [TailwindCSS](https://tailwindcss.com) for Styling
 - [JestJS](https://jestjs.io) for Unit tests
 ------------
+
+### Test Credentials
+
+#### Employer
+- Email `school@gmail.com` & Password `school`
+
+#### Teacher
+- Email `teacher@gmail.com` & Password `teacher`
