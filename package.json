@@ -16,7 +16,7 @@
         "codegen": "npm run download-schema && apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql"
     },
     "dependencies": {
-        "@apollo/client": "^3.4.12",
+        "@apollo/client": "^3.7.7",
         "apollo-upload-client": "^16.0.0",
         "dayjs": "^1.10.6",
         "graphql": "^15.5.3",
